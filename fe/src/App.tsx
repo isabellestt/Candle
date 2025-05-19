@@ -37,7 +37,7 @@ function App() {
 
   useEffect(()=> 
   {
-    const apiKey = import.meta.env.VITE_NEXT_PUBLIC_VAPI_API_KEY || ""
+    const apiKey = import.meta.env.VITE_PUBLIC_VAPI_API_KEY || ""
     if (!apiKey) {
       setIsApiKeyValid(false)
       setStatus("Error")
