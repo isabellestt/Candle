@@ -30,44 +30,24 @@ function App() {
 
 
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        minHeight: "100vh",
-        padding: "20px",
-        color: "white",
-      }}
-    >
-      <h1 style={{ marginBottom: "30px" }}>Emergency Helpline</h1>
+    <div className="flex flex-col items-center justify-center min-h-screen p-5 text-white">
+      <h1 className="mb-8">Emergency Helpline</h1>
 
-      <div style={{ marginBottom: "20px" }}>
+      <div className="mb-5">
         <p>Status: {callStatus}</p>
 
         {isConnected && (
-          <div style={{ marginTop: "10px" }}>
+          <div className="mt-2.5">
             <p>{isSpeechActive ? "Assistant is speaking" : "Assistant is listening"}</p>
 
             {/* Simple volume indicator */}
             <div
-              style={{
-                display: "flex",
-                marginTop: "10px",
-                marginBottom: "10px",
-                gap: "3px",
-              }}
+              className="flex mt-2.5 mb-2.5 gap-[3px]"
             >
               {Array.from({ length: 10 }, (_, i) => (
                 <div
                   key={i}
-                  style={{
-                    width: "15px",
-                    height: "15px",
-                    backgroundColor: i / 10 < audioLevel ? "#3ef07c" : "#444",
-                    borderRadius: "2px",
-                  }}
+                  className={`w-[15px] h-[15px] ${i / 10 < audioLevel ? "bg-[#3ef07c]" : "bg-neutral-600"} rounded-[2px]`}
                 />
               ))}
             </div>
@@ -79,17 +59,12 @@ function App() {
       <button
         onClick={toggleCall}
         disabled={isConnecting}
-        style={{
-          backgroundColor: isConnected ? "#f03e3e" : "white",
-          color: isConnected ? "white" : "black",
-          border: "none",
-          borderRadius: "8px",
-          padding: "12px 24px",
-          fontSize: "16px",
-          fontWeight: "500",
-          cursor: isConnecting ? "not-allowed" : "pointer",
-          opacity: isConnecting ? 0.7 : 1,
-        }}
+        style={{ backgroundColor: isConnected ? "#dc2626" : "white" }}
+        className={`
+          ${isConnected ? "text-white" : "text-black"}
+          rounded-lg py-3 px-6 text-base font-medium border-0
+          ${isConnecting ? "cursor-not-allowed opacity-70" : "cursor-pointer opacity-100"}
+        `}
       >
         {isConnecting ? "Connecting..." : isConnected ? "End Call" : "Call Emergency Assistant"}
       </button>
@@ -98,16 +73,7 @@ function App() {
         href="https://docs.vapi.ai"
         target="_blank"
         rel="noopener noreferrer"
-        style={{
-          position: "fixed",
-          top: "25px",
-          right: "25px",
-          padding: "5px 10px",
-          color: "#fff",
-          textDecoration: "none",
-          borderRadius: "5px",
-          boxShadow: "0 2px 5px rgba(0,0,0,0.2)",
-        }}
+        className="fixed top-6 right-6 p-2.5 text-white no-underline rounded shadow-md"
       >
         return to docs
       </a>
