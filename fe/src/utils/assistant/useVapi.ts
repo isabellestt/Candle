@@ -1,9 +1,9 @@
-
+import { characterAssistant } from './character.assistant';
 import type { Message,TranscriptMessage } from "../../types/conversation.type";
 import { MessageEnum, TranscriptMessageEnum } from "../../types/conversation.type";
 import { useEffect, useState } from "react";
 import { vapi } from "./vapi.sdk";
-import type { CreateAssistantDTO } from "@vapi-ai/web/dist/api";
+// import type { CreateAssistantDTO } from "@vapi-ai/web/dist/api";
 
 export const CALL_STATUS = {
   INACTIVE: "inactive",
@@ -20,7 +20,7 @@ export function useVapi() {
     CALL_STATUS.INACTIVE
   );
 
-  const [characterAssistant, setCharacterAssistant] = useState<CreateAssistantDTO | undefined>(undefined);
+  // const [characterAssistant, setCharacterAssistant] = useState<CreateAssistantDTO | undefined>(undefined);
 
   const [messages, setMessages] = useState<Message[]>([]);
 
@@ -29,23 +29,23 @@ export function useVapi() {
 
   const [audioLevel, setAudioLevel] = useState(0);
 
-  useEffect(() => {
-    const API_URL = import.meta.env.VITE_PUBLIC_API_URL || ""
-    const fetchAssistant = async () => {
-      try {
-        const response = await fetch(`${API_URL}/assistant`);
-        if (!response.ok) {
-          throw new Error("Failed to fetch assistant data");
-        }
+  // useEffect(() => {
+  //   const API_URL = import.meta.env.VITE_PUBLIC_API_URL || ""
+  //   const fetchAssistant = async () => {
+  //     try {
+  //       const response = await fetch(`${API_URL}/assistant`);
+  //       if (!response.ok) {
+  //         throw new Error("Failed to fetch assistant data");
+  //       }
 
-        const data = await response.json();
-        setCharacterAssistant(data);
-      } catch (error) {
-        console.error("Error fetching assistant:", error);
-      }
-    }
-    fetchAssistant();
-  }, [])
+  //       const data = await response.json();
+  //       setCharacterAssistant(data);
+  //     } catch (error) {
+  //       console.error("Error fetching assistant:", error);
+  //     }
+  //   }
+  //   fetchAssistant();
+  // }, [])
 
   useEffect(() => {
     const onSpeechStart = () => setIsSpeechActive(true);

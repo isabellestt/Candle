@@ -1,13 +1,14 @@
 import { useState, useEffect } from 'react'
 import './App.css'
 import { useVapi } from './utils/assistant/useVapi';
+import { MessageList } from './components/messages/MessageList';
 
 function App() {
   const [isConnecting, setIsConnecting] = useState(false)
   const [isConnected, setIsConnected] = useState(false)
   // const [status, setStatus] = useState("Ready")
 
-  const { toggleCall, isSpeechActive, callStatus, audioLevel } =
+  const { toggleCall, isSpeechActive, callStatus, audioLevel, messages, activeTranscript } =
     useVapi();
 
   useEffect(() => {
@@ -68,6 +69,13 @@ function App() {
       >
         {isConnecting ? "Connecting..." : isConnected ? "End Call" : "Call Emergency Assistant"}
       </button>
+
+      <div>
+        <MessageList
+          messages={messages}
+          activeTranscript={activeTranscript}
+        />
+      </div>
 
       <a
         href="https://docs.vapi.ai"
