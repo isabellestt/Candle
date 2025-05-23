@@ -8,7 +8,7 @@ function App() {
   const [isConnected, setIsConnected] = useState(false)
   // const [status, setStatus] = useState("Ready")
 
-  const { toggleCall, isSpeechActive, callStatus, audioLevel, messages, activeTranscript } =
+  const { toggleCall, isSpeechActive, callStatus, audioLevel, messages, activeTranscript, functionCall } =
     useVapi();
 
   useEffect(() => {
@@ -87,7 +87,14 @@ function App() {
         </a>
       </div>
 
-      
+      <div>
+        {functionCall && (
+          <div className="fixed bottom-0 left-0 right-0 z-10 p-4 bg-gray-800 text-white">
+            <h2 className="text-lg font-bold">Function Call Result</h2>
+            <p>{String(functionCall.functionCallResult.result)}</p>
+          </div>
+        )}
+      </div>
     </div>
   )
 }
