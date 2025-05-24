@@ -1,9 +1,8 @@
-import { characterAssistant } from './character.assistant';
-import type { Message,TranscriptMessage } from "../../types/conversation.type";
+import { helplineAssistant } from './character.assistant';
+import type { Message,TranscriptMessage, FunctionCallResultMessage } from "../../types/conversation.type";
 import { MessageEnum, TranscriptMessageEnum } from "../../types/conversation.type";
 import { useEffect, useState } from "react";
 import { vapi } from "./vapi.sdk";
-// import type { CreateAssistantDTO } from "@vapi-ai/web/dist/api";
 
 export const CALL_STATUS = {
   INACTIVE: "inactive",
@@ -29,23 +28,8 @@ export function useVapi() {
 
   const [audioLevel, setAudioLevel] = useState(0);
 
-  // useEffect(() => {
-  //   const API_URL = import.meta.env.VITE_PUBLIC_API_URL || ""
-  //   const fetchAssistant = async () => {
-  //     try {
-  //       const response = await fetch(`${API_URL}/assistant`);
-  //       if (!response.ok) {
-  //         throw new Error("Failed to fetch assistant data");
-  //       }
+  const [functionCall, setFunctionCall] = useState<FunctionCallResultMessage | null>(null)
 
-  //       const data = await response.json();
-  //       setCharacterAssistant(data);
-  //     } catch (error) {
-  //       console.error("Error fetching assistant:", error);
-  //     }
-  //   }
-  //   fetchAssistant();
-  // }, [])
 
   useEffect(() => {
     const onSpeechStart = () => setIsSpeechActive(true);
@@ -69,7 +53,6 @@ export function useVapi() {
     };
 
     const onMessageUpdate = (message: Message) => {
-      console.log("message", message);
       if (
         message.type === MessageEnum.TRANSCRIPT &&
         message.transcriptType === TranscriptMessageEnum.PARTIAL
@@ -78,6 +61,11 @@ export function useVapi() {
       } else {
         setMessages((prev) => [...prev, message]);
         setActiveTranscript(null);
+      }
+
+      if (message.type === MessageEnum.FUNCTION_CALL_RESULT) {
+        console.log("Function call result", message);
+        setFunctionCall(message)
       }
     };
 
@@ -107,7 +95,7 @@ export function useVapi() {
 
   const start = async () => {
     setCallStatus(CALL_STATUS.LOADING);
-    const response = vapi.start(characterAssistant);
+    const response = vapi.start(helplineAssistant);
 
     response.then((res) => {
       console.log("call", res);
@@ -133,6 +121,7 @@ export function useVapi() {
     audioLevel,
     activeTranscript,
     messages,
+    functionCall,
     start,
     stop,
     toggleCall,
