@@ -36,13 +36,3 @@ assistantRouter.get("/", async (req, res) => {
     res.status(500).json({ error: "Failed to fetch assistant data" });
   }
 })
-
-assistantRouter.post("/api/logPoliceTransfer", async (req, res) => {
-  if (!req.body) {
-    res.status(400).json({ error: "Request body is missing" });
-    return;
-  }
-  if (req.body.message?.type == "assistant-request") {
-    console.log(req.body)
-  }
-})
