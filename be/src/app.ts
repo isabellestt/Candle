@@ -21,8 +21,8 @@ app.use('/assistant', assistantRouter)
 app.post("/api/logPoliceTransfer", async (req, res) => {
   try {
     console.log("Received request to log police transfer:", req.body);
-    const { consent } = req.body;
-    const result = await logPoliceTransfer({ consent });
+    const { transferred } = req.body;
+    const result = await logPoliceTransfer({ transferred });
     res.json(result);
   } catch (error) {
     console.error("Error handling logPoliceTransfer:", error);

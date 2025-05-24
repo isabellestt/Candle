@@ -1,9 +1,9 @@
-export const logPoliceTransfer = async ({ consent }: { consent: boolean }) => {
-  if (consent) {
+export const logPoliceTransfer = async ({ transferred }: { transferred: boolean }) => {
+  if (transferred) {
     console.log("User consented to transfer the call to the police.");
-    return { transfer: true };
+    return { transferred: true };
   } else {
-    console.log("User did not consent to transfer the call.");
-    return { transfer: false };
+    console.log("Error, or user did not consent to transfer the call.");
+    return { transferred: false };
   }
 };
