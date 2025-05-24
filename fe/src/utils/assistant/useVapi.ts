@@ -3,6 +3,7 @@ import type { Message,TranscriptMessage, FunctionCallResultMessage } from "../..
 import { MessageEnum, TranscriptMessageEnum } from "../../types/conversation.type";
 import { useEffect, useState } from "react";
 import { vapi } from "./vapi.sdk";
+import { squad } from '../squad/squad';
 
 export const CALL_STATUS = {
   INACTIVE: "inactive",
@@ -95,7 +96,7 @@ export function useVapi() {
 
   const start = async () => {
     setCallStatus(CALL_STATUS.LOADING);
-    const response = vapi.start(helplineAssistant);
+    const response = vapi.start(helplineAssistant, undefined, squad);
 
     response.then((res) => {
       console.log("call", res);

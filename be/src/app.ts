@@ -1,7 +1,8 @@
 import 'dotenv/config'
 import express, { Application } from 'express'
 import { assistantRouter } from './routers/assistant'
-import { logPoliceTransfer } from './functions/logPoliceTransfer'
+import { logTransfer } from './functions/logTransfer'
+import { postNameAndLocation } from './functions/postNameAndLocation'
 import cors from 'cors'
 
 const {PORT, ORIGINS} = process.env
@@ -18,17 +19,28 @@ app.use(cors({
 
 app.use('/assistant', assistantRouter)
 
-app.post("/api/logPoliceTransfer", async (req, res) => {
+app.post("/api/logTransfer", async (req, res) => {
   try {
     console.log("Received request to log police transfer:", req.body);
-    const { transferred } = req.body;
-    const result = await logPoliceTransfer({ transferred });
+    const { transferred, transfer_to, urgent } = req.body;
+    const result = await logTransfer({ transferred, transfer_to, urgent });
     res.json(result);
   } catch (error) {
     console.error("Error handling logPoliceTransfer:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
+
+app.post("/api/postNameAndLocation", async (req, res) => {
+  try {
+    const { name, location } = req.body;
+    const result = await postNameAndLocation({ name, location });
+    res.json(result);
+  } catch (error) {
+    console.error("Error handling postNameAndLocation:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+})
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`)

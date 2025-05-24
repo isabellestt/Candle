@@ -1,5 +1,5 @@
 import type { CreateSquadDTO } from "@vapi-ai/web/dist/api";
-import { helplineAssistant, authorityAssistant } from "../assistant/character.assistant";
+import { helplineAssistant, authorityAssistant, MSFAssistant } from "../assistant/character.assistant";
 
 export const squad : CreateSquadDTO ={
   name: "helpline to authorities",
@@ -11,13 +11,23 @@ export const squad : CreateSquadDTO ={
           message: "",
           description: "Transfer call to authority assistant",
           type: "assistant",
-          assistantName: "authority",
+          assistantName: "authorityAssistant",
+        },
+        {
+          message: "",
+          description: "Transfer call to MSF assistant",
+          type: "assistant",
+          assistantName: "MSFAssitant",
         }
       ]
     },
     {
       assistant: authorityAssistant,
       assistantDestinations: []
+    },
+    {
+      assistant: MSFAssistant,
+      assistantDestinations: []
     }
-  ]
+  ] 
 }
