@@ -21,12 +21,12 @@ app.use('/assistant', assistantRouter)
 
 app.post("/api/logTransfer", async (req, res) => {
   try {
-    console.log("Received request to log police transfer:", req.body);
+    console.log("Received request to log transfer:", req.body);
     const { transferred, transfer_to, urgent } = req.body;
     const result = await logTransfer({ transferred, transfer_to, urgent });
     res.json(result);
   } catch (error) {
-    console.error("Error handling logPoliceTransfer:", error);
+    console.error("Error handling logTransfer:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
@@ -43,7 +43,7 @@ app.post("/api/postNameAndLocation", async (req, res) => {
 })
 
 app.get("/api/callInfo", (req, res) => {
-  
+
 })
 
 app.listen(PORT, () => {
