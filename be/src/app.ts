@@ -4,6 +4,7 @@ import { assistantRouter } from './routers/assistant'
 import { logTransfer } from './functions/logTransfer'
 import { postNameAndLocation } from './functions/postNameAndLocation'
 import cors from 'cors'
+import { Transfer } from './types'
 
 const {PORT, ORIGINS} = process.env
 
@@ -19,11 +20,27 @@ app.use(cors({
 
 app.use('/assistant', assistantRouter)
 
+const callInfoStore = {
+  transfers: [] as Transfer[],
+  name: "",
+  location: "",
+}
+
 app.post("/api/logTransfer", async (req, res) => {
   try {
     console.log("Received request to log transfer:", req.body);
     const { transferred, transfer_to, urgent } = req.body;
+
     const result = await logTransfer({ transferred, transfer_to, urgent });
+
+    if (transferred) {
+      callInfoStore.transfers.push({
+        transferred: true,
+        transfer_to,
+        urgent,
+      });
+    }
+
     res.json(result);
   } catch (error) {
     console.error("Error handling logTransfer:", error);
@@ -35,6 +52,12 @@ app.post("/api/postNameAndLocation", async (req, res) => {
   try {
     const { name, location } = req.body;
     const result = await postNameAndLocation({ name, location });
+
+    if (name && location) {
+      callInfoStore.name = name;
+      callInfoStore.location = location;
+    }
+
     res.json(result);
   } catch (error) {
     console.error("Error handling postNameAndLocation:", error);
@@ -43,7 +66,10 @@ app.post("/api/postNameAndLocation", async (req, res) => {
 })
 
 app.get("/api/callInfo", (req, res) => {
-
+  res.json({
+    success: true,
+    data: callInfoStore
+  })
 })
 
 app.listen(PORT, () => {
