@@ -1,5 +1,4 @@
 import type { CreateAssistantDTO } from "@vapi-ai/web/dist/api";
-import { url } from "inspector";
 
 export const helplineAssistant: CreateAssistantDTO = {
   name: "MSF Helpline Agent",
