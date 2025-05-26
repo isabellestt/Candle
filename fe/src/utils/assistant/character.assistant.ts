@@ -207,7 +207,7 @@ export const MSFAssistant: CreateAssistantDTO = {
     {
       type: "endCall"
     }
-  ]
+  ],
   firstMessage: "Hello.",
   voicemailMessage: "Please call back when you're available.",
   endCallMessage: "Goodbye.",
