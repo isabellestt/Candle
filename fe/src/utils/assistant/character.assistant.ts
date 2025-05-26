@@ -1,4 +1,5 @@
 import type { CreateAssistantDTO } from "@vapi-ai/web/dist/api";
+import { url } from "inspector";
 
 export const helplineAssistant: CreateAssistantDTO = {
   name: "MSF Helpline Agent",
@@ -33,9 +34,8 @@ export const helplineAssistant: CreateAssistantDTO = {
               required: ["transferred", "transfer_to"]
             },
           },
-          "async": true,
-          "server": {
-            "url": import.meta.env.VITE_PUBLIC_API_URL + "/api/logTransfer" || "",
+          server: {
+            url: import.meta.env.VITE_PUBLIC_API_URL + "/api/webHook" || "",
           }
         },
         {
@@ -57,6 +57,9 @@ export const helplineAssistant: CreateAssistantDTO = {
               },
               required: ["location", "name"]
             },
+          },
+          server: {
+            url: import.meta.env.VITE_PUBLIC_API_URL + "/api/webHook" || "",
           }
         }, 
       ],
