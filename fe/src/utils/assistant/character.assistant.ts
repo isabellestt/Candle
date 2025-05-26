@@ -144,13 +144,13 @@ export const authorityAssistant: CreateAssistantDTO = {
               "content": "Hello, you have reached SPF. This is the end of our demo. After this sentence, use the endCall function."
           }
       ],
-      provider: "openai"
+      provider: "openai",
+      tools:[
+        {
+          type: "endCall"
+        }
+      ],
   },
-  tools:[
-    {
-      type: "endCall"
-    }
-  ],
   firstMessage: "Hello.",
   voicemailMessage: "Please call back when you're available.",
   endCallMessage: "Goodbye.",
@@ -200,13 +200,13 @@ export const MSFAssistant: CreateAssistantDTO = {
               "content": "Hello, you have reached MSF. This is the end of our demo. Please call back when you're available. After this sentence, use the endCall function."
           }
       ],
-      provider: "openai"
+      provider: "openai",
+      tools: [
+        {
+          type: "endCall"
+        }
+      ],
   },
-  tools: [
-    {
-      type: "endCall"
-    }
-  ],
   firstMessage: "Hello.",
   voicemailMessage: "Please call back when you're available.",
   endCallMessage: "Goodbye.",
