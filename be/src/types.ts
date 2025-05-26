@@ -38,6 +38,7 @@ export interface FunctionCall {
 
 export interface FunctionCallPayload extends BasicVapiPayload {
   type: VapiWebhookEnum.FUNCTION_CALL;
+  callId: string;
   functionCall: FunctionCall; 
 }
 

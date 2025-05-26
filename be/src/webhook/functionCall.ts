@@ -1,9 +1,10 @@
+import { memoryStore } from "../db/memoryStore";
 import { FunctionCallPayload, FunctionCallMessageResponse } from "../types";
 
 export const FunctionCallHandler = (
   payload: FunctionCallPayload
 ) => {
-  const { functionCall } = payload;
+  const { functionCall, callId } = payload;
 
   const { name, arguments: args } = functionCall;
 
@@ -26,6 +27,11 @@ export const FunctionCallHandler = (
     res["name"] = name;
     res["location"] = location;
   }
-
+  
+  memoryStore[callId] = {
+    ...memoryStore[callId],
+    ...res
+  };
+  
   return res;
 }

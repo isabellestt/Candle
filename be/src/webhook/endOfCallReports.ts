@@ -1,4 +1,5 @@
 import { EndOfCallReportPayload, EndOfCallReportMessageResponse } from "../types";
+import { memoryStore } from "../db/memoryStore";
 
 export const EndOfCallReportHandler = (
   payload: EndOfCallReportPayload
@@ -12,6 +13,8 @@ export const EndOfCallReportHandler = (
     messages,
     summary
   };
+
+  memoryStore[callId] = {...res};
 
   return res;
 };
