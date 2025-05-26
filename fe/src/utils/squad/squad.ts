@@ -1,5 +1,7 @@
 import type { CreateSquadDTO } from "@vapi-ai/web/dist/api";
-import { helplineAssistant, authorityAssistant, MSFAssistant } from "../assistant/character.assistant";
+import { helplineAssistant } from "../assistant/helpline.assistant";
+import { authorityAssistant } from "../assistant/authorities.assistant";
+import { MSFAssistant } from "../assistant/msf.assistant";
 
 export const squad : CreateSquadDTO ={
   name: "helpline to authorities",
