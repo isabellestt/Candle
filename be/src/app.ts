@@ -1,6 +1,6 @@
 import 'dotenv/config'
 import express from 'express'
-import { router } from './routers/router'
+import router from './routers/router'
 import cors from 'cors'
 
 const {PORT, ORIGINS} = process.env

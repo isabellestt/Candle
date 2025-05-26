@@ -1,7 +1,8 @@
 import { Router } from "express";
 import { WebhookHandler } from "../webhook";
+import { memoryStore } from "../db/memoryStore";
 
-export const router = Router();
+const router = Router();
 
 router.get("/assistant", async (req, res) => {
   const apiKey = process.env.VAPI_API_KEY || "";
@@ -39,3 +40,9 @@ router.get("/assistant", async (req, res) => {
 })
 
 router.post("/webhook", WebhookHandler)
+
+router.get("/getCallInfo", (req, res) => {
+  res.json(Object.values(memoryStore))
+})
+
+export default router;
