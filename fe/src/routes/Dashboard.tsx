@@ -12,6 +12,20 @@ function Dashboard() {
     useVapi();
 
   useEffect(() => {
+    const api = import.meta.env.VITE_PUBLIC_API_URL;
+    if (api) {
+      fetch(`${api}/api/callLogs`)
+      .then(response => response.json())
+      .then(data => {
+        console.log("Call logs fetched:", data);
+      })
+      .catch(error => {
+        console.error("Error fetching call logs:", error);
+      })
+    }
+  })
+
+  useEffect(() => {
     if (callStatus === "inactive") {
       setIsConnecting(false)
       setIsConnected(false)
