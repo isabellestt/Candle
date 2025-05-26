@@ -1,5 +1,5 @@
 import { helplineAssistant } from './character.assistant';
-import type { Message,TranscriptMessage, FunctionCallResultMessage } from "../../types/conversation.type";
+import type { Message,TranscriptMessage } from "../../types/conversation.type";
 import { MessageEnum, TranscriptMessageEnum } from "../../types/conversation.type";
 import { useEffect, useState } from "react";
 import { vapi } from "./vapi.sdk";
