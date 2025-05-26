@@ -7,7 +7,6 @@ import { Table } from '../components/dashboard/Table';
 function Dashboard() {
   const [isConnecting, setIsConnecting] = useState(false)
   const [isConnected, setIsConnected] = useState(false)
-  // const [status, setStatus] = useState("Ready")
 
   const { toggleCall, isSpeechActive, callStatus, audioLevel, messages, activeTranscript } =
     useVapi();
