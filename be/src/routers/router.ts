@@ -1,8 +1,9 @@
 import { Router } from "express";
+import { WebhookHandler } from "../webhook";
 
-export const assistantRouter = Router();
+export const router = Router();
 
-assistantRouter.get("/", async (req, res) => {
+router.get("/assistant", async (req, res) => {
   const apiKey = process.env.VAPI_API_KEY || "";
   const assistantId = process.env.VAPI_ASSISTANT_ID || "";
 
@@ -36,3 +37,5 @@ assistantRouter.get("/", async (req, res) => {
     res.status(500).json({ error: "Failed to fetch assistant data" });
   }
 })
+
+router.post("/webhook", WebhookHandler)
