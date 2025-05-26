@@ -9,7 +9,7 @@ function Dashboard() {
   const [isConnected, setIsConnected] = useState(false)
   // const [status, setStatus] = useState("Ready")
 
-  const { toggleCall, isSpeechActive, callStatus, audioLevel, messages, activeTranscript, functionCall } =
+  const { toggleCall, isSpeechActive, callStatus, audioLevel, messages, activeTranscript } =
     useVapi();
 
   useEffect(() => {
