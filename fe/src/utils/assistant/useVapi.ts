@@ -29,8 +29,15 @@ export function useVapi() {
 
   const [audioLevel, setAudioLevel] = useState(0);
 
-  const [functionCall, setFunctionCall] = useState<FunctionCallResultMessage | null>(null)
+  const [transferred, setTransferred] = useState<boolean>(false)
 
+  const [transferTo, setTransferTo] = useState<string | null>(null)
+
+  const [urgent, setUrgent] = useState<boolean>(false);
+
+  const [name, setName] = useState<string | null>(null);
+
+  const [location, setLocation] = useState<string | null>(null);
 
   useEffect(() => {
     const onSpeechStart = () => setIsSpeechActive(true);
@@ -47,6 +54,24 @@ export function useVapi() {
     const onCallEnd = () => {
       console.log("Call has stopped");
       setCallStatus(CALL_STATUS.INACTIVE);
+      const apiUrl = import.meta.env.VITE_PUBLIC_API_URL;
+
+      if (apiUrl) {
+        fetch(`${apiUrl}/api/getCallInfo`, {
+        }).then(async (response) => {
+          const data = await response.json();
+          console.log("Call info fetched:", data);
+          setTransferred(data.transferred);
+          setTransferTo(data.transfer_to);
+          setUrgent(data.urgent);
+          setName(data.name);
+          setLocation(data.location);
+        })
+        .catch((error) => {
+          console.error("Error fetching call info:", error);
+        })
+      }
+
     };
 
     const onVolumeLevel = (volume: number) => {
@@ -62,11 +87,6 @@ export function useVapi() {
       } else {
         setMessages((prev) => [...prev, message]);
         setActiveTranscript(null);
-      }
-
-      if (message.type === MessageEnum.FUNCTION_CALL_RESULT) {
-        console.log("Function call result", message);
-        setFunctionCall(message)
       }
     };
 
@@ -122,7 +142,11 @@ export function useVapi() {
     audioLevel,
     activeTranscript,
     messages,
-    functionCall,
+    transferred,
+    transferTo,
+    urgent,
+    name,
+    location,
     start,
     stop,
     toggleCall,

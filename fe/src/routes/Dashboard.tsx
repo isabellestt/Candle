@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react'
-import './App.css'
-import { useVapi } from './utils/assistant/useVapi';
-import { MessageList } from './components/messages/MessageList';
+import '../App.css'
+import { useVapi } from '../utils/assistant/useVapi';
+import { MessageList } from '../components/messages/MessageList';
+import { Table } from '../components/dashboard/Table';
 
 function Dashboard() {
   const [isConnecting, setIsConnecting] = useState(false)
@@ -87,14 +88,19 @@ function Dashboard() {
         </a>
       </div>
 
-      <div>
-        {functionCall && (
-          <div className="fixed bottom-0 left-0 right-0 z-10 p-4 bg-gray-800 text-white">
-            <h2 className="text-lg font-bold">Function Call Result</h2>
-            <p>{String(functionCall.functionCallResult.result)}</p>
-          </div>
-        )}
+      <div className="flex items-center justify-center w-full max-w-2xl mt-8">
+        <Table
+          createdDate={new Date()}
+          duration={120}
+          callId="12345"
+          transferred={false}
+          transfer_to="N/A"
+          urgent={true}
+          name="John Doe"
+          location="New York"
+        />
       </div>
+
     </div>
   )
 }
