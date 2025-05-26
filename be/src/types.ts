@@ -8,38 +8,23 @@ export const VAPI_CALL_STATUSES = [
 export type VapiCallStatus = (typeof VAPI_CALL_STATUSES)[number];
 
 export enum VapiWebhookEnum {
-  ASSITANT_REQUEST = "assistant_request",
-  FUNCTION_CALL = "function_call",
-  STATUS_UPDATE = "status_update",
-  END_OF_CALL_REPORT = "end_of_call_report",
+  ASSITANT_REQUEST = "assistant-request",
+  FUNCTION_CALL = "function-call",
+  TOOL_CALLS = "tool-calls",
+  STATUS_UPDATE = "status-update",
+  END_OF_CALL_REPORT = "end-of-call-report",
   HANG = "hang",
-  SPEECH_UPDATE = "speech_update",
+  SPEECH_UPDATE = "speech-update",
   TRANSCRIPT = "transcript"
 }
 
-export interface VapiCall {}
-
-interface BasicVapiPayload {
-  call: VapiCall
-}
-
-export interface FunctionArguments {
-  transferred?: boolean;
-  transfer_to?: any;
-  urgent?: any;
-  name?: string;
-  location?: string;
-}
-
-export interface FunctionCall {
-  name: string;
-  arguments: FunctionArguments;
-}
-
-export interface FunctionCallPayload extends BasicVapiPayload {
-  type: VapiWebhookEnum.FUNCTION_CALL;
-  callId: string;
-  functionCall: FunctionCall; 
+interface ToolCall {
+  id: string;
+  type: "function";
+  function: {
+    name: string;
+    arguments: Record<string, any>; 
+  };
 }
 
 export interface ConversationMessage {
@@ -53,20 +38,60 @@ export interface ConversationMessage {
   secondsFromStart: number;
 }
 
-export interface EndOfCallReportPayload extends BasicVapiPayload {
-  type: VapiWebhookEnum.END_OF_CALL_REPORT;
-  callId: string;
-  endedReason: string;
-  transcript: string;
-  messages: ConversationMessage[];
-  summary: string;
+export interface ToolCallPayload {
+  message: {
+    type: VapiWebhookEnum.TOOL_CALLS;
+    toolCalls?: ToolCall[]; 
+    artifact?: {
+      messages: ConversationMessage[];
+      messagesOpenAIFormatted?: any[];
+    };
+    call: {
+      id: string;
+      orgId: string;
+      createdAt: string;
+      updatedAt: string;
+      type: string;
+      status: string;
+    };
+  };
+}
+export interface EndOfCallReportPayload {
+  message: {
+    type: VapiWebhookEnum.END_OF_CALL_REPORT;
+    toolCalls?: ToolCall[]; 
+    artifact?: {
+      messages: ConversationMessage[];
+      messagesOpenAIFormatted?: any[];
+    };
+    call: {
+      id: string;
+      orgId: string;
+      createdAt: string;
+      updatedAt: string;
+      type: string;
+      status: string;
+    };
+    summary: string;
+    durationSeconds: number;
+    endedReason: string;
+  };
 }
 
+// export interface EndOfCallReportPayload  {
+//   type: VapiWebhookEnum.END_OF_CALL_REPORT;
+//   callId: string;
+//   endedReason: string;
+//   transcript: string;
+//   messages: ConversationMessage[];
+//   summary: string;
+// }
+
 export type VapiPayload = 
-  | FunctionCallPayload
+  | ToolCallPayload
   | EndOfCallReportPayload;
 
-export interface FunctionCallMessageResponse {
+export interface ToolCallMessageResponse {
     result: string[];
     transferred?: boolean;
     transfer_to?: string;
@@ -78,11 +103,10 @@ export interface FunctionCallMessageResponse {
 export interface EndOfCallReportMessageResponse {
   callId: string;
   endedReason: string;
-  transcript: string;
   messages: ConversationMessage[];
   summary: string;
 }
 
 export type VapiResponse = 
-  | FunctionCallMessageResponse
+  | ToolCallMessageResponse
   | EndOfCallReportMessageResponse;

@@ -1,33 +1,36 @@
 import { memoryStore } from "../db/memoryStore";
-import { FunctionCallPayload, FunctionCallMessageResponse } from "../types";
+import { ToolCallPayload, ToolCallMessageResponse } from "../types";
 
-export const FunctionCallHandler = (
-  payload: FunctionCallPayload
+export const ToolCallHandler = (
+  payload: ToolCallPayload
 ) => {
-  const { functionCall, callId } = payload;
+  const callId = payload.message.call.id;
+  const toolCalls = payload.message.toolCalls || [];
 
-  const { name, arguments: args } = functionCall;
-
-  const res: FunctionCallMessageResponse = {
+  const res: ToolCallMessageResponse = {
     result: []
   }
 
-  if (name === "logTransfer") {
-    const { transferred, transfer_to, urgent} = args;
+  for (const toolCall of toolCalls) {
+    if (toolCall.function.name == "logTransfer") {
+      const { transferred, transfer_to } = toolCall.function.arguments;
 
-    res["result"].push("Transfer logged successfully");
-    res["transferred"] = transferred
-    res["transfer_to"] = transfer_to;
-    res["urgent"] = urgent;
-  }
-  if (name === "postNameAndLocation") {
-    const { name, location } = args;
+      res["result"].push("Transfer logged successfully");
+      res["transferred"] = transferred
+      res["transfer_to"] = transfer_to;
+      res["urgent"] = true;
+    };
 
-    res["result"].push("Name and location posted successfully");
-    res["name"] = name;
-    res["location"] = location;
+    if (toolCall.function.name == "postNameAndLocation") {
+      const { name, location } = toolCall.function.arguments;
+
+      res["result"].push("Name and location posted successfully");
+      res["name"] = name;
+      res["location"] = location;
+    };
+
   }
-  
+
   memoryStore[callId] = {
     ...memoryStore[callId],
     ...res
