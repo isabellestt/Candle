@@ -1,10 +1,11 @@
 import 'dotenv/config'
-import express, { Application } from 'express'
+import express from 'express'
 import { assistantRouter } from './routers/assistant'
-import { logTransfer } from './functions/logTransfer'
-import { postNameAndLocation } from './functions/postNameAndLocation'
 import cors from 'cors'
-import { Transfer } from './types'
+
+import { VapiPayload, VapiWebhookEnum } from './types'
+import { FunctionCallHandler } from './webhook/functionCall'
+import { EndOfCallReportHandler } from './webhook/endOfCallReports'
 
 const {PORT, ORIGINS} = process.env
 
@@ -20,56 +21,25 @@ app.use(cors({
 
 app.use('/assistant', assistantRouter)
 
-const callInfoStore = {
-  transfers: [] as Transfer[],
-  name: "",
-  location: "",
-}
-
-app.post("/api/logTransfer", async (req, res) => {
+app.post("/webhook", (req, res) => {
+  const payload: VapiPayload = req.body
   try {
-    console.log("Received request to log transfer:", req.body);
-    const { transferred, transfer_to, urgent } = req.body;
-
-    const result = await logTransfer({ transferred, transfer_to, urgent });
-
-    if (transferred) {
-      callInfoStore.transfers.push({
-        transferred: true,
-        transfer_to,
-        urgent,
-      });
+    switch (payload.type) {
+      case VapiWebhookEnum.FUNCTION_CALL:
+        res.status(200).json(FunctionCallHandler(payload))
+        break;
+      case VapiWebhookEnum.END_OF_CALL_REPORT:
+        res.status(200).json(EndOfCallReportHandler(payload))
+        break;
+      default:
+        console.error("Unhandled webhook type:", payload);
+        res.status(400).json({ error: "Unhandled webhook type" });
     }
 
-    res.json(result);
   } catch (error) {
-    console.error("Error handling logTransfer:", error);
-    res.status(500).json({ error: "Internal Server Error" });
+    console.error("Error in webhook handler:", error);
+    res.status(500).json({error: "Internal Server Error"});
   }
-});
-
-app.post("/api/postNameAndLocation", async (req, res) => {
-  try {
-    const { name, location } = req.body;
-    const result = await postNameAndLocation({ name, location });
-
-    if (name && location) {
-      callInfoStore.name = name;
-      callInfoStore.location = location;
-    }
-
-    res.json(result);
-  } catch (error) {
-    console.error("Error handling postNameAndLocation:", error);
-    res.status(500).json({ error: "Internal Server Error" });
-  }
-})
-
-app.get("/api/callInfo", (req, res) => {
-  res.json({
-    success: true,
-    data: callInfoStore
-  })
 })
 
 app.listen(PORT, () => {
