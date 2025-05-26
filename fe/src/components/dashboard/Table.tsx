@@ -24,26 +24,32 @@ export function Table({
     <div>
 
       <table>
-        <tr>
-          <th>Created Date</th>
-          <th>Duration</th>
-          <th>Call ID</th>
-          <th>Status</th>
-          <th>Transfer To</th>
-          <th>Transferred</th>
-          <th>Show summary</th>
-        </tr>
-        <tr>
-          <td>{createdDate.toLocaleDateString()}</td>
-          <td>{duration}</td>
-          <td>{callId}</td>
-          <td>{urgent ? <span>Urgent</span> : <span>Not urgent</span>}</td>
-          <td>{transfer_to}</td>
-          <td>{transferred}</td>
-        </tr>
+        <thead>
+          <tr className="p-2 border">
+            <th className="p-2 border">Created Date</th>
+            <th className="p-2 border">Duration</th>
+            <th className="p-2 border">Call ID</th>
+            <th className="p-2 border">Status</th>
+            <th className="p-2 border">Transfer To</th>
+            <th className="p-2 border">Transferred</th>
+            <th className="p-2 border">Show summary</th>
+          </tr>
+        </thead>
+        <tbody>
+
+          <tr className="p-2 border">
+            <td className="p-2 border">{createdDate.toLocaleDateString()}</td>
+            <td className="p-2 border">{duration}</td>
+            <td className="p-2 border">{callId}</td>
+            <td className="p-2 border">{urgent ? <span>Urgent</span> : <span>Not urgent</span>}</td>
+            <td className="p-2 border">{transfer_to}</td>
+            <td className="p-2 border">{transferred}</td>
+            <td className="p-2 border">hidden</td>
+          </tr>
+        </tbody>
       </table>
-      <span>{name}</span>
-      <span>{location}</span>
+      <p>name: {name}</p>
+      <p>location: {location}</p>
     </div>
   )
 }

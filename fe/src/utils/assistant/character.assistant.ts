@@ -184,7 +184,6 @@ export const authorityAssistant: CreateAssistantDTO = {
       language: "en",
       provider: "deepgram"
   },
-  callTimeoutSeconds: 10,
 }
 export const MSFAssistant: CreateAssistantDTO = {
   name: "MSF",
@@ -240,5 +239,4 @@ export const MSFAssistant: CreateAssistantDTO = {
       language: "en",
       provider: "deepgram"
   },
-  callTimeoutSeconds: 10,
 }
