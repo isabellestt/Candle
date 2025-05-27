@@ -1,4 +1,4 @@
-import { helplineAssistant } from './character.assistant';
+import { helplineAssistant } from './helpline.assistant';
 import type { Message,TranscriptMessage } from "../../types/conversation.type";
 import { MessageEnum, TranscriptMessageEnum } from "../../types/conversation.type";
 import { useEffect, useState } from "react";
@@ -20,7 +20,6 @@ export function useVapi() {
     CALL_STATUS.INACTIVE
   );
 
-  // const [characterAssistant, setCharacterAssistant] = useState<CreateAssistantDTO | undefined>(undefined);
 
   const [messages, setMessages] = useState<Message[]>([]);
 
@@ -29,15 +28,15 @@ export function useVapi() {
 
   const [audioLevel, setAudioLevel] = useState(0);
 
-  const [transferred, setTransferred] = useState<boolean>(false)
+  // const [transferred, setTransferred] = useState<boolean>(false)
 
-  const [transferTo, setTransferTo] = useState<string | null>(null)
+  // const [transferTo, setTransferTo] = useState<string | null>(null)
 
-  const [urgent, setUrgent] = useState<boolean>(false);
+  // const [urgent, setUrgent] = useState<boolean>(false);
 
-  const [name, setName] = useState<string | null>(null);
+  // const [name, setName] = useState<string | null>(null);
 
-  const [location, setLocation] = useState<string | null>(null);
+  // const [location, setLocation] = useState<string | null>(null);
 
   useEffect(() => {
     const onSpeechStart = () => setIsSpeechActive(true);
@@ -57,19 +56,33 @@ export function useVapi() {
       const apiUrl = import.meta.env.VITE_PUBLIC_API_URL;
 
       if (apiUrl) {
-        fetch(`${apiUrl}/api/getCallInfo`, {
-        }).then(async (response) => {
-          const data = await response.json();
-          console.log("Call info fetched:", data);
-          setTransferred(data.transferred);
-          setTransferTo(data.transfer_to);
-          setUrgent(data.urgent);
-          setName(data.name);
-          setLocation(data.location);
-        })
-        .catch((error) => {
-          console.error("Error fetching call info:", error);
-        })
+        console.log("Attempting to fetch call info from:", `${apiUrl}/api/callInfo`);
+
+        fetch(`${apiUrl}/api/callInfo`)
+          .then(async (response) => {
+            console.log("Response status:", response.status);
+
+  
+            const bodyText = await response.text(); 
+            console.log("Raw body:", bodyText);
+
+            if (!response.ok) {
+              throw new Error(`Server responded with status: ${response.status}`);
+            }
+
+            try {
+              const json = JSON.parse(bodyText);
+              console.log("Parsed JSON:", json);
+            } catch (err) {
+              console.error("Response is not valid JSON:", err);
+            }
+          })
+          .catch(error => {
+            console.error("Error fetching call info:", error);
+          });
+
+      } else {
+        console.warn("API URL not defined, skipping call info fetch");
       }
 
     };
@@ -125,7 +138,7 @@ export function useVapi() {
 
   const stop = () => {
     setCallStatus(CALL_STATUS.LOADING);
-    vapi.stop();
+    vapi.stop()
   };
 
   const toggleCall = () => {
@@ -142,11 +155,11 @@ export function useVapi() {
     audioLevel,
     activeTranscript,
     messages,
-    transferred,
-    transferTo,
-    urgent,
-    name,
-    location,
+    // transferred,
+    // transferTo,
+    // urgent,
+    // name,
+    // location,
     start,
     stop,
     toggleCall,
