@@ -13,7 +13,7 @@
     />
   </head>
   <body>
-    <nav>
+     <nav>
       <div class="landing-header">
         <img
           class="logo"
@@ -75,9 +75,9 @@
       </div>
     </div>
 
-<!-- second page starts here -->
+ second page starts here 
 
-    <div class="second-wrapper">
+ <div class="second-wrapper">
       <div class="second-wrapper-top">
         <div class="second-subtext">
           Candling is re-imagining how support is delivered in the moments
@@ -140,11 +140,11 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> 
 
-<!-- modal starts here -->
+     modal starts here 
 
-    <!-- <div class="modal-container">
+     <!-- <div class="modal-container">
       <div class="modal">
         <div class="modal-top">
           <img
@@ -183,11 +183,11 @@
           </div>
         </div>
       </div>
-    </div>  -->
+    </div>   -->
 
-    <!-- third page starts here -->
+     third page starts here 
 
-    <div class="third-wrapper">
+     <div class="third-wrapper">
       <div class="third-top">
         <div class="third-header">Candling Insights</div>
         <div class="third-subheader">
@@ -241,17 +241,17 @@
             <div class="insight-card-header">Safe data handling</div>
           </div>
           <div class="insight-card-subtext">
-            Personal data is stored only while it’s needed for case handling, then automatically deleted in line with PDPA standards.
+            Personal data is stored only while it’s needed for case handling, then easily deleted post-case closure in line with PDPA standards.
           </div>
           
         </div>
       </div>
       </div>
-    </div>
+    </div> 
 
-    <!-- fourth page starts here -->
+     fourth page starts here 
 
-    <div class="fourth-wrapper">
+     <div class="fourth-wrapper">
       <div class="fourth-top">
         <div class="fourth-header">Powered by VAPI</div>
         <div class="fourth-subheader">
@@ -260,7 +260,7 @@
           500 companies.
         </div>
         <div class="fourth-cta">
-          <button class="fourth-cta-button">
+          <button onclick=" window.open('https://vapi.ai/', '_blank', 'noopener');" class="fourth-cta-button">
             <div class="fourth-cta-button-text">Explore</div>
             <div class="fourth-cta-button-vapi-logo">
               <img
@@ -335,7 +335,7 @@
           </div>
           
           <div class="feedback-container">
-            <button class="footer-feedback-button">
+            <button onclick=" window.open('https://forms.gle/SQDHcDD83htNhy5c7', '_blank', 'noopener');" class="footer-feedback-button">
               <div class="footer-feedback-button-text">Provide Feedback Here</div>
               <img
                 src="./assets/feedback-icon.svg"
@@ -347,7 +347,599 @@
           </div>
         </div>
       </div>
-    </footer>
-    
+    </footer> 
+
+    <div class="demo-wrapper">
+      <div class="demo-top">
+        <div class="demo-top-left">
+          <div class="demo-logo-container">
+            <img
+              class="demo-logo"
+              src="./assets/candling-logo.png"
+              alt="Candling's logo"
+            />
+          </div>
+          <div class="demo-subtext">
+            Welcome to our product demonstration, click the “Talk to Candling”
+            button to start!
+          </div>
+          <div class="viewport-warning">
+            This demo is primarily designed for desktop. You can still scroll to
+            see everything on mobile or tablet but some elements may stack or
+            require sideways scrolling.
+          </div>
+        </div>
+        <div class="demo-top-right">
+          <!-- toggle between these two buttons once demo starts -->
+          <button class="demo-cta-button">
+            <div class="mid-call demo-cta-button-text">End Call</div>
+            <img
+              src="./assets/mid-call-icon.svg"
+              alt="call to action button"
+            />
+          </button>
+
+          <button class="demo-cta-button hidden">
+            <img
+              src="./assets/cta-button-logo.png"
+              alt="call to action button"
+            />
+            <div class="demo-cta-button-text">Talk to Candling</div>
+          </button>
+        </div>
+      </div>
+      <div class="demo-bottom">
+        <div class="demo-dashboard">
+          <table class="history-table">
+            <thead>
+              <tr>
+                <th class="header-left-corner">Created&nbsp;Date</th>
+                <th>Duration</th>
+                <th>Call&nbsp;ID</th>
+                <th>Urgent&nbsp;Status</th>
+                <th>Transfer&nbsp;To</th>
+                <th>Transfer&nbsp;Status</th>
+                <th>Short&nbsp;Description</th>
+                <th class="header-right-corner"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td data-label="Created Date">25/5/25&nbsp;(5:43&nbsp;AM)</td>
+                <td data-label="Duration">2&nbsp;hours&nbsp;58&nbsp;minutes</td>
+                <td data-label="Call&nbsp;ID">afaDHw…</td>
+                <td data-label="Urgent Status">
+                  <span class="pill urgent">Urgent</span>
+                </td>
+                <td data-label="Transfer&nbsp;To">
+                  <span class="pill dvert">DVERT</span>
+                </td>
+                <td data-label="Transfer Status">
+                  <span class="pill transferred">Transferred</span>
+                </td>
+                <td data-label="Short Description">
+                  Caller reported physical abuse…
+                </td>
+                <td>
+                  <img class="toggled" src="./assets/chevron.svg" alt="" />
+                </td>
+              </tr>
+
+               top space 
+
+              <tr class="details-row">
+                <td colspan="8">
+                  <div class="details-top-row">
+                    <div class="details-call-id">call_afaDHw..</div>
+                    <img
+                      class="copy-id-icon"
+                      src="./assets/copy-icon.svg"
+                      alt=""
+                    />
+                  </div>
+                  <div class="details-middle-row">
+                    <div class="details-title">Call Summary</div>
+                  </div>
+                  <div class="details-bottom-row">
+                    <div class="details-bottom-left">
+                      <div class="summary-row">
+                        <div class="summary-key">Call Started at:</div>
+                        <div class="summary-value">25/5/25 (5:43 AM)</div>
+                      </div>
+                      <div class="summary-row">
+                        <div class="summary-key">Call Duration:</div>
+                        <div class="summary-value">2hours 58mins</div>
+                      </div>
+                      <div class="summary-row">
+                        <div class="summary-key">Type of Abuse:</div>
+                        <div class="summary-value">Physical</div>
+                      </div>
+                      <div class="summary-row">
+                        <div class="summary-key">Urgent Status:</div>
+                        <div class="summary-value">Not Urgent</div>
+                      </div>
+                      <div class="summary-row">
+                        <div class="summary-key">Transfer to:</div>
+                        <div class="summary-value">DVERT</div>
+                      </div>
+                      <div class="summary-row">
+                        <div class="summary-key">Transfer Status:</div>
+                        <div class="summary-value">TRUE</div>
+                      </div>
+                    </div>
+                    <div class="details-bottom-right">
+                      <div class="summary-row">
+                        <div class="summary-key">Caller Name:</div>
+                        <div class="summary-value">Jane Appleseed</div>
+                      </div>
+                      <div class="summary-row">
+                        <div class="summary-key">Caller Location:</div>
+                        <div class="summary-value">123 Hougang Ave #02-16</div>
+                      </div>
+                      <div class="summary-row">
+                        <div class="summary-key">Latest Incident:</div>
+                        <div class="summary-value">24/4/25</div>
+                      </div>
+                      <div class="actions-row">
+                        <button class="follow-up-button">
+                          Open Follow-up Notes
+                        </button>
+                        <button class="delete-case-button">Delete Case</button>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+
+               bottom space 
+              <tr>
+                <td data-label="Created Date">25/5/25&nbsp;(2:43&nbsp;AM)</td>
+                <td data-label="Duration">0&nbsp;hours&nbsp;12&nbsp;mins</td>
+                <td data-label="Call&nbsp;ID">oiOEfePNf…</td>
+                <td data-label="Urgent Status">
+                  <span class="pill urgent">Urgent</span>
+                </td>
+                <td data-label="Transfer&nbsp;To">
+                  <span class="pill msf">MSF</span>
+                </td>
+                <td data-label="Transfer Status">
+                  <span class="pill not-transferred">Not&nbsp;transferred</span>
+                </td>
+                <td data-label="Short Description">
+                  Feels unsafe at home now..
+                </td>
+                <td><img src="./assets/chevron.svg" alt="" /></td>
+              </tr>
+
+               top space 
+
+              <tr class="details-row hidden">
+                <td colspan="8">
+                  <div class="details-top-row">
+                    <div class="details-call-id">call_afaDHw..</div>
+                    <img
+                      class="copy-id-icon"
+                      src="./assets/copy-icon.svg"
+                      alt=""
+                    />
+                  </div>
+                  <div class="details-middle-row">
+                    <div class="details-title">Call Summary</div>
+                  </div>
+                  <div class="details-bottom-row">
+                    <div class="details-bottom-left">
+                      <div class="summary-row">
+                        <div class="summary-key">Call Started at:</div>
+                        <div class="summary-value">25/5/25 (5:43 AM)</div>
+                      </div>
+                      <div class="summary-row">
+                        <div class="summary-key">Call Duration:</div>
+                        <div class="summary-value">2hours 58mins</div>
+                      </div>
+                      <div class="summary-row">
+                        <div class="summary-key">Type of Abuse:</div>
+                        <div class="summary-value">Physical</div>
+                      </div>
+                      <div class="summary-row">
+                        <div class="summary-key">Urgent Status:</div>
+                        <div class="summary-value">Not Urgent</div>
+                      </div>
+                      <div class="summary-row">
+                        <div class="summary-key">Transfer to:</div>
+                        <div class="summary-value">DVERT</div>
+                      </div>
+                      <div class="summary-row">
+                        <div class="summary-key">Transfer Status:</div>
+                        <div class="summary-value">TRUE</div>
+                      </div>
+                    </div>
+                    <div class="details-bottom-right">
+                      <div class="summary-row">
+                        <div class="summary-key">Caller Name:</div>
+                        <div class="summary-value">Jane Appleseed</div>
+                      </div>
+                      <div class="summary-row">
+                        <div class="summary-key">Caller Location:</div>
+                        <div class="summary-value">123 Hougang Ave #02-16</div>
+                      </div>
+                      <div class="summary-row">
+                        <div class="summary-key">Latest Incident:</div>
+                        <div class="summary-value">24/4/25</div>
+                      </div>
+                      <div class="actions-row">
+                        <button class="follow-up-button">
+                          Open Follow-up Notes
+                        </button>
+                        <button class="delete-case-button">Delete Case</button>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+
+               bottom space 
+
+              <tr>
+                <td data-label="Created Date">25/5/25&nbsp;(1:12&nbsp;AM)</td>
+                <td data-label="Duration">1&nbsp;hour&nbsp;48&nbsp;mins</td>
+                <td data-label="Call&nbsp;ID">AWrfeNea…</td>
+                <td data-label="Urgent Status">
+                  <span class="pill not-urgent">Not&nbsp;Urgent</span>
+                </td>
+                <td data-label="Transfer&nbsp;To">
+                  <span class="pill not-applicable">Not&nbsp;Applicable</span>
+                </td>
+                <td data-label="Transfer Status">
+                  <span class="pill not-applicable">Not&nbsp;Applicable</span>
+                </td>
+                <td data-label="Short Description">
+                  Spoke about past violence..
+                </td>
+                <td><img src="./assets/chevron.svg" alt="" /></td>
+              </tr>
+
+               top space 
+
+              <tr class="details-row hidden">
+                <td colspan="8">
+                  <div class="details-top-row">
+                    <div class="details-call-id">call_afaDHw..</div>
+                    <img
+                      class="copy-id-icon"
+                      src="./assets/copy-icon.svg"
+                      alt=""
+                    />
+                  </div>
+                  <div class="details-middle-row">
+                    <div class="details-title">Call Summary</div>
+                  </div>
+                  <div class="details-bottom-row">
+                    <div class="details-bottom-left">
+                      <div class="summary-row">
+                        <div class="summary-key">Call Started at:</div>
+                        <div class="summary-value">25/5/25 (5:43 AM)</div>
+                      </div>
+                      <div class="summary-row">
+                        <div class="summary-key">Call Duration:</div>
+                        <div class="summary-value">2hours 58mins</div>
+                      </div>
+                      <div class="summary-row">
+                        <div class="summary-key">Type of Abuse:</div>
+                        <div class="summary-value">Physical</div>
+                      </div>
+                      <div class="summary-row">
+                        <div class="summary-key">Urgent Status:</div>
+                        <div class="summary-value">Not Urgent</div>
+                      </div>
+                      <div class="summary-row">
+                        <div class="summary-key">Transfer to:</div>
+                        <div class="summary-value">DVERT</div>
+                      </div>
+                      <div class="summary-row">
+                        <div class="summary-key">Transfer Status:</div>
+                        <div class="summary-value">TRUE</div>
+                      </div>
+                    </div>
+                    <div class="details-bottom-right">
+                      <div class="summary-row">
+                        <div class="summary-key">Caller Name:</div>
+                        <div class="summary-value">Jane Appleseed</div>
+                      </div>
+                      <div class="summary-row">
+                        <div class="summary-key">Caller Location:</div>
+                        <div class="summary-value">123 Hougang Ave #02-16</div>
+                      </div>
+                      <div class="summary-row">
+                        <div class="summary-key">Latest Incident:</div>
+                        <div class="summary-value">24/4/25</div>
+                      </div>
+                      <div class="actions-row">
+                        <button class="follow-up-button">
+                          Open Follow-up Notes
+                        </button>
+                        <button class="delete-case-button">Delete Case</button>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+
+               bottom space 
+
+              <tr>
+                <td data-label="Created Date">24/5/25&nbsp;(23:43&nbsp;PM)</td>
+                <td data-label="Duration">3&nbsp;hours&nbsp;24&nbsp;mins</td>
+                <td data-label="Call&nbsp;ID">NFewfqiD…</td>
+                <td data-label="Urgent Status">
+                  <span class="pill urgent">Urgent</span>
+                </td>
+                <td data-label="Transfer&nbsp;To">
+                  <span class="pill dvert">DVERT</span>
+                </td>
+                <td data-label="Transfer Status">
+                  <span class="pill transferred">Transferred</span>
+                </td>
+                <td data-label="Short Description">
+                  Caller reported family abuse..
+                </td>
+                <td><img src="./assets/chevron.svg" alt="" /></td>
+              </tr>
+
+               top space 
+
+              <tr class="details-row hidden">
+                <td colspan="8">
+                  <div class="details-top-row">
+                    <div class="details-call-id">call_afaDHw..</div>
+                    <img
+                      class="copy-id-icon"
+                      src="./assets/copy-icon.svg"
+                      alt=""
+                    />
+                  </div>
+                  <div class="details-middle-row">
+                    <div class="details-title">Call Summary</div>
+                  </div>
+                  <div class="details-bottom-row">
+                    <div class="details-bottom-left">
+                      <div class="summary-row">
+                        <div class="summary-key">Call Started at:</div>
+                        <div class="summary-value">25/5/25 (5:43 AM)</div>
+                      </div>
+                      <div class="summary-row">
+                        <div class="summary-key">Call Duration:</div>
+                        <div class="summary-value">2hours 58mins</div>
+                      </div>
+                      <div class="summary-row">
+                        <div class="summary-key">Type of Abuse:</div>
+                        <div class="summary-value">Physical</div>
+                      </div>
+                      <div class="summary-row">
+                        <div class="summary-key">Urgent Status:</div>
+                        <div class="summary-value">Not Urgent</div>
+                      </div>
+                      <div class="summary-row">
+                        <div class="summary-key">Transfer to:</div>
+                        <div class="summary-value">DVERT</div>
+                      </div>
+                      <div class="summary-row">
+                        <div class="summary-key">Transfer Status:</div>
+                        <div class="summary-value">TRUE</div>
+                      </div>
+                    </div>
+                    <div class="details-bottom-right">
+                      <div class="summary-row">
+                        <div class="summary-key">Caller Name:</div>
+                        <div class="summary-value">Jane Appleseed</div>
+                      </div>
+                      <div class="summary-row">
+                        <div class="summary-key">Caller Location:</div>
+                        <div class="summary-value">123 Hougang Ave #02-16</div>
+                      </div>
+                      <div class="summary-row">
+                        <div class="summary-key">Latest Incident:</div>
+                        <div class="summary-value">24/4/25</div>
+                      </div>
+                      <div class="actions-row">
+                        <button class="follow-up-button">
+                          Open Follow-up Notes
+                        </button>
+                        <button class="delete-case-button">Delete Case</button>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+
+               bottom space 
+
+              <tr>
+                <td data-label="Created Date">24/5/25&nbsp;(15:45&nbsp;PM)</td>
+                <td data-label="Duration">1&nbsp;hour&nbsp;15&nbsp;mins</td>
+                <td data-label="Call&nbsp;ID">LlkgsjfNdf…</td>
+                <td data-label="Urgent Status">
+                  <span class="pill not-urgent">Not&nbsp;Urgent</span>
+                </td>
+                <td data-label="Transfer&nbsp;To">
+                  <span class="pill aps">APS</span>
+                </td>
+                <td data-label="Transfer Status">
+                  <span class="pill transferred">Transferred</span>
+                </td>
+                <td data-label="Short Description">
+                  First time reporting abuse..
+                </td>
+                <td><img src="./assets/chevron.svg" alt="" /></td>
+              </tr>
+
+               top space 
+
+              <tr class="details-row hidden">
+                <td colspan="8">
+                  <div class="details-top-row">
+                    <div class="details-call-id">call_afaDHw..</div>
+                    <img
+                      class="copy-id-icon"
+                      src="./assets/copy-icon.svg"
+                      alt=""
+                    />
+                  </div>
+                  <div class="details-middle-row">
+                    <div class="details-title">Call Summary</div>
+                  </div>
+                  <div class="details-bottom-row">
+                    <div class="details-bottom-left">
+                      <div class="summary-row">
+                        <div class="summary-key">Call Started at:</div>
+                        <div class="summary-value">25/5/25 (5:43 AM)</div>
+                      </div>
+                      <div class="summary-row">
+                        <div class="summary-key">Call Duration:</div>
+                        <div class="summary-value">2hours 58mins</div>
+                      </div>
+                      <div class="summary-row">
+                        <div class="summary-key">Type of Abuse:</div>
+                        <div class="summary-value">Physical</div>
+                      </div>
+                      <div class="summary-row">
+                        <div class="summary-key">Urgent Status:</div>
+                        <div class="summary-value">Not Urgent</div>
+                      </div>
+                      <div class="summary-row">
+                        <div class="summary-key">Transfer to:</div>
+                        <div class="summary-value">DVERT</div>
+                      </div>
+                      <div class="summary-row">
+                        <div class="summary-key">Transfer Status:</div>
+                        <div class="summary-value">TRUE</div>
+                      </div>
+                    </div>
+                    <div class="details-bottom-right">
+                      <div class="summary-row">
+                        <div class="summary-key">Caller Name:</div>
+                        <div class="summary-value">Jane Appleseed</div>
+                      </div>
+                      <div class="summary-row">
+                        <div class="summary-key">Caller Location:</div>
+                        <div class="summary-value">123 Hougang Ave #02-16</div>
+                      </div>
+                      <div class="summary-row">
+                        <div class="summary-key">Latest Incident:</div>
+                        <div class="summary-value">24/4/25</div>
+                      </div>
+                      <div class="actions-row">
+                        <button class="follow-up-button">
+                          Open Follow-up Notes
+                        </button>
+                        <button class="delete-case-button">Delete Case</button>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+
+               bottom space 
+            </tbody>
+          </table>
+        </div>
+
+        <div class="demo-notes">
+          <div class="demo-notes-top-row">
+            <button class="deselected-demo-button">Transcript</button>
+            <button class="selected-demo-button">Follow-up Notes</button>
+          </div>
+          <div class="demo-notes-middle-row">
+             add hidden class if not urgent 
+            <div class="notes-reminder-left">
+              <img src="./assets/flag-icon.svg" alt="Flag Icon" />
+            </div>
+            <div class="notes-reminder-right">
+              <div class="notes-reminder-header">Heads up!</div>
+              <div class="notes-reminder-subtext">
+                This caller has been flagged as an urgent case and requires
+                active follow-up.
+              </div>
+            </div>
+          </div>
+           hidden class must toggle between this and demo-notes-bottom-row 
+          <div class="transcript-bottom-row hidden">
+            <div id="view-transcript" class="note-view">
+              <div class="bubble caller">
+                <strong>Caller</strong><br />
+                Hello this is Brian, I need some help.
+              </div>
+
+              <div class="bubble agent">
+                <strong>Candling</strong><br />
+                Hello Brian, this is Candling. How can I help you tonight?
+              </div>
+
+              <div class="bubble caller">
+                <strong>Caller</strong><br />
+                With my math.
+              </div>
+
+              <div class="bubble agent">
+                <strong>Candling</strong><br />
+                With your mouth?
+              </div>
+
+              <div class="bubble caller">
+                <strong>Caller</strong><br />
+                No, my math. I have to do it. Will you help me?
+              </div>
+
+              <div class="bubble agent">
+                <strong>Candling</strong><br />
+                Sure. Where do you live?
+              </div>
+
+              <div class="bubble caller">
+                <strong>Caller</strong><br />
+                No, with my math.
+              </div>
+            </div>
+          </div>
+           hidden class must toggle between this and transcript-bottom-row 
+          <div class="demo-notes-bottom-row">
+            <div class="transcript-summary-section">
+              <div class="transcript-summary-header">Transcript Summary</div>
+              <div class="transcript-summary-body">
+                <div class="transcript-summary-body-title">
+                  Caller reported physical abuse by uncle
+                </div>
+                <div class="transcript-summary-body-content">
+                  Caller identified herself as Heather. She reported being
+                  physically assaulted by her uncle earlier in the afternoon at
+                  her family’s flat in Woodlands. <br /><br />She described
+                  ongoing tension in the household and mentioned this was not
+                  the first incident, but it was the first time she sustained
+                  visible bruising. Heather sounded shaken and anxious, pausing
+                  often during the call and showing...
+                </div>
+              </div>
+            </div>
+
+            <div class="recommended-follow-up-section">
+              <div class="recommended-follow-up-header">
+                Recommended Follow-up
+              </div>
+              <div class="recommended-follow-up-body">
+                <div class="recommended-follow-up-body-title">
+                  Caller reported physical abuse by uncle
+                </div>
+                <div class="recommended-follow-up-body-content">
+                  <ul class="recommended-follow-up-body-content-list">
+                    <li>Attempt follow-up call to confirm Heather's safety</li>
+                    <li>Share shelter options within Woodlands vicinity</li>
+                    <li>Flag for morning outreach by duty officer</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </body>
 </html>
