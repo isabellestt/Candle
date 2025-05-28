@@ -1,25 +1,19 @@
-button {
-  cursor: pointer;
-  background-color: transparent;
-  border: none;
-}
-
 .landing-header {
-  padding: 48px;
+  padding: 96px;
   display: flex;
   justify-content: space-between;
-  margin-bottom: 150px;
+  margin-bottom: 300px;
 }
 
 .build-with-vapi {
-  font-size: 20px;
+  font-size: 40px;
   font-weight: 400;
-  letter-spacing: 0.03px;
+  letter-spacing: 0.06px;
   z-index: 1;
 }
 
 .logo {
-  height: 26px;
+  height: 52px;
 }
 
 .landing {
