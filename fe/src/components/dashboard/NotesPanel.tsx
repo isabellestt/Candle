@@ -1,6 +1,7 @@
 import { useState } from "react";
 import flagIcon from "../../assets/flag-icon.svg";
 import type { CallRecord } from "../../types/conversation.type";
+import '../../routes/Demo.css'
 
 interface NotesPanelProps {
   record: CallRecord;

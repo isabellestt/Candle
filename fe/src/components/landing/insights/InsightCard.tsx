@@ -1,5 +1,5 @@
-import insightSummary from '../../assets/insight-summary.svg'
-import '../../App.css'
+import insightSummary from '../../../assets/insight-summary.svg'
+import './Insights.css'
 
 interface InsightCardProps {
   header: string;

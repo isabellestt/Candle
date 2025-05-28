@@ -1,6 +1,6 @@
-import candlingLogo from '../../assets/candling-logo.png';
-import feedbackIcon from '../../assets/feedback-icon.svg';
-import '../../App.css'
+import candlingLogo from '../../../assets/candling-logo.png';
+import feedbackIcon from '../../../assets/feedback-icon.svg';
+import './Footer.css'
 
 export function Footer() {
   return (

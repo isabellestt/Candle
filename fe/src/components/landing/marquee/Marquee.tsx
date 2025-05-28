@@ -1,5 +1,5 @@
-import dash from '../../assets/dash.svg';
-import '../../App.css'
+import dash from '../../../assets/dash.svg';
+import './Marquee.css'
 
 export function Marquee() {
   return (

@@ -1,8 +1,8 @@
-import chevron from '../../assets/chevron.svg';
-import dashboard from '../../assets/dashboard.png';
+import chevron from '../../../assets/chevron.svg';
+import dashboard from '../../../assets/dashboard.png';
 import { Link } from 'react-router';
 import { InsightCard } from './InsightCard';
-import '../../App.css'
+import './Insights.css'
 
 export function CandlingInsights() {
   return (
@@ -20,8 +20,8 @@ export function CandlingInsights() {
         {/* third-sub-cta */}
         <div className="third-sub-cta">
           {/* third-sub-cta-text */}
-          <Link to="/demo" className="bg-gradient-to-b from-[#f5f6f6] to-[#8a8f98] inline-block text-transparent bg-clip-text"> 
-            <div className="bg-gradient-to-b from-[#f5f6f6] to-[#8a8f98] inline-block text-transparent bg-clip-text">Interact with our dashboard</div>
+          <Link to="/demo" className="third-sub-cta"> 
+            <div className="third-sub-cta-text">Interact with our dashboard</div>
             {/* third-sub-cta-arrow */}
             <img
               className="third-sub-cta-arrow"

@@ -9,7 +9,7 @@ import { Table } from '../components/dashboard/Table';
 import { NotesPanel } from '../components/dashboard/NotesPanel';
 import { callData } from '../../public/callData.tsx'; 
 import type { CallRecord } from '../types/conversation.type';
-import '../App.css'
+import './Demo.css'
 
 function Dashboard() {
   const [selectedRecord, setSelectedRecord] = useState<CallRecord | null>(callData[0]);

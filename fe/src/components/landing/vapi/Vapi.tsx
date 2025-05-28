@@ -1,6 +1,6 @@
-import vapiLogo from '../../assets/vapi-logo.svg';
-import dashboard from '../../assets/vapi-dashboard-skewed.png';
-import '../../App.css'
+import vapiLogo from '../../../assets/vapi-logo.svg';
+import dashboard from '../../../assets/vapi-dashboard-skewed.png';
+import './Vapi.css'
 
 export function Vapi() {
   return (

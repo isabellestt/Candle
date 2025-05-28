@@ -1,15 +1,15 @@
 import { AudienceCard } from './AudienceCard';
-import victimOfAbuseImg from '../../assets/victim-of-abuse.svg';
-import respondTeamImg from '../../assets/respond-team.svg';
-import protectionCentreImg from '../../assets/protection-centre.svg';
-import chevron from '../../assets/chevron.svg';
+import victimOfAbuseImg from '../../../assets/victim-of-abuse.svg';
+import respondTeamImg from '../../../assets/respond-team.svg';
+import protectionCentreImg from '../../../assets/protection-centre.svg';
+import chevron from '../../../assets/chevron.svg';
 import { Link } from 'react-router';
-import '../../App.css'
+import './Segment.css'
 
 export function AudienceSegments() {
   return (
     // second-wrapper
-    <div className="second=wrapper">
+    <div className="second-wrapper">
       {/* second-wrapper-top */}
       <div className="second-wrapper-top">
         {/* second-subtext */}
@@ -20,7 +20,7 @@ export function AudienceSegments() {
           {/* second-sub-cta */}
             <div className="second-sub-cta">
               {/* second-sub-cta-text */}
-              <div className="bg-gradient-to-b from-[#f5f6f6] to-[#8a8f98] inline-block text-transparent bg-clip-text">
+              <div className="second-sub-cta-text">
                 Try our Demo
               </div>
               {/* second-sub-cta-arrow */}

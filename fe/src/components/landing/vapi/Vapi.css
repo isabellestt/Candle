@@ -1,0 +1,78 @@
+.fourth-wrapper {
+  background: linear-gradient(135deg, #0a1835 2%, #000000 100%);
+}
+
+.fourth-top {
+  padding: 96px 0px 0px 96px;
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  gap: 19px;
+  margin-bottom: -10rem;
+}
+
+.fourth-header {
+  color: #f6ddad;
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  font-weight: 400;
+  letter-spacing: -1.2px;
+  line-height: 1.2;
+  max-width: 270px;
+}
+
+.fourth-subheader {
+  color: #7a7e87;
+  font-size: clamp(0.875rem, 2vw, 1.125rem);
+  font-weight: 400;
+  letter-spacing: -0.2px;
+  line-height: 1.6;
+  max-width: clamp(400px, 80vw, 1000px);
+  width: 85%;
+}
+
+.fourth-cta-button {
+  background-color: #0a327c;
+  color: #f6ddad;
+  font-size: 18px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  border: 3.88px solid #0a1835;
+  padding: 8.85px 17.71px;
+  box-shadow: 0 0 0 1.94px #0a327c;
+  border-radius: 90px;
+  margin-bottom: 13.29px;
+}
+
+.fourth-bottom {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.vapi-dashboard {
+  width: 100%;
+  max-width: 1300px;
+  height: auto;
+  display: block;
+  object-fit: contain;
+}
+
+@media (max-width: 1350px) {
+  .vapi-dashboard {
+    margin-top: 6rem;
+  }
+}
+
+@media (max-width: 1100px) {
+  .vapi-dashboard {
+    margin-top: 8rem;
+  }
+}
+
+@media (max-width: 800px) {
+  .vapi-dashboard {
+    margin-top: 10rem;
+  }
+}

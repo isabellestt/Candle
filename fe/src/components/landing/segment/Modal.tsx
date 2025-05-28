@@ -1,6 +1,6 @@
-import plusIcon from '../../assets/plus-icon.svg'
-import chevron from '../../assets/chevron.svg';
-import '../../App.css'
+import plusIcon from '../../../assets/plus-icon.svg'
+import chevron from '../../../assets/chevron.svg';
+import './Modal.css'
 
 interface ModalProps {
   img: string;

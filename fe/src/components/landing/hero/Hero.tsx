@@ -1,8 +1,8 @@
-import ctaButtonLogo from '../../assets/cta-button-logo.png'
-import chevron from '../../assets/chevron.svg'
-import candleGif from '../../assets/candle.gif'
+import ctaButtonLogo from '../../../assets/cta-button-logo.png'
+import chevron from '../../../assets/chevron.svg'
+import candleGif from '../../../assets/candle.gif'
 import { Link } from 'react-router'
-import '../../App.css'
+import './Hero.css'
 
 export function Hero() {
   return (

@@ -1,0 +1,61 @@
+.marquee-wrapper {
+  margin-top: -10rem;
+  width: 100vw;
+  height: 200px;
+  overflow: hidden;
+  transform: rotate(1.74deg);
+}
+
+.marquee {
+  display: inline-block;
+  white-space: nowrap;
+  animation: scrollText 20s linear infinite;
+}
+
+.marquee span {
+  font-size: 160px;
+  font-family: "Lalezar";
+  display: inline-block;
+}
+
+@media (max-width: 895px) {
+  .marquee span {
+    font-size: 70px;
+  }
+}
+
+@media (max-width: 430px) {
+  .marquee span {
+    font-size: 40px;
+  }
+}
+
+@keyframes scrollText {
+  from {
+    transform: translateX(0%);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.marquee-underline {
+  overflow: visible;
+}
+
+.underline-wrapper {
+  position: relative;
+  display: inline-block;
+  padding-bottom: -40px;
+  z-index: 1;
+}
+
+.underline {
+  position: absolute;
+  bottom: -5px;
+  width: 100%;
+  display: block;
+  left: 0;
+  pointer-events: none;
+  z-index: -1;
+}

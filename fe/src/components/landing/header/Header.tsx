@@ -1,5 +1,5 @@
-import '../../App.css'
-import candlingLogo from '../../assets/candling-logo.png'
+import './Header.css'
+import candlingLogo from '../../../assets/candling-logo.png'
 
 export function Header() {
   return (

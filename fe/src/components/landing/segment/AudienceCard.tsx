@@ -1,7 +1,7 @@
-import plusIcon from '../../assets/plus-icon.svg'
+import plusIcon from '../../../assets/plus-icon.svg'
 import { useState } from 'react'
 import { Modal } from './Modal'
-import '../../App.css'
+import './Segment.css'
 
 interface AudienceCardProps {
   img: string;

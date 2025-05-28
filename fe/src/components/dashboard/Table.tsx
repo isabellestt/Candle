@@ -3,6 +3,7 @@ import { useState } from "react";
 import chevron from "../../assets/chevron.svg";
 import copyIdIcon from "../../assets/copy-icon.svg";
 import React from "react";
+import '../../routes/Demo.css'
 
 interface TableProps {
   records: CallRecord[];

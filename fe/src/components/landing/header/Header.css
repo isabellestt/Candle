@@ -1,0 +1,17 @@
+.landing-header {
+  padding: 48px;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 150px;
+}
+
+.build-with-vapi {
+  font-size: 20px;
+  font-weight: 400;
+  letter-spacing: 0.03px;
+  z-index: 1;
+}
+
+.logo {
+  height: 26px;
+}

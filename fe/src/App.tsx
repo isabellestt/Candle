@@ -1,17 +1,17 @@
 // import { NavLink } from 'react-router'
-import { Header } from './components/landing/header'
-import { Hero } from './components/landing/Hero'
-import { Marquee } from './components/landing/Marquee'
-import { AudienceSegments } from './components/landing/AudienceSegments'
-import { CandlingInsights } from './components/landing/CandlingInsights'
-import { Vapi } from './components/landing/Vapi'
-import { Footer } from './components/landing/Footer'
+import { Header } from './components/landing/header/Header'
+import { Hero } from './components/landing/hero/Hero'
+import { Marquee } from './components/landing/marquee/Marquee'
+import { AudienceSegments } from './components/landing/segment/AudienceSegments'
+import { CandlingInsights } from './components/landing/insights/CandlingInsights'
+import { Vapi } from './components/landing/vapi/Vapi'
+import { Footer } from './components/landing/footer/Footer'
 
 function App() {
   return (
     <>
       <Header />
-      <Hero />
+      <Hero /> 
       <Marquee />
       <AudienceSegments />
       <CandlingInsights />
