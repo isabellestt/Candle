@@ -1,0 +1,83 @@
+import { AudienceCard } from './AudienceCard';
+import victimOfAbuseImg from '../../assets/victim-of-abuse.svg';
+import respondTeamImg from '../../assets/respond-team.svg';
+import protectionCentreImg from '../../assets/protection-centre.svg';
+
+export function AudienceSegments() {
+  return (
+    <div>
+
+      <div className="second-wrapper">
+        <div className="second-wrapper-top">
+          <div className="second-subtext">
+            Candling is re-imagining how support is delivered in the moments
+            that matter most. It combines voice AI with empathetic design to bridge after-hours gaps and enable faster, smarter, and more humane responses across the entire care network.
+            <div className="second-sub-cta">
+              <div className="second-sub-cta-text">Try our Demo</div>
+              <img
+                className="second-sub-cta-arrow"
+                src="./assets/chevron.svg"
+                alt="chevron pointing right"
+              />
+            </div>
+          </div>
+          <div className="second-header">Built for Modern Crisis Response</div>
+        </div>
+        <div className="second-wrapper-bottom">
+          <AudienceCard
+            img={victimOfAbuseImg}
+            title="For Victims of Abuse"
+            modalImg={victimOfAbuseImg}
+            modalTitle={<>For Victims of Abuse</>}
+            modalDescription={
+              <>
+                Even after hours, help is just a phone call away. <br />
+                Candling offers 24/7 access to a compassionate, listening voice, built on memory-enhanced voice AI. <br />
+                Callers don’t need to know what to ask for as our agent listens patiently, <br /> 
+                responds with care, and gently helps them find the support they need.
+              </>
+            }
+            modalCtaText="Learn how Candling comforts in crisis moments"
+          />
+          <AudienceCard 
+            img={respondTeamImg}
+            title="For Response Teams"
+            modalImg={respondTeamImg}
+            modalTitle={<>For First Responder <br /> Teams</>}
+            modalDescription={
+              <>
+                Candling flags high-risk calls based on tone and keywords, automatically<br />
+                alerting duty officers. Whether it's a police officer, social worker, or DVERT<br />
+                responder, support teams receive concise summaries of what was said,<br /> how the caller felt, and what follow-up is needed.
+              </>
+            }
+            modalCtaText="See how Candling amplifies responder readiness"
+          />
+          <AudienceCard 
+            img={protectionCentreImg}
+            title="For Protection Centres"
+            modalImg={protectionCentreImg}
+            modalTitle={<>
+              For Protection <br />
+              Specialist Centres
+            </>
+            }
+            modalDescription={
+            <>
+              Each overnight call generates a structured case summary, sent
+              straight to <br />
+              the morning team’s dashboard. PSCs can see which callers may need
+              <br />
+              outreach, what services were discussed, and how distressed the
+              caller
+              <br />sounded, all without breaching PDPA.
+            </>
+            }
+            modalCtaText="Explore how Candling powers next-day continuity" 
+          />
+        </div>
+      </div> 
+
+    </div>
+  )
+}
