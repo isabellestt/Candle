@@ -9,6 +9,9 @@ export const helplineAssistant: CreateAssistantDTO = {
   },
   model: {
       model: "gpt-4.1",
+      toolIds: [
+        import.meta.env.VITE_VAPI_QUERY_TOOL_ID || "",
+      ],
       tools:[
         {
           type: "endCall",
@@ -34,7 +37,7 @@ export const helplineAssistant: CreateAssistantDTO = {
             },
           },
           server: {
-            url: import.meta.env.VITE_PUBLIC_API_URL + "/api/webHook" || "",
+            url: import.meta.env.VITE_PUBLIC_NGROK_API_URL + "/api/webHook" || "",
           }
         },
         {
@@ -58,7 +61,7 @@ export const helplineAssistant: CreateAssistantDTO = {
             },
           },
           server: {
-            url: import.meta.env.VITE_PUBLIC_API_URL + "/api/webHook" || "",
+            url: import.meta.env.VITE_PUBLIC_NGROK_API_URL + "/api/webHook" || "",
           }
         }, 
       ],
@@ -81,7 +84,7 @@ export const helplineAssistant: CreateAssistantDTO = {
   },
   silenceTimeoutSeconds: 98,
   server: {
-      url: import.meta.env.VITE_PUBLIC_API_URL + "/api/webHook" || "",
+      url: import.meta.env.VITE_PUBLIC_NGROK_API_URL + "/api/webHook" || "",
   },
   clientMessages: [
       "conversation-update",
