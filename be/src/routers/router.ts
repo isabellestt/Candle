@@ -42,7 +42,8 @@ router.get("/assistant", async (req, res) => {
 router.post("/webhook", WebhookHandler)
 
 router.get("/getCallInfo", (req, res) => {
-  res.json(Object.values(memoryStore))
+  const latest_call = Object.values(memoryStore).pop();
+  res.json(latest_call)
 })
 
 export default router;

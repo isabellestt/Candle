@@ -14,9 +14,6 @@ export const WebhookHandler = (req: Request, res: Response) => {
       case VapiWebhookEnum.END_OF_CALL_REPORT:
         res.status(200).json(EndOfCallReportHandler(payload as EndOfCallReportPayload));
         break;
-      default:
-        console.error("Unhandled webhook type:", payload);
-        res.status(400).json({ error: "Unhandled webhook type" });
     }
   } catch (error) {
     console.error("Error processing webhook:", error);
