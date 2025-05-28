@@ -4,6 +4,8 @@ import type { CallRecord } from './../../types/conversation.type';
 import { helplineAssistant } from './helpline.assistant';
 import { squad } from '../squad/squad';
 import { callData } from '../../../public/callData';
+import formatDateForDisplay from "../formatDate";
+import formatTime from "../formatTime";
 
 export const CALL_STATUS = {
   INACTIVE: "inactive",
@@ -53,8 +55,8 @@ export function useVapi() {
             console.log("Call info fetched successfully:", data);
             const record: CallRecord = {
               id: data.callId || "",
-              createdDate: data.startedAt || "",
-              duration: data.durationSeconds ? `${data.durationSeconds} seconds` : "N/A",
+              createdDate: formatDateForDisplay(data.startedAt) || "",
+              duration: data.durationSeconds ? formatTime(data.durationSeconds) : "N/A",
               callId: data.callId || "",
               urgentStatus: data.urgent || false,
               transferTo: data.transferTo || null,

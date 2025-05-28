@@ -1,5 +1,6 @@
 import { EndOfCallReportPayload, EndOfCallReportMessageResponse } from "../types";
 import { memoryStore } from "../db/memoryStore";
+import convertToISODate from "../utils/convertDate";
 
 export const EndOfCallReportHandler = (
   payload: EndOfCallReportPayload
@@ -8,7 +9,7 @@ export const EndOfCallReportHandler = (
   const messages = payload.message.artifact?.messages || [];
   const summary = payload.message.summary;
   const callId = payload.message.call.id;
-  const startedAt = payload.message.startedAt;
+  const startedAt = convertToISODate(payload.message.startedAt);
   const durationSeconds = payload.message.durationSeconds;
 
   
