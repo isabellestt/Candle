@@ -8,10 +8,14 @@ export const EndOfCallReportHandler = (
   const messages = payload.message.artifact?.messages || [];
   const summary = payload.message.summary;
   const callId = payload.message.call.id;
+  const startedAt = payload.message.startedAt;
+  const durationSeconds = payload.message.durationSeconds;
 
   
   const res: EndOfCallReportMessageResponse = {
     callId,
+    startedAt,
+    durationSeconds,
     endedReason,
     messages,
     summary

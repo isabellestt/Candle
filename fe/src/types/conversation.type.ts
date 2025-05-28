@@ -34,24 +34,22 @@ export interface TranscriptMessage extends BaseMessage {
   transcript: string;
 }
 
-export interface FunctionCallMessage extends BaseMessage {
-  type: typeof MessageEnum.FUNCTION_CALL;
-  functionCall: {
-    name: string;
-    parameters: unknown;
-  };
-}
 
-export interface FunctionCallResultMessage extends BaseMessage {
-  type: typeof MessageEnum.FUNCTION_CALL_RESULT;
-  functionCallResult: {
-    forwardToClientEnabled?: boolean;
-    result: unknown;
-    [a: string]: unknown;
-  };
+export interface CallRecord {
+  id: string;
+  createdDate: string;
+  duration: string;
+  callId: string;
+  urgentStatus: boolean;
+  transferTo: string;
+  transferred: boolean;
+  summaryTitle: string;
+  details : {
+    summary: string;
+    abuseType: string;
+    callerName: string;
+    callerLocation: string;
+    latestIncident: string;
+    messages: TranscriptMessage[];
+  }
 }
-
-export type Message =
-  | TranscriptMessage
-  | FunctionCallMessage
-  | FunctionCallResultMessage;

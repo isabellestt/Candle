@@ -63,7 +63,7 @@ export interface EndOfCallReportPayload {
     artifact?: {
       messages: ConversationMessage[];
       messagesOpenAIFormatted?: any[];
-    };
+    }; 
     call: {
       id: string;
       orgId: string;
@@ -72,6 +72,8 @@ export interface EndOfCallReportPayload {
       type: string;
       status: string;
     };
+    startedAt: string;
+    endedAt: string;
     summary: string;
     durationSeconds: number;
     endedReason: string;
@@ -102,6 +104,8 @@ export interface ToolCallMessageResponse {
 
 export interface EndOfCallReportMessageResponse {
   callId: string;
+  startedAt: string;
+  durationSeconds: number;
   endedReason: string;
   messages: ConversationMessage[];
   summary: string;

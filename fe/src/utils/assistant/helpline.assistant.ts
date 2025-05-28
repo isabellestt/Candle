@@ -31,9 +31,13 @@ export const helplineAssistant: CreateAssistantDTO = {
                 transfer_to: {
                   type: "string",
                   description: "The police department or authority to which the call was transferred"
+                },
+                urgent: {
+                  type: "boolean",
+                  description: "Status of the call"
                 }
               },
-              required: ["transferred", "transfer_to"]
+              required: ["transferred", "transfer_to", "urgent"]
             },
           },
           server: {

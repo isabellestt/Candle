@@ -1,9 +1,9 @@
-import { helplineAssistant } from './helpline.assistant';
-import type { Message,TranscriptMessage } from "../../types/conversation.type";
-import { MessageEnum, TranscriptMessageEnum } from "../../types/conversation.type";
 import { useEffect, useState } from "react";
 import { vapi } from "./vapi.sdk";
+import type { CallRecord } from './../../types/conversation.type';
+import { helplineAssistant } from './helpline.assistant';
 import { squad } from '../squad/squad';
+import { callData } from '../../../public/callData';
 
 export const CALL_STATUS = {
   INACTIVE: "inactive",
@@ -19,24 +19,9 @@ export function useVapi() {
   const [callStatus, setCallStatus] = useState<CALL_STATUS_TYPE>(
     CALL_STATUS.INACTIVE
   );
-
-
-  const [messages, setMessages] = useState<Message[]>([]);
-
-  const [activeTranscript, setActiveTranscript] =
-    useState<TranscriptMessage | null>(null);
-
   const [audioLevel, setAudioLevel] = useState(0);
 
-  // const [transferred, setTransferred] = useState<boolean>(false)
 
-  // const [transferTo, setTransferTo] = useState<string | null>(null)
-
-  // const [urgent, setUrgent] = useState<boolean>(false);
-
-  // const [name, setName] = useState<string | null>(null);
-
-  // const [location, setLocation] = useState<string | null>(null);
 
   useEffect(() => {
     const onSpeechStart = () => setIsSpeechActive(true);
@@ -56,30 +41,39 @@ export function useVapi() {
       const apiUrl = import.meta.env.VITE_PUBLIC_API_URL;
 
       if (apiUrl) {
-        console.log("Attempting to fetch call info from:", `${apiUrl}/api/getCallInfo`);
 
         fetch(`${apiUrl}/api/getCallInfo`)
-          .then(async (response) => {
-            console.log("Response status:", response.status);
-  
-            const bodyText = await response.text(); 
-            console.log("Raw body:", bodyText);
-
+          .then((response) => {
             if (!response.ok) {
               throw new Error(`Server responded with status: ${response.status}`);
             }
-
-            try {
-              const json = JSON.parse(bodyText);
-              console.log("Parsed JSON:", json);
-            } catch (err) {
-              console.error("Response is not valid JSON:", err);
+            return response.json();
+          })
+          .then((data) => {
+            console.log("Call info fetched successfully:", data);
+            const record: CallRecord = {
+              id: data.callId || "",
+              createdDate: data.startedAt || "",
+              duration: data.durationSeconds ? `${data.durationSeconds} seconds` : "N/A",
+              callId: data.callId || "",
+              urgentStatus: data.urgent || false,
+              transferTo: data.transferTo || null,
+              transferred: data.transferred || false,
+              summaryTitle: data.summary || "No summary provided",
+              details: {
+                summary: data.summary || "No summary provided",
+                abuseType: data.abuseType || "Not specified",
+                callerName: data.name || "Unknown",
+                callerLocation: data.location || "Unknown",
+                latestIncident: data.startedAt || "N/A",
+                messages: data.messages || [],
+              }
             }
+            callData.push(record)
           })
           .catch(error => {
             console.error("Error fetching call info:", error);
           });
-
       } else {
         console.warn("API URL not defined, skipping call info fetch");
       }
@@ -90,17 +84,17 @@ export function useVapi() {
       setAudioLevel(volume);
     };
 
-    const onMessageUpdate = (message: Message) => {
-      if (
-        message.type === MessageEnum.TRANSCRIPT &&
-        message.transcriptType === TranscriptMessageEnum.PARTIAL
-      ) {
-        setActiveTranscript(message);
-      } else {
-        setMessages((prev) => [...prev, message]);
-        setActiveTranscript(null);
-      }
-    };
+    // const onMessageUpdate = (message: Message) => {
+    //   if (
+    //     message.type === MessageEnum.TRANSCRIPT &&
+    //     message.transcriptType === TranscriptMessageEnum.PARTIAL
+    //   ) {
+    //     setActiveTranscript(message);
+    //   } else {
+    //     setMessages((prev) => [...prev, message]);
+    //     setActiveTranscript(null);
+    //   }
+    // };
 
     const onError = (e: unknown) => {
       setCallStatus(CALL_STATUS.INACTIVE);
@@ -112,7 +106,7 @@ export function useVapi() {
     vapi.on("call-start", onCallStartHandler);
     vapi.on("call-end", onCallEnd);
     vapi.on("volume-level", onVolumeLevel);
-    vapi.on("message", onMessageUpdate);
+    // vapi.on("message", onMessageUpdate);
     vapi.on("error", onError);
 
     return () => {
@@ -121,7 +115,7 @@ export function useVapi() {
       vapi.off("call-start", onCallStartHandler);
       vapi.off("call-end", onCallEnd);
       vapi.off("volume-level", onVolumeLevel);
-      vapi.off("message", onMessageUpdate);
+      // vapi.off("message", onMessageUpdate);
       vapi.off("error", onError);
     };
   }, []);
@@ -152,13 +146,6 @@ export function useVapi() {
     isSpeechActive,
     callStatus,
     audioLevel,
-    activeTranscript,
-    messages,
-    // transferred,
-    // transferTo,
-    // urgent,
-    // name,
-    // location,
     start,
     stop,
     toggleCall,
