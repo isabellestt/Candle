@@ -5,11 +5,6 @@
   overflow-x: hidden;
   font-family: 'Inter', sans-serif
 }
-/* 
-button {
-  cursor: pointer;
-  background-color: transparent
-} */
 
 @import "tailwindcss";
 
