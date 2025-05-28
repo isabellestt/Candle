@@ -6,7 +6,7 @@ function App() {
     <div className="flex flex-col items-center justify-center">
       cooking
       <NavLink
-        to="/Dashboard"
+        to="/Demo"
         className={({ isActive, isPending, isTransitioning }) =>
           [
             isPending ? "pending" : "",
