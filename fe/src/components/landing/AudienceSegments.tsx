@@ -4,27 +4,28 @@ import respondTeamImg from '../../assets/respond-team.svg';
 import protectionCentreImg from '../../assets/protection-centre.svg';
 import chevron from '../../assets/chevron.svg';
 import { Link } from 'react-router';
+import '../../App.css'
 
 export function AudienceSegments() {
   return (
     // second-wrapper
-    <div className="px-12 pb-12 mt-24">
+    <div className="second=wrapper">
       {/* second-wrapper-top */}
-      <div className="grid grid-cols-1 md:grid-cols-[1fr_0.7fr] gap-8 md:gap-0 p-6 md:p-24 text-center md:text-left">
+      <div className="second-wrapper-top">
         {/* second-subtext */}
-        <div className="order-last md:order-first text-[#7a7e87] text-[clamp(1rem,2.2vw,1.2rem)] font-normal tracking-[-0.25px] leading-relaxed w-full md:w-[90%] max-w-[600px] mx-auto md:mx-0 mt-5 md:mt-0">
+        <div className="second-subtext">
           Candling is re-imagining how support is delivered in the moments
           that matter most. It combines voice AI with empathetic design to bridge after-hours gaps and enable faster, smarter, and more humane responses across the entire care network.
           <Link to="/demo" className="inline-block">
           {/* second-sub-cta */}
-            <div className="flex items-center justify-center md:justify-start gap-1.5 mb-4 pb-4 cursor-pointer mt-6">
+            <div className="second-sub-cta">
               {/* second-sub-cta-text */}
               <div className="bg-gradient-to-b from-[#f5f6f6] to-[#8a8f98] inline-block text-transparent bg-clip-text">
                 Try our Demo
               </div>
               {/* second-sub-cta-arrow */}
               <img
-                className="h-[14px]"
+                className="second-sub-cta-arrow"
                 src={chevron}
                 alt="chevron pointing right"
               />
@@ -32,10 +33,10 @@ export function AudienceSegments() {
           </Link>
         </div>
         {/* second-header */}
-        <div className="text-[#f6ddad] text-[clamp(2rem,5vw,3.7rem)] font-normal tracking-[-1.5px] leading-tight order-first md:order-last">Built for Modern Crisis Response</div>
+        <div className="second-header">Built for Modern Crisis Response</div>
       </div>
       {/* second-wrapper-bottom */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 justify-items-center px-6 md:px-24 pb-24">
+      <div className="second-wrapper-bottom">
         <AudienceCard
           img={victimOfAbuseImg}
           title="For Victims of Abuse"

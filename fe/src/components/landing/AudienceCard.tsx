@@ -1,6 +1,7 @@
 import plusIcon from '../../assets/plus-icon.svg'
 import { useState } from 'react'
 import { Modal } from './Modal'
+import '../../App.css'
 
 interface AudienceCardProps {
   img: string;
@@ -22,12 +23,12 @@ export function AudienceCard({
 
   const openModal = () => {
     setIsModalOpen(true);
-    document.body.style.overflow = 'hidden'; // Prevent scrolling when modal is open
+    document.body.style.overflow = 'hidden'; 
   };
 
   const closeModal = () => {
     setIsModalOpen(false);
-    document.body.style.overflow = 'auto'; // Re-enable scrolling
+    document.body.style.overflow = 'auto'; 
   };
   return (
     <div>
@@ -43,7 +44,6 @@ export function AudienceCard({
           <div className="segment-card-subtext">{title}</div>
           <button 
             onClick={openModal}
-            className="bg-transparent border-0 cursor-pointer p-0"
           >
             <img
               className="expand-icon"

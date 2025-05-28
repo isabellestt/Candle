@@ -2,28 +2,29 @@ import chevron from '../../assets/chevron.svg';
 import dashboard from '../../assets/dashboard.png';
 import { Link } from 'react-router';
 import { InsightCard } from './InsightCard';
+import '../../App.css'
 
 export function CandlingInsights() {
   return (
     // third-wrapper
-    <div className="p-24 bg-[#0c1d40]">
+    <div className="third-wrapper">
       {/* third-top */}
-      <div className="flex flex-col items-center justify-center gap-3">
+      <div className="third-top">
         {/* third-header */}
-        <div className="text-[#f6ddad] text-[40.65px] font-normal tracking-[-1.5px] leading-[45px]">Candling Insights</div>
+        <div className="third-header">Candling Insights</div>
         {/* third-subheader */}
-        <div className="text-[#7a7e87] text-[19.12px] font-normal tracking-[-0.31px] leading-[27.3px] text-center">
+        <div className="third-subheader">
           Improve cross-agency collaboration with real-time consolidated views
           on one unified dashboard
         </div>
         {/* third-sub-cta */}
-        <div className="flex items-center gap-1.5 mb-4 pb-4 cursor-pointer">
+        <div className="third-sub-cta">
           {/* third-sub-cta-text */}
           <Link to="/demo" className="bg-gradient-to-b from-[#f5f6f6] to-[#8a8f98] inline-block text-transparent bg-clip-text"> 
             <div className="bg-gradient-to-b from-[#f5f6f6] to-[#8a8f98] inline-block text-transparent bg-clip-text">Interact with our dashboard</div>
             {/* third-sub-cta-arrow */}
             <img
-              className="h-[14px]"
+              className="third-sub-cta-arrow"
               src={chevron}
               alt="chevron pointing right"
             />
@@ -32,12 +33,12 @@ export function CandlingInsights() {
       </div>
 
       {/* third-middle */}
-      <div className="flex flex-col items-center justify-center mb-12">
+      <div className="third-middle">
         <img src={dashboard} alt="Candling's dashboard" />
       </div>
 
       {/*  third-bottom */}
-      <div className="flex justify-center gap-[63.46px] flex-wrap">
+      <div className="third-bottom">
         <InsightCard
           header="Call summaries"
           subtext="Automatically generated call recaps capture emotional tone, risk

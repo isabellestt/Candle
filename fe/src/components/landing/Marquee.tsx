@@ -1,23 +1,24 @@
 import dash from '../../assets/dash.svg';
+import '../../App.css'
 
 export function Marquee() {
   return (
     // marquee wrapper
-    <div className="-mt-40 w-screen h-[200px] overflow-hidden rotate-[1.74deg]">
+    <div className="marquee-wrapper">
       {/* marquee */}
-      <div className="inline-block whitespace-nowrap animate-[scrollText_20s_linear_infinite]">
-        <span className="text-[160px] md:text-[160px] sm:text-[70px] xs:text-[40px] font-['Lalezar'] inline-block">
+      <div className="marquee">
+        <span className="">
           Someone to talk with,
           {/* underline-wrapper */}
-          <span className="relative inline-block -mb-10 z-10">
+          <span className="underline-wrapper">
             Even After Hours
             {/* underline */}
-            <img src={dash} alt="underline" className="absolute -bottom-[5px] left-0 w-full pointer-events-none -z-10" />
+            <img src={dash} alt="underline" className="underline" />
           </span>
           • Someone to talk with,
           <span className="relative inline-block -mb-10 z-10">
             Even After Hours
-            <img src={dash} alt="underline" className="absolute -bottom-[5px] left-0 w-full pointer-events-none -z-10" />
+            <img src={dash} alt="underline" className="underline" />
           </span>
           •
         </span>

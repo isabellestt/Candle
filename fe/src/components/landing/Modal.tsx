@@ -1,5 +1,6 @@
 import plusIcon from '../../assets/plus-icon.svg'
 import chevron from '../../assets/chevron.svg';
+import '../../App.css'
 
 interface ModalProps {
   img: string;
@@ -17,25 +18,25 @@ export function Modal({
 }: ModalProps) {
   return (
     // modal-container
-    <div className="fixed top-0 left-0 w-screen h-screen flex justify-center items-center bg-[rgba(10,24,53,0.85)] z-[999]">
+    <div className="modal-container">
       {/* modal */}
-        <div className="w-[644px] h-auto bg-[#000e2b] rounded-[30px] p-12">
+        <div className="modal">
           {/* modal-top */}
-          <div className="flex justify-end">
+          <div className="modal-top">
             <button 
-              className="bg-transparent border-0 cursor-pointer p-0"
+              className="border-0 cursor-pointer p-0"
               onClick={onClose}
             >
               {/* close-modal-button */}
               <img
-                className="transform rotate-45"
+                className="close-modal-button"
                 src={plusIcon}
                 alt="Close modal"
               />
             </button>
           </div>
           {/* modal-bottom */}
-          <div className="flex flex-col justify-center items-center">
+          <div className="modal-bottom">
             {/* modal-img */}
             <div className="modal-img">
               {/* "./assets/protection-centre.svg" */}
@@ -45,21 +46,21 @@ export function Modal({
               />
             </div>
             {/* modal-header */}
-            <div className="text-[#f6ddad] text-[40.45px] font-normal tracking-[-1.5px] leading-[44.8px] mb-3 text-center">
+            <div className="modal-header">
               {title}
             </div>
             {/* modal-subtext */}
-            <div className="text-[#7a7e87] font-normal text-xs tracking-[-0.4px] leading-[18px] mb-6 text-center">
+            <div className="modal-subtext">
               {description}
             </div>
             {/* modal-cta */}
-            <div className="flex items-center gap-1.5 cursor-pointer">
+            <div className="modal-cta">
               {/* modal-cta-text */}
-              <div className="text-[11.03px] tracking-[0.08px] leading-[16.3px] bg-gradient-to-b from-[#f5f6f6] to-[#8a8f98] inline-block text-transparent bg-clip-text">
+              <div className="modal-cta-text">
                 {ctaText}
               </div>
               {/* modal-cta-arrow */}
-              <div className="h-[14px]">
+              <div className="modal-cta-arrow">
                 <img src={chevron} alt="arrow pointing right" />
               </div>
             </div>
