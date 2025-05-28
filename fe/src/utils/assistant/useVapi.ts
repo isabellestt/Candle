@@ -56,12 +56,11 @@ export function useVapi() {
       const apiUrl = import.meta.env.VITE_PUBLIC_API_URL;
 
       if (apiUrl) {
-        console.log("Attempting to fetch call info from:", `${apiUrl}/api/callInfo`);
+        console.log("Attempting to fetch call info from:", `${apiUrl}/api/getCallInfo`);
 
-        fetch(`${apiUrl}/api/callInfo`)
+        fetch(`${apiUrl}/api/getCallInfo`)
           .then(async (response) => {
             console.log("Response status:", response.status);
-
   
             const bodyText = await response.text(); 
             console.log("Raw body:", bodyText);
