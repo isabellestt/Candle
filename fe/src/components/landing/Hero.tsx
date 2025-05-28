@@ -28,7 +28,7 @@ export function Hero() {
           <button className="landing-cta-button">
             {/* landing-cta-button-text */}
             <img src={ctaButtonLogo} alt="call to action button" className="w-[41px]" />
-            <div>Explore our demo</div>
+            <div className="landing-cta-button-text">Explore our demo</div>
           </button>
         </Link>
         {/* landing-sub-cta */}
