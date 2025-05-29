@@ -4,7 +4,6 @@ import CandlingLogo from '../assets/candling-logo.png'
 import MidCallIcon from '../assets/mid-call-icon.svg'
 import ctaButtonLogo from '../assets/cta-button-logo.png'
 import { useVapi } from '../utils/assistant/useVapi';
-// import { MessageList } from '../components/messages/MessageList';
 import { Table } from '../components/dashboard/Table';
 import { NotesPanel } from '../components/dashboard/NotesPanel';
 import { callData } from '../../public/callData.tsx'; 
@@ -117,12 +116,6 @@ function Dashboard() {
                 </button>
               </div>
 
-              {/* <div className="w-full mt-8">
-                <MessageList
-                  messages={messages}
-                  activeTranscript={activeTranscript}
-                />
-              </div> */}
             </div>
           </div>
         </div>
