@@ -536,12 +536,12 @@ td:has(.pill) {
   margin-bottom: 28px;
   word-break: break-word;
 }
-.caller {
+.user {
   align-self: flex-start;
   background: #47526b;
   color: #f3eee3;
 }
-.agent {
+.bot {
   align-self: flex-end;
   background: #faf8f1;
   color: #374159;

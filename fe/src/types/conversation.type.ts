@@ -10,7 +10,7 @@ export type MessageEnumType = typeof MessageEnum[keyof typeof MessageEnum];
 export const MessageRoleEnum = {
   USER: "user",
   SYSTEM: "system",
-  ASSISTANT: "assistant",
+  ASSISTANT: "bot",
 } as const;
 
 export type MessageRoleEnumType = typeof MessageRoleEnum[keyof typeof MessageRoleEnum];
@@ -28,10 +28,8 @@ export interface BaseMessage {
 }
 
 export interface TranscriptMessage extends BaseMessage {
-  type: typeof MessageEnum.TRANSCRIPT;
   role: MessageRoleEnumType;
-  transcriptType: TranscriptMessageEnumType;
-  transcript: string;
+  message: string;
 }
 
 

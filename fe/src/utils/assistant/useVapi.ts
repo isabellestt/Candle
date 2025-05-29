@@ -71,7 +71,7 @@ export function useVapi() {
                 messages: data.messages || [],
               }
             }
-            callData.push(record)
+            callData.splice(0, 0, record)
           })
           .catch(error => {
             console.error("Error fetching call info:", error);

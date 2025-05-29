@@ -11,7 +11,8 @@ export const EndOfCallReportHandler = (
   const callId = payload.message.call.id;
   const startedAt = convertToISODate(payload.message.startedAt);
   const durationSeconds = payload.message.durationSeconds;
-
+  console.log("messages", messages)
+  console.log("payload", payload.message.artifact?.messages)
   
   const res: EndOfCallReportMessageResponse = {
     callId,

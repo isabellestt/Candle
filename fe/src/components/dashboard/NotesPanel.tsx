@@ -47,40 +47,49 @@ export function NotesPanel({ record }: NotesPanelProps) {
         <div className="transcript-bottom-row">
           <div id="view-transcript" className="note-view">
             {messages.length > 0 ? (messages
-              .map((message, index) => (
+              .map((message, index) => {
+                if (message.role !== 'user' && message.role !== 'bot') {
+                  return null;
+                } else {
+                  
+                  console.log(JSON.stringify(message))
+                }
+                return (
                 <div key={index} className={`bubble ${message.role}`}>
                   <strong>{message.role === 'user' ? 'Caller' : 'Candling'}</strong><br />
-                  {message.transcript}
+                  {message.message}
                 </div>
-              ))
+                )
+              }
+              )
             ) : (
               // Default transcript if none provided
               <>
-                <div className="bubble caller">
+                <div className="bubble user">
                   <strong>Caller</strong><br />
                   Hello this is Brian, I need some help.
                 </div>
-                <div className="bubble agent">
+                <div className="bubble bot">
                   <strong>Candling</strong><br />
                   Hello Brian, this is Candling. How can I help you tonight?
                 </div>
-                <div className="bubble caller">
+                <div className="bubble user">
                   <strong>Caller</strong><br />
                   With my math.
                 </div>
-                <div className="bubble agent">
+                <div className="bubble bot">
                   <strong>Candling</strong><br />
                   With your mouth?
                 </div>
-                <div className="bubble caller">
+                <div className="bubble user">
                   <strong>Caller</strong><br />
                   No, my math. I have to do it. Will you help me?
                 </div>
-                <div className="bubble agent">
+                <div className="bubble bot">
                   <strong>Candling</strong><br />
                   Sure. Where do you live?
                 </div>
-                <div className="bubble caller">
+                <div className="bubble user">
                   <strong>Caller</strong><br />
                   No, with my math.
                 </div>
