@@ -50,10 +50,7 @@ export function NotesPanel({ record, showTranscript, setShowTranscript }: NotesP
               .map((message, index) => {
                 if (message.role !== 'user' && message.role !== 'bot') {
                   return null;
-                } else {
-                  
-                  console.log(JSON.stringify(message))
-                }
+                } 
                 return (
                 <div key={index} className={`bubble ${message.role}`}>
                   <strong>{message.role === 'user' ? 'Caller' : 'Candling'}</strong><br />

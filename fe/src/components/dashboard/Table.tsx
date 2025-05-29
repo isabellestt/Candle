@@ -1,5 +1,5 @@
 import type { CallRecord } from "../../types/conversation.type"
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import chevron from "../../assets/chevron.svg";
 import copyIdIcon from "../../assets/copy-icon.svg";
 import React from "react";
@@ -16,8 +16,22 @@ interface TableProps {
 export function Table({records, onSelectRecord, onDeleteRecord, onOpenFollowUpNotes}: TableProps) {
   const [expandedRecordId, setExpandedRecordId] = useState<string | null>("1");
   const [copiedCallId, setCopiedCallId] = useState<string | null>(null);
+  const [newRecordIds, setNewRecordIds] = useState<string[]>(records.map(record => record.id));
+
+  useEffect(() => {
+    if (records.length > 0) {
+      const latestRecord = records[0]; 
+      if (latestRecord && !newRecordIds.includes(latestRecord.id)) {
+        setNewRecordIds(prev => [...prev, latestRecord.id]);
+        
+        setTimeout(() => {
+          setNewRecordIds(prev => prev.filter(id => id !== latestRecord.id));
+        }, 5000);
+      }
+    }
+  }, [records, newRecordIds]);
   
-  
+
   const toggleRow = (id: string) => {
     setExpandedRecordId(expandedRecordId === id ? null : id);
 
@@ -65,7 +79,7 @@ export function Table({records, onSelectRecord, onDeleteRecord, onOpenFollowUpNo
         {records.map((record) => {
           return (
             <React.Fragment key={record.id}>
-              <tr>
+              <tr className={newRecordIds.includes(record.id) ? "new-record-highlight" : ""}>
                 <td data-label="Created Date">{record.createdDate}</td>
                 <td data-label="Duration">{record.duration}</td>
                 <td data-label="Call ID">{record.callId}…</td>

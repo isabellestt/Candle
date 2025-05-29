@@ -17,6 +17,10 @@ function Dashboard() {
   const [selectedRecord, setSelectedRecord] = useState<CallRecord | null>(callData[0]);
   const [showTranscript, setShowTranscript] = useState(true);
 
+  useEffect(() => {
+    setCallRecords(callData);
+    
+  }, [callData]);
 
   const handleSelectRecord = (record: CallRecord) => {
     setSelectedRecord(record);

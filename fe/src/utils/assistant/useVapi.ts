@@ -81,18 +81,19 @@ export function useVapi() {
               }
             }
             setCallData(prevData => [record, ...prevData]);
-            console.log("Updated callData:", callData);
           })
           .catch(error => {
             console.error("Error fetching call info:", error);
           });
-        }, 5000)
+        }, 6000)
         
       } else {
         console.warn("API URL not defined, skipping call info fetch");
       }
 
     };
+
+    
 
     const onVolumeLevel = (volume: number) => {
       setAudioLevel(volume);
@@ -133,6 +134,10 @@ export function useVapi() {
       vapi.off("error", onError);
     };
   }, []);
+
+  useEffect(() => {
+    console.log("Updated callData:", callData);
+  }, [callData]);
 
   const start = async () => {
     setCallStatus(CALL_STATUS.LOADING);
