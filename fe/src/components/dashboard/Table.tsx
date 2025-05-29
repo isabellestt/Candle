@@ -55,7 +55,7 @@ export function Table({records, onSelectRecord}: TableProps) {
                 </td>
                 <td data-label="Transfer To">
                   <span className={`pill ${record.transferTo === 'DVERT' ? 'dvert' : record.transferTo === 'MSF' ? 'msf' : record.transferTo === 'APS' ? 'aps' : 'not-applicable'}`}>
-                    {record.transferTo}
+                    {record.transferTo ? record.transferTo : 'Not Applicable'}
                   </span>
                 </td>
                 <td data-label="Transfer Status">
