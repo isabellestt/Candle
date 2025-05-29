@@ -38,16 +38,19 @@ export interface CallRecord {
   createdDate: string;
   duration: string;
   callId: string;
-  urgentStatus: boolean;
-  transferTo: string;
-  transferred: boolean;
-  summaryTitle: string;
   details : {
+    structuredData: {
+      urgentStatus: boolean;
+      transferTo: string;
+      transferred: boolean;
+      abuseType: string;
+      callerName: string;
+      callerLocation: string;
+      latestIncident: string;
+      follow_up: string;
+    };
+    summaryTitle: string;
     summary: string;
-    abuseType: string;
-    callerName: string;
-    callerLocation: string;
-    latestIncident: string;
     messages: TranscriptMessage[];
   }
 }

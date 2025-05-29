@@ -38,23 +38,15 @@ export interface ConversationMessage {
   secondsFromStart: number;
 }
 
-export interface ToolCallPayload {
-  message: {
-    type: VapiWebhookEnum.TOOL_CALLS;
-    toolCalls?: ToolCall[]; 
-    artifact?: {
-      messages: ConversationMessage[];
-      messagesOpenAIFormatted?: any[];
-    };
-    call: {
-      id: string;
-      orgId: string;
-      createdAt: string;
-      updatedAt: string;
-      type: string;
-      status: string;
-    };
-  };
+export interface StructuredData {
+  name: string;
+  location: string;
+  transfer_to: 'FSC' | 'SPF' | 'APS' | 'CPS' | 'SACC' | 'ComCare' | 'SOS' | 'Shelter' | 'Other';
+  transferred: boolean;
+  urgent: boolean;
+  latest_incident_date: string; 
+  abuse_type: 'Physical' | 'Sexual' | 'Emotional' | 'Financial' | 'Neglect' | 'Other';
+  follow_up: string;
 }
 export interface EndOfCallReportPayload {
   message: {
@@ -74,7 +66,10 @@ export interface EndOfCallReportPayload {
     };
     startedAt: string;
     endedAt: string;
-    summary: string;
+    analysis: {
+      summary: string;
+      structuredData: StructuredData;
+    }
     durationSeconds: number;
     endedReason: string;
   };
@@ -89,18 +84,7 @@ export interface EndOfCallReportPayload {
 //   summary: string;
 // }
 
-export type VapiPayload = 
-  | ToolCallPayload
-  | EndOfCallReportPayload;
-
-export interface ToolCallMessageResponse {
-    result: string[];
-    transferred?: boolean;
-    transfer_to?: string;
-    urgent?: boolean;
-    name?: string;
-    location?: string;
-}
+export type VapiPayload = EndOfCallReportPayload;
 
 export interface EndOfCallReportMessageResponse {
   callId: string;
@@ -109,8 +93,8 @@ export interface EndOfCallReportMessageResponse {
   endedReason: string;
   messages: ConversationMessage[];
   summary: string;
+  summaryTitle: string;
+  structuredData: StructuredData;
 }
 
-export type VapiResponse = 
-  | ToolCallMessageResponse
-  | EndOfCallReportMessageResponse;
+export type VapiResponse = EndOfCallReportMessageResponse;
