@@ -36,7 +36,7 @@ export const MSFAssistant: CreateAssistantDTO = {
     "user-interrupted",
     "voice-input",
     "workflow.node.started"
-  ],
+  ] as unknown as ("conversation-update" | "function-call" | "hang" | "model-output" | "speech-update" | "status-update" | "transfer-update" | "transcript" | "tool-calls" | "user-interrupted" | "voice-input" | "workflow.node.started"),
   serverMessages: [
       "conversation-update",
       "end-of-call-report",
@@ -47,7 +47,7 @@ export const MSFAssistant: CreateAssistantDTO = {
       "tool-calls",
       "transfer-destination-request",
       "user-interrupted"
-  ],
+  ] as unknown as ("conversation-update" | "end-of-call-report" | "function-call" | "hang" | "speech-update" | "status-update" | "tool-calls" | "transfer-destination-request" | "user-interrupted"),
   transcriber: {
       model: "nova-3",
       language: "en",
