@@ -12,11 +12,32 @@ import './Demo.css'
 function Dashboard() {
   const { toggleCall, isSpeechActive, callStatus, audioLevel, callData} =
     useVapi();
+
+  const [callRecords, setCallRecords] = useState<CallRecord[]>(callData);
   const [selectedRecord, setSelectedRecord] = useState<CallRecord | null>(callData[0]);
+  const [showTranscript, setShowTranscript] = useState(true);
+
 
   const handleSelectRecord = (record: CallRecord) => {
     setSelectedRecord(record);
   };
+  const handleDeleteRecord = (recordId: string) => {
+    setCallRecords((prevRecords) =>
+      prevRecords.filter((record) => record.id !== recordId)
+    );
+    if (selectedRecord?.id === recordId) {
+      setSelectedRecord(null);
+    }
+  }
+  const handleOpenFollowUpNotes = (recordId: string) => {
+    // Find the selected record
+    const record = callRecords.find(r => r.id === recordId);
+    if (record) {
+      setSelectedRecord(record);
+      setShowTranscript(false);
+    }
+  };
+
   const [isConnecting, setIsConnecting] = useState(false)
   const [isConnected, setIsConnected] = useState(false)
 
@@ -124,10 +145,16 @@ function Dashboard() {
 
       <div className="demo-bottom">
         <div className="demo-dashboard">
-          <Table records={callData} onSelectRecord={handleSelectRecord} />
+          <Table records={callRecords} 
+          onSelectRecord={handleSelectRecord} 
+          onDeleteRecord={handleDeleteRecord} 
+          onOpenFollowUpNotes={handleOpenFollowUpNotes}/>
         </div>
 
-        <NotesPanel record={selectedRecord || callData[0]} />
+        <NotesPanel record={selectedRecord || callData[0]}
+          showTranscript={showTranscript}
+          setShowTranscript={setShowTranscript}
+         />
 
         {/* <div className="demo-notes">
           <div className="demo-notes-top-row">

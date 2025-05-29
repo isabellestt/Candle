@@ -1,14 +1,14 @@
-import { useState } from "react";
 import flagIcon from "../../assets/flag-icon.svg";
 import type { CallRecord } from "../../types/conversation.type";
 import '../../routes/Demo.css'
 
 interface NotesPanelProps {
   record: CallRecord;
+  showTranscript?: boolean;
+  setShowTranscript: (show: boolean) => void;
 }
 
-export function NotesPanel({ record }: NotesPanelProps) {
-  const [showTranscript, setShowTranscript] = useState(false);
+export function NotesPanel({ record, showTranscript, setShowTranscript }: NotesPanelProps) {
   const messages = record.details.messages
 
   return (

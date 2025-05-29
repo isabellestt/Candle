@@ -8,11 +8,16 @@ import '../../routes/Demo.css'
 interface TableProps {
   records: CallRecord[];
   onSelectRecord?: (record: CallRecord) => void;
+  onDeleteRecord?: (recordId: string) => void;
+  onOpenFollowUpNotes?: (recordId: string) => void;
 }
 
 
-export function Table({records, onSelectRecord}: TableProps) {
+export function Table({records, onSelectRecord, onDeleteRecord, onOpenFollowUpNotes}: TableProps) {
   const [expandedRecordId, setExpandedRecordId] = useState<string | null>("1");
+  const [copiedCallId, setCopiedCallId] = useState<string | null>(null);
+  
+  
   const toggleRow = (id: string) => {
     setExpandedRecordId(expandedRecordId === id ? null : id);
 
@@ -22,8 +27,24 @@ export function Table({records, onSelectRecord}: TableProps) {
     }
   }
 
+  const handleOpenFollowUpNotes = (recordId: string) => {
+    if (onOpenFollowUpNotes) {
+      onOpenFollowUpNotes(recordId);
+    }
+  }
+  const handleDelete = (recordId: string) => {
+    if (onDeleteRecord) {
+      onDeleteRecord(recordId);
+    }
+  }
+  
   const copyCallId = (callId: string) => {
-    navigator.clipboard.writeText(callId)
+    navigator.clipboard.writeText(callId);
+    setCopiedCallId(callId);
+    
+    setTimeout(() => {
+      setCopiedCallId(null);
+    }, 2000);
   }
 
   return (
@@ -81,12 +102,17 @@ export function Table({records, onSelectRecord}: TableProps) {
                   <>
                     <div className="details-top-row">
                       <div className="details-call-id">call_{record.callId}..</div>
-                      <img
-                        className="copy-id-icon cursor-pointer"
-                        src={copyIdIcon}
-                        alt="Copy call ID"
-                        onClick={() => copyCallId(record.callId)}
-                      />
+                      <button onClick={() => copyCallId(record.callId)}>
+
+                        <img
+                          className="copy-id-icon cursor-pointer"
+                          src={copyIdIcon}
+                          alt="Copy call ID"
+                        />
+                        {copiedCallId === record.callId && (
+                          <span className="copied-indicator">Copied!</span>
+                        )}
+                      </button>
                     </div>
                     <div className="details-middle-row">
                       <div className="details-title">Call Summary</div>
@@ -135,10 +161,10 @@ export function Table({records, onSelectRecord}: TableProps) {
                           <div className="summary-value">{record.details.structuredData.latestIncident}</div>
                         </div>
                         <div className="actions-row">
-                          <button className="follow-up-button">
+                          <button onClick={()=> handleOpenFollowUpNotes(record.id)} className="follow-up-button">
                             Open Follow-up Notes
                           </button>
-                          <button className="delete-case-button">Delete Case</button>
+                          <button onClick={() => handleDelete(record.id)}className="delete-case-button">Delete Case</button>
                         </div>
                       </div>
                     </div>

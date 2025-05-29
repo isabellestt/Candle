@@ -263,6 +263,27 @@ td:has(.pill) {
   width: 12.19px;
 }
 
+.copied-indicator {
+  position: absolute;
+  font-size: 12px;
+  background: #333;
+  color: white;
+  padding: 3px 6px;
+  border-radius: 3px;
+  margin-left: 5px;
+  animation: fadeIn 0.3s ease forwards, fadeOut 0.3s ease 1.5s forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
 .details-middle-row {
   margin: 1rem;
   padding: 12px;
