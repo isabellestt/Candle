@@ -43,6 +43,7 @@ router.post("/webhook", WebhookHandler)
 
 router.get("/getCallInfo", (req, res) => {
   const latest_call = Object.values(memoryStore).pop();
+  console.log("Latest call info:", latest_call);
   res.json(latest_call)
 })
 
