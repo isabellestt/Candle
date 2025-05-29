@@ -49,21 +49,21 @@ export function Table({records, onSelectRecord}: TableProps) {
                 <td data-label="Duration">{record.duration}</td>
                 <td data-label="Call ID">{record.callId}…</td>
                 <td data-label="Urgent Status">
-                  <span className={`pill ${record.urgentStatus ? 'urgent' : 'not-urgent'}`}>
-                    {record.urgentStatus ? 'Urgent' : 'Not Urgent'}
+                  <span className={`pill ${record.details.structuredData.urgentStatus ? 'urgent' : 'not-urgent'}`}>
+                    {record.details.structuredData.urgentStatus ? 'Urgent' : 'Not Urgent'}
                   </span>
                 </td>
                 <td data-label="Transfer To">
-                  <span className={`pill ${record.transferTo === 'DVERT' ? 'dvert' : record.transferTo === 'MSF' ? 'msf' : record.transferTo === 'APS' ? 'aps' : 'not-applicable'}`}>
-                    {record.transferTo ? record.transferTo : 'Not Applicable'}
+                  <span className={`pill ${record.details.structuredData.transferTo === 'DVERT' ? 'dvert' : record.details.structuredData.transferTo === 'MSF' ? 'msf' : record.details.structuredData.transferTo === 'APS' ? 'aps' : 'not-applicable'}`}>
+                    {record.details.structuredData.transferTo ? record.details.structuredData.transferTo : 'Not Applicable'}
                   </span>
                 </td>
                 <td data-label="Transfer Status">
-                  <span className={`pill ${record.transferred === true ? 'transferred' : record.transferred === false ? 'not-transferred' : 'not-applicable'}`}>
-                    {record.transferred === true ? 'Transferred' : record.transferred === false ? 'Not transferred' : 'Not Applicable'}
+                  <span className={`pill ${record.details.structuredData.transferred === true ? 'transferred' : record.details.structuredData.transferred === false ? 'not-transferred' : 'not-applicable'}`}>
+                    {record.details.structuredData.transferred === true ? 'Transferred' : record.details.structuredData.transferred === false ? 'Not transferred' : 'Not Applicable'}
                   </span>
                 </td>
-                <td data-label="Short Description">{record.summaryTitle}</td>
+                <td data-label="Short Description">{record.details.summaryTitle}</td>
                 <td>
                   <button onClick={() => toggleRow(record.id)} >
                     <img 
@@ -103,36 +103,36 @@ export function Table({records, onSelectRecord}: TableProps) {
                         </div>
                         <div className="summary-row">
                           <div className="summary-key">Type of Abuse:</div>
-                          <div className="summary-value">{record.details.abuseType}</div>
+                          <div className="summary-value">{record.details.structuredData.abuseType}</div>
                         </div>
                         <div className="summary-row">
                           <div className="summary-key">Urgent Status:</div>
-                          <div className="summary-value">{record.urgentStatus ? 'Urgent' : 'Not Urgent'}</div>
+                          <div className="summary-value">{record.details.structuredData.urgentStatus ? 'Urgent' : 'Not Urgent'}</div>
                         </div>
                         <div className="summary-row">
                           <div className="summary-key">Transfer to:</div>
-                          <div className="summary-value">{record.transferTo}</div>
+                          <div className="summary-value">{record.details.structuredData.transferTo ? record.details.structuredData.transferTo : 'Not Applicable'}</div>
                         </div>
                         <div className="summary-row">
                           <div className="summary-key">Transfer Status:</div>
                           <div className="summary-value">
-                            {record.transferred === true ? 'TRUE' : 
-                              record.transferred === false ? 'FALSE' : 'N/A'}
+                            {record.details.structuredData.transferred === true ? 'TRUE' : 
+                              record.details.structuredData.transferred === false ? 'FALSE' : 'N/A'}
                           </div>
                         </div>
                       </div>
                       <div className="details-bottom-right">
                         <div className="summary-row">
                           <div className="summary-key">Caller Name:</div>
-                          <div className="summary-value">{record.details.callerName}</div>
+                          <div className="summary-value">{record.details.structuredData.callerName}</div>
                         </div>
                         <div className="summary-row">
                           <div className="summary-key">Caller Location:</div>
-                          <div className="summary-value">{record.details.callerLocation}</div>
+                          <div className="summary-value">{record.details.structuredData.callerLocation}</div>
                         </div>
                         <div className="summary-row">
                           <div className="summary-key">Latest Incident:</div>
-                          <div className="summary-value">{record.details.latestIncident}</div>
+                          <div className="summary-value">{record.details.structuredData.latestIncident}</div>
                         </div>
                         <div className="actions-row">
                           <button className="follow-up-button">

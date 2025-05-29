@@ -28,7 +28,7 @@ export function NotesPanel({ record }: NotesPanelProps) {
         </button>
       </div>
       
-      {record.urgentStatus && (
+      {record.details.structuredData.urgentStatus && (
         <div className="demo-notes-middle-row">
           <div className="notes-reminder-left">
             <img src={flagIcon} alt="Flag Icon" />
@@ -103,7 +103,7 @@ export function NotesPanel({ record }: NotesPanelProps) {
             <div className="transcript-summary-header">Transcript Summary</div>
             <div className="transcript-summary-body">
               <div className="transcript-summary-body-title">
-                {record.summaryTitle || "Summary of the Call"}
+                {record.details.summaryTitle || "Summary of the Call"}
               </div>
               <div className="transcript-summary-body-content">
                 {/* {record.details.summary.split('<br />').map((text, i) => (
@@ -121,18 +121,21 @@ export function NotesPanel({ record }: NotesPanelProps) {
             <div className="recommended-follow-up-header">
               Recommended Follow-up
             </div>
-            {/* <div className="recommended-follow-up-body">
-              <div className="recommended-follow-up-body-title">
+            <div className="recommended-follow-up-body">
+              {/* <div className="recommended-follow-up-body-title">
                 {followUpTitle}
-              </div>
+              </div> */}
               <div className="recommended-follow-up-body-content">
-                <ul className="recommended-follow-up-body-content-list">
-                  {followUpItems.map((item, index) => (
+                {/* <ul className="recommended-follow-up-body-content-list">
+                  {record.followUpItems.map((item, index) => (
                     <li key={index}>{item}</li>
                   ))}
-                </ul>
+                </ul> */}
+                <div className="recommended-follow-up-body-content-list">
+                  {record.details.structuredData.follow_up || "No follow-up required."}
+                </div>
               </div>
-            </div> */}
+            </div>
           </div>
         </div>
       )}

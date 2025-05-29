@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { vapi } from "./vapi.sdk";
 import type { CallRecord } from './../../types/conversation.type';
 import { helplineAssistant } from './helpline.assistant';
 import { squad } from '../squad/squad';
-import { callData } from '../../../public/callData';
+import { callData as initialCallData } from '../../../public/callData';
 import formatDateForDisplay from "../formatDate";
 import formatTime from "../formatTime";
 
@@ -17,13 +17,14 @@ export const CALL_STATUS = {
 export type CALL_STATUS_TYPE = typeof CALL_STATUS[keyof typeof CALL_STATUS]
   
 export function useVapi() {
+  const [callData, setCallData] = useState<CallRecord[]>(initialCallData);
   const [isSpeechActive, setIsSpeechActive] = useState(false);
   const [callStatus, setCallStatus] = useState<CALL_STATUS_TYPE>(
     CALL_STATUS.INACTIVE
   );
   const [audioLevel, setAudioLevel] = useState(0);
 
-
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null)
 
   useEffect(() => {
     const onSpeechStart = () => setIsSpeechActive(true);
@@ -42,9 +43,14 @@ export function useVapi() {
       setCallStatus(CALL_STATUS.INACTIVE);
       const apiUrl = import.meta.env.VITE_PUBLIC_API_URL;
 
-      if (apiUrl) {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
 
-        fetch(`${apiUrl}/api/getCallInfo`)
+      if (apiUrl) {
+        setTimeout(() => {
+          console.log("Fetching call data after delay...")
+          fetch(`${apiUrl}/api/getCallInfo`)
           .then((response) => {
             if (!response.ok) {
               throw new Error(`Server responded with status: ${response.status}`);
@@ -58,24 +64,30 @@ export function useVapi() {
               createdDate: formatDateForDisplay(data.startedAt) || "",
               duration: data.durationSeconds ? formatTime(data.durationSeconds) : "N/A",
               callId: data.callId || "",
-              urgentStatus: data.urgent || false,
-              transferTo: data.transferTo || null,
-              transferred: data.transferred || false,
-              summaryTitle: data.summary || "No summary provided",
               details: {
                 summary: data.summary || "No summary provided",
-                abuseType: data.abuseType || "Not specified",
-                callerName: data.name || "Unknown",
-                callerLocation: data.location || "Unknown",
-                latestIncident: data.startedAt || "N/A",
+                summaryTitle: data.summaryTitle || "No summary provided",
+                structuredData: {
+                  urgentStatus: data.structuredData.urgent || false,
+                  transferTo: data.structuredData.transferTo || null,
+                  transferred: data.structuredData.transferred || false,
+                  abuseType: data.structuredData.abuse_Type || "Not specified",
+                  callerName: data.structuredData.name || "Unknown",
+                  callerLocation: data.structuredData.location || "Unknown",
+                  latestIncident: data.structuredData.latest_incident_date || "N/A",
+                  follow_up: data.structuredData.follow_up || "No follow-up required",
+                },
                 messages: data.messages || [],
               }
             }
-            callData.splice(0, 0, record)
+            setCallData(prevData => [record, ...prevData]);
+            console.log("Updated callData:", callData);
           })
           .catch(error => {
             console.error("Error fetching call info:", error);
           });
+        }, 5000)
+        
       } else {
         console.warn("API URL not defined, skipping call info fetch");
       }
@@ -151,5 +163,6 @@ export function useVapi() {
     start,
     stop,
     toggleCall,
+    callData
   };
 }

@@ -6,11 +6,12 @@ import ctaButtonLogo from '../assets/cta-button-logo.png'
 import { useVapi } from '../utils/assistant/useVapi';
 import { Table } from '../components/dashboard/Table';
 import { NotesPanel } from '../components/dashboard/NotesPanel';
-import { callData } from '../../public/callData.tsx'; 
 import type { CallRecord } from '../types/conversation.type';
 import './Demo.css'
 
 function Dashboard() {
+  const { toggleCall, isSpeechActive, callStatus, audioLevel, callData} =
+    useVapi();
   const [selectedRecord, setSelectedRecord] = useState<CallRecord | null>(callData[0]);
 
   const handleSelectRecord = (record: CallRecord) => {
@@ -19,8 +20,7 @@ function Dashboard() {
   const [isConnecting, setIsConnecting] = useState(false)
   const [isConnected, setIsConnected] = useState(false)
 
-  const { toggleCall, isSpeechActive, callStatus, audioLevel} =
-    useVapi();
+  
 
   useEffect(() => {
     if (callStatus === "inactive") {
