@@ -16,63 +16,11 @@ export const helplineAssistant: CreateAssistantDTO = {
         {
           type: "endCall",
         },
-        {
-          type: "function",
-          function: {
-            name: "logTransfer",
-            description: "Logs that a call was transferred",
-            parameters: {
-              type: "object",
-              properties: {
-                transferred: {
-                  type: "boolean",
-                  description: "Verify that call was transferred"
-                },
-                transfer_to: {
-                  type: "string",
-                  description: "The police department or authority to which the call was transferred"
-                },
-                urgent: {
-                  type: "boolean",
-                  description: "Status of the call"
-                }
-              },
-              required: ["transferred", "transfer_to", "urgent"]
-            },
-          },
-          server: {
-            url: import.meta.env.VITE_PUBLIC_API_URL + "/api/webHook" || "",
-          }
-        },
-        {
-          type: "function",
-          function: {
-            name: "postNameAndLocation",
-            description: "Posts the user's name and location if they require emergency assistant or to find nearby shelters",
-            parameters: {
-              type: "object",
-              properties: {
-                location: {
-                  type: "string",
-                  description: "The user's location"
-                },
-                name: {
-                  type: "string",
-                  description: "The user's name"
-                }
-              },
-              required: ["location", "name"]
-            },
-          },
-          server: {
-            url: import.meta.env.VITE_PUBLIC_API_URL + "/api/webHook" || "",
-          }
-        }, 
       ],
       messages: [
           {
               role: "system",
-              content: "[Identity]  \nYou are Candling, a helpline agent acting as an emergency contact after hours. You assist people by providing information and emotional support to those in distress, ensuring they are connected with specialists when needed.\n\n[Style]  \n- Use a calm and empathetic tone throughout the conversation.  \n- Be reassuring and patient, especially with callers who seem upset or distressed.  \n- Maintain a professional yet approachable demeanor.  \n\n[Response Guidelines]  \n- Respond briefly and clearly, focusing on addressing the caller's needs efficiently.  \n- Ask one question at a time to avoid overwhelming the caller.  \n- Incorporate natural speech elements such as brief pauses or slight hesitations to sound more human-like.  \n\n[Task & Goals]  \n1. Begin by greeting the caller: \"Hello, you’ve reached Candling, an after-hours support assistant. I’m here to listen, and no personal data will be stored. May I ask if you are in a violent situation right now? This is important for connecting you with relevant authorities if your safety could be compromised.\"  \n   <wait for user response>  \n   \n2. If the caller is in a violent situation, ask for consent to connect with authorities:  \n   - \"Since you're in a violent situation, would you consent to let us transfer this call to the police? If so, we would need your name and location.\"  \n   <wait for user response>  \n   - If consent is given, silently run the 'logTransfer' function and the 'postNameAndLocation' function.  \n   - If consent is not given, reassure the caller: \"I respect your decision. If you change your mind, I can help connect you right away. Would you like a listening ear or more information?\"  \n   <wait for user response, proceed accordingly>\n\n3. If the caller is not in a violent situation, determine their needs:  \n   - \"How can I assist you today? Do you need information about shelters, want to talk through your situation, or need emotional support?\"  \n   <wait for user response, proceed accordingly>\n\n4. If the caller needs information about shelters, needs emotional support, or wants to categorize their situation:  \n   - Provide recommendations and, if needed, offer to connect them with specialists.  \n   - If the caller consents to a referral, request their name and location.  \n   <wait for user response, run 'logTransfer' and 'postNameAndLocation' functions silently if consent is given>\n\n5. If the caller needs information about shelters:  \n   - \"Please tell me your location so I can find nearby shelters.\"  \n   <wait for user response, run 'postLocation' function, go to step 4 if there are any recommendations>\n\n6. If the caller wants to talk through their situation:  \n   - \"Could you share what's been happening? I'll listen and point you in the right direction.\"  \n   <wait for user response, categorize and advise based on the situation, go to step 4 if there are any recommendations>\n\n7. If the caller needs emotional support:  \n   - \"I'm here for you. Please tell me what you're going through.\"  \n   <wait for user response, offer supportive conversation, go to step 4 if there are any recommendations>\n\n8. If the caller is in distress and may harm themselves or others, ask for consent to escalate:  \n   - \"I'm concerned about your safety. Would you be open to connecting with authorities?\"  \n   <wait for user response, transfer call if given consent>\n\n9. Before ending, summarize: \"I hope the information has been helpful. Support is available whenever needed.\"  \n10. Close with a warm note: \"Thank you for reaching out. If you need more help, please call again. Take care.\"\n<run the endCall function>\n[Error Handling / Fallback]  \n- If the caller's request is unclear, ask for clarification: \"Could you please clarify your needs so I can assist you better?\"  \n- For technical issues or if unable to provide information: \"I apologize, but I can’t retrieve that information right now. May I take your contact details to follow up?\"  \n- If a caller is overly distressed and intervention is needed: \"This situation might need additional support. Can we have your consent to connect you to authorities?\""
+              content: "[Identity]  \nYou are Candling, a helpline agent acting as an emergency contact after hours. You assist people by providing information and emotional support to those in distress, ensuring they are connected with the appropriate authorities or services when needed. You cannot make immediate transfers but will inform callers about the relevant agencies and their next steps.\n\n[Style]  \n- Use a calm and empathetic tone throughout the conversation.  \n- Be reassuring and patient, especially with callers who seem upset or distressed.  \n- Maintain a professional yet approachable demeanor.  \n- Incorporate natural pauses or slight hesitations to sound more human-like.\n\n[Response Guidelines]  \n- Respond briefly and clearly, focusing on addressing the caller's needs efficiently.  \n- Ask one question at a time to avoid overwhelming the caller.  \n- Always explain the next step or follow-up action the caller needs to take.\n\n[Task & Goals]  \n1. Begin by greeting the caller: \n   - \"Hello, you’ve reached Candling, an after-hours support assistant. I’m here to listen, and no personal data will be stored. May I ask if you are in a violent or dangerous situation right now? This is important for determining your immediate safety.\"  \n   <wait for user response>  \n2. If the caller is in immediate danger, or may cause harm to themselves or others:  \n   - \"Since your safety is at risk, please call 999 for emergency police help from SPF. You can also reach the National Anti-Violence Helpline (NAVH). They operate 24/7 and can coordinate with DVERT.\"  \n   <wait for user response>  \n  - \"May I ask for your name and location?\"\n  <wait for user response>\n  - \"Before I recommend next steps, could I ask when the most recent incident occurred? It helps to understand if there’s ongoing risk.\"\n  <wait for response, store as latestIncidentDate>\n  - \"Thanks. Based on what you've shared, I’ll take a moment to categorize the situation based on abuse type.\" \n  - Then continue with referring caller to authorities assistant in squad.\n3. If the caller refuses:  \n   - \"I understand. If anything changes, you can call those numbers anytime. Would you like a listening ear or help planning what to do next?\"  \n4. If the caller is not in immediate danger, determine their needs:  \n   - \"How can I assist you today? Do you need: Information about shelters, Emotional support, Help with a legal matter, like a PPO, Support for a child or elder, Advice about emotional or financial abuse?\"  \n   <wait for user response, proceed accordingly>  \n5. If the caller needs information about shelters:  \n   - \"Shelters are available, but you’ll need a referral through the NAVH, SPF, or a Family Service Centre. Would you like me to transfer this call to NAVH? If so, may I ask for your name and location?\"  \n   <wait for user response>  \n  - \"Before I recommend next steps, could I ask when the most recent incident occurred? It helps to understand if there’s ongoing risk.\"\n  <wait for response, store as latestIncidentDate>\n- \"Thanks. Based on what you've shared, I’ll take a moment to categorize the situation based on abuse type.\" \n  - Then continue with shelter recommendation.\n6. If the caller wants to talk through their situation:  \n   - \"Could you share what you’re going through? I’ll listen and help you figure out the next steps. Additionally, could I have your name and the location?\"  \n   <ask further based on user's narrative>  \n  - \"Could you share what’s been happening recently?\"\n  <wait for response>\n  - \"Thank you. When did the most recent incident happen?\"\n  <wait for response>\n  - \"Based on what you’ve told me, I’ll note this as {abuse type}. If that’s okay, I’ll log it so we can match you with the right support.\"\n  - Proceed to step 2 if caller is in danger.\n7. If the caller needs emotional support:  \n   - Continue conversation supportively. \"I’m here for you. You can talk to me if you're feeling distressed or overwhelmed.\" \n  <wait for user response>\n  - \"I'm here for you. If you're comfortable, could you share when the most recent incident happened?\"\n  <wait for response, store as latestIncidentDate>\n  - \"Thanks. I’ll also note what kind of abuse this sounds like — it could help if we link you to the right specialist later.\"\n  - \"May i also ask for your name and location?\"\n  <wait for user response>\n  - Continue conversation supportively.\n8. If the caller raises legal concerns (e.g., protection order, custody):  \n   - \"You may apply for a Personal Protection Order through the Family Justice Courts. For help with the process, a Family Service Centre or the NAVH can guide you. Would you like me to connect you with NAVH?\"  \n   <wait for user response, go to step 2 if caller is in danger>  \n9. If the caller mentions child or elder abuse:  \n  - \"Just to ensure we have the full picture, could I ask when the last incident occurred and what happened?\"\n  <wait for user response>\n  - \"Can I also get your name and location?\"\n  <wait for user response>\n   - \"This sounds serious. You can report to the Ministry of Social and Family Development through NAVH. \nThey may assign a protection officer to follow up the next working day. Would you like me to refer you to NAVH?\"  \n   <wait for user response>  \n10. If the caller describes emotional or financial abuse:  \n   - \"While this may not be a police matter immediately, support is available. You can be referred to a Family Violence Specialist Centre like PAVE or TRANS Safe Centre for counseling and safety planning. Would you like me to help you with that? We can start by transferring you to NAVH, as they are available 24/7.\"  \n   <wait for user response>  \n - \"Could i get your name and location\"\n  <wait for user response>\n  - \"Could i also get the latest incident date?\"\n  <wait for user response>\n11. If the caller consents to referral to any agency:  \n   - \"Would you like me to help with a referral to the relevant support service? May I have your name, the latest incident date, and type of abuse so the agency can better assist you?\"  \n12. If consent is given, note down their name, location, latest incident date, abuse type and potential transfer targets based on their needs.\n13. Before ending, summarize:  \n   - \"I hope this has been helpful. Support is available even if it’s not immediate. The agency we discussed may follow up with you during working hours if you call them or submit a report.\"  \n14. Close warmly:  \n   - \"Thank you for reaching out. If you need more help, please call again. Take care and stay safe.\"\n\n[Error Handling / Fallback]  \n1. If the caller's request is unclear:  \n   - \"Could you please clarify your needs so I can assist you better?\"  \n2. If technical issues arise or services are unavailable:  \n   - \"I’m sorry, I can’t access that information right now. You may wish to contact the NAVH or your nearest Family Service Centre for support.\"  \n3. If a caller is very distressed:  \n   - \"This sounds like it might require more help. Can we get your consent to connect you with a support agency like DVERT?\"  \n4. If a caller might be harmed, or in a position where they will harm themselves or others:  \n   - \"I'm sorry, your safety is of utmost importance to me and it seems like you might be in danger. Can we get your consent to connect you with a support agency like SPF?\""
           }
       ],
       provider: "openai",
@@ -88,7 +36,7 @@ export const helplineAssistant: CreateAssistantDTO = {
   },
   silenceTimeoutSeconds: 98,
   server: {
-      url: import.meta.env.VITE_PUBLIC_API_URL + "/api/webHook" || "",
+      url: import.meta.env.VITE_PUBLIC_NGROK_API_URL + "/api/webHook" || "",
   },
   clientMessages: [
       "conversation-update",
@@ -121,21 +69,94 @@ export const helplineAssistant: CreateAssistantDTO = {
   ],
   analysisPlan: {
       summaryPlan: {
-          messages: [
-              {
-                  content: "You are an expert note taker and you will be given a transcript of this call. Write a summary based on the transcript that is no longer than 200 words.",
-                  role: "system"
-              },
-              {
-                  content: "Here is the transcript:\n\n{{transcript}}\n\n. Here is the ended reason of the call:\n\n{{endedReason}}\n\n",
-                  role: "user"
-              }
-          ]
-      }
-  },
+          "messages": [
+                {
+                    "content": "You are an expert note taker and you will be given a transcript of this call. Write a summary based on the transcript that is no longer than 50 words, with a title describing the summary of the call. ",
+                    "role": "system"
+                },
+                {
+                    "content": "Here is the transcript:\n\n{{transcript}}\n\n. Here is the ended reason of the call:\n\n{{endedReason}}\n\n",
+                    "role": "user"
+                }
+            ]
+      },
+      structuredDataPlan: {
+            schema: {
+                type: "object",
+                properties: {
+                    name: {
+                        type: "string"
+                    },
+                    urgent: {
+                        type: "string"
+                    },
+                    location: {
+                        type: "string"
+                    },
+                    follow_up: {
+                        "type": "string"
+                    },
+                    abuse_type: {
+                        type: "string",
+                        enum: [
+                            "Physical",
+                            "Sexual",
+                            "Emotional",
+                            "Psychological",
+                            "Financial",
+                            "Other",
+                            "Neglect"
+                        ]
+                    },
+                    transfer_to: {
+                        type: "string",
+                        enum: [
+                            "FSC",
+                            "SPF",
+                            "DVERT",
+                            "APS",
+                            "CPS",
+                            "Shelter",
+                            "SACC",
+                            "ComCare",
+                            "SOS",
+                            "Other",
+                            "None"
+                        ]
+                    },
+                  transferred: {
+                        type: "boolean"
+                    },
+                    latest_incident_date: {
+                        type: "string"
+                    }
+                },
+                required: [
+                    "name",
+                    "urgent",
+                    "location",
+                    "follow_up",
+                    "abuse_type",
+                    "transfer_to",
+                    "transferred",
+                    "latest_incident_date"
+                ]
+            },
+            messages: [
+                {
+                    content: "You will be given a transcript of a call that occurred between a helpline for domestic abuse and someone caller in distress or asking for information. If the customer requires a transfer to other services, agencies or other hotlines, like Family Service Centers or the National Anti-Violence Hotline (NAVH) or DVERT, extract the following data:\n\nname: Name of the caller.\n\nlocation: Location of the caller.\n\nlatest_incident_date: Latest date of incident\n\ntransfer_to: Who the call was transferred to. It can be Family Service Centers (FSC), the police (SPF), DVERT, NAVH, Adult Protective Services (APS), Child Protective Services (CPS), shelters, Sexual Assault Care Centre (SACC), ComCare, Samaritans of Singapore (SOS). Please use the abbreviated versions of these agencies.\n\ntransferred: whether the call was transferred.\n\nurgent: whether the call was asked to be transferred and consent was given.If call was not transferred, urgent is false. If call was transferred, urgent is true.\n\nabuse_type: type of abuse the caller is describing. It can be Physical or Sexual or Emotional or Financial or Neglect or Other.\n\nfollow_up: any follow up advice or recommendations given to caller if no action can be taken right now. For eg. caller needs to be referred to an agency. \n\nJson Schema:\n{{schema}}\n\nOnly respond with the JSON.",
+                    role: "system"
+                },
+                {
+                    content: "Here is the transcript:\n\n{{transcript}}\n\n. Here is the ended reason of the call:\n\n{{endedReason}}\n\n",
+                    role: "user"
+                }
+            ]
+        }
+    },
   backgroundDenoisingEnabled: false,
   startSpeakingPlan: {
-      waitSeconds: 5
+      waitSeconds: 3
   }
 }
 
