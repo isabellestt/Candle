@@ -154,9 +154,12 @@ export const helplineAssistant: CreateAssistantDTO = {
             ]
         }
     },
-  backgroundDenoisingEnabled: false,
-  startSpeakingPlan: {
-      waitSeconds: 3
-  }
+    backgroundDenoisingEnabled: false,
+    startSpeakingPlan: {
+        waitSeconds: 3
+    },
+    stopSpeakingPlan: {
+        numWords: 2
+},
 }
 
