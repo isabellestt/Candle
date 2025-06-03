@@ -8,7 +8,7 @@ export const helplineAssistant: CreateAssistantDTO = {
       provider: "openai"
   },
   model: {
-      model: "gpt-4.1",
+      model: "gpt-4.1-nano",
       toolIds: [
         import.meta.env.VITE_VAPI_QUERY_TOOL_ID || "",
       ],
@@ -26,13 +26,12 @@ export const helplineAssistant: CreateAssistantDTO = {
       provider: "openai",
       temperature: 0.5
   },
-  firstMessage: "Hello, you’ve reached Candling, an after-hours support assistant supporting those in distress. I’m here to listen and we are P-D-P-A compliant. May I ask what you’re going through right now?",
+  firstMessage: "Hello?",
   endCallMessage: "I'm really glad you reached out today. Just to summarise, we talked about. You're always welcome to call again, even if it's just to talk. Remember that this is only the first step, and following up with the services we discussed can really help you feel more supported. Thank you for calling Candling, goodbye.",
   transcriber: {
-      model: "nova-3",
-      language: "multi",
-      provider: "deepgram",
-      endpointing: 150
+      model: "gemini-2.0-flash",
+      language: "Multilingual",
+      provider: "google",
   },
   silenceTimeoutSeconds: 98,
   server: {
@@ -71,6 +70,7 @@ export const helplineAssistant: CreateAssistantDTO = {
       summaryPlan: {
           "messages": [
                 {
+                    // query knowledge base?
                     "content": "You are an expert note taker and you will be given a transcript of this call. Write a summary based on the transcript that is no longer than 50 words, with a title describing the summary of the call. ",
                     "role": "system"
                 },
