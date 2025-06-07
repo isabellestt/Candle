@@ -22,11 +22,15 @@
   .marquee span {
     font-size: 70px;
   }
+  .marquee-wrapper {
+    height: auto;
+  }
 }
 
-@media (max-width: 430px) {
+@media (max-width: 450px) {
   .marquee span {
     font-size: 40px;
+    margin-top: 2rem;
   }
 }
 
@@ -53,9 +57,9 @@
 .underline {
   position: absolute;
   bottom: -5px;
+  left: 0;
   width: 100%;
   display: block;
-  left: 0;
   pointer-events: none;
   z-index: -1;
 }

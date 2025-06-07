@@ -12,10 +12,11 @@ footer {
   width: 218px;
   height: auto;
   margin-bottom: 1rem;
-  padding: 96px 0px 0px 96px;
+  padding: 96px 0 0 96px;
 }
 
-.code-block {
+.code-block,
+.feedback-code-block {
   font-family: "Courier New", monospace;
   color: #7a7e87;
   font-size: clamp(0.75rem, 1.4vw, 0.875rem);
@@ -24,8 +25,15 @@ footer {
   max-width: 800px;
   padding: 1rem;
   box-sizing: border-box;
-  margin: 0px 0px 48px 6rem;
   width: 80%;
+}
+
+.code-block {
+  margin: 0 0 48px 6rem;
+}
+
+.feedback-code-block {
+  margin: 0;
 }
 
 .code-line {
@@ -36,9 +44,11 @@ footer {
 .code-indent-1 {
   margin-left: 1rem;
 }
+
 .code-indent-2 {
   margin-left: 2rem;
 }
+
 .code-indent-3 {
   margin-left: 3rem;
 }
@@ -68,27 +78,40 @@ footer {
   padding: 3.04px 12.16px;
   box-shadow: 0 0 0 1.94px #0a327c;
   border-radius: 90px;
-  margin: 0px 0px 0px 96px;
+  margin: 0 0 0 96px;
+  height: 37.06px;
 }
 
 .footer-feedback-button-text {
   white-space: nowrap;
 }
 
-.feedback-code-block {
-  font-family: "Courier New", monospace;
-  color: #7a7e87;
-  font-size: clamp(0.75rem, 1.4vw, 0.875rem);
-  line-height: 1.5;
-  white-space: normal;
-  max-width: 800px;
-  padding: 1rem;
-  box-sizing: border-box;
-  width: 80%;
-}
-
-@media (max-width: 650px) {
+@media (max-width: 655px) {
   .feedback-code-block {
     display: none;
+  }
+
+  .code-block {
+    margin: 0 0 0 4rem;
+    padding: 1rem;
+  }
+
+  .footer-logo {
+    padding-left: 5rem;
+  }
+
+  .feedback-container {
+    justify-content: left;
+    margin-left: -24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .feedback-code-block {
+    display: none;
+  }
+
+  .code-block {
+    padding: 1rem;
   }
 }

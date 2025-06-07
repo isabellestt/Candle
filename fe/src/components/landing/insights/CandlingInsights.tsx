@@ -1,5 +1,5 @@
 import chevron from '../../../assets/chevron.svg';
-import dashboard from '../../../assets/dashboard.png';
+import dashboard from '../../../assets/dashboard.svg';
 import { Link } from 'react-router';
 import { InsightCard } from './InsightCard';
 import './Insights.css'

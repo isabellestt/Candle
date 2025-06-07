@@ -1,9 +1,9 @@
 .fourth-wrapper {
-  background: linear-gradient(135deg, #0a1835 2%, #000000 100%);
+  background: linear-gradient(135deg, #0a1835 2%, #000 100%);
 }
 
 .fourth-top {
-  padding: 96px 0px 0px 96px;
+  padding: 96px 0 0 96px;
   max-width: 500px;
   display: flex;
   flex-direction: column;
@@ -74,5 +74,16 @@
 @media (max-width: 800px) {
   .vapi-dashboard {
     margin-top: 10rem;
+  }
+}
+
+@media (max-width: 420px) {
+  .fourth-top {
+    justify-content: center;
+    padding: 96px 48px 0;
+    margin: 0;
+  }
+  .vapi-dashboard {
+    margin-top: 0;
   }
 }

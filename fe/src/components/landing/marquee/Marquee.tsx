@@ -1,28 +1,19 @@
 import dash from '../../../assets/dash.svg';
-import './Marquee.css'
+import './Marquee.css';
 
 export function Marquee() {
   return (
-    // marquee wrapper
     <div className="marquee-wrapper">
-      {/* marquee */}
       <div className="marquee">
-        <span className="">
+        <span>
           Someone to talk with,
-          {/* underline-wrapper */}
-          <span className="underline-wrapper">
-            Even After Hours
-            {/* underline */}
-            <img src={dash} alt="underline" className="underline" />
-          </span>
-          • Someone to talk with,
-          <span className="relative inline-block -mb-10 z-10">
+          <span className="underline-wrapper marquee-underline">
             Even After Hours
             <img src={dash} alt="underline" className="underline" />
           </span>
-          •
+          • Someone to talk with, Even After Hours •
         </span>
       </div>
     </div>
-  )
+  );
 }

@@ -13,7 +13,7 @@ export function Hero() {
       <div className="landing-left">
         {/* landing-hero-title */}
         <div className="landing-hero-title">
-          Voice AI Support for <br />
+          Voice AI Support for <br className='landing-hero-title-line-break' />
           Non-violent crisis situations
         </div>
         {/* landing-hero-subtitle */}
