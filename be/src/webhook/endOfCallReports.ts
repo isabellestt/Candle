@@ -10,7 +10,7 @@ export const EndOfCallReportHandler = (
   const summaryWithTitle = payload.message.analysis.summary;
   const summary = summaryWithTitle ? summaryWithTitle.split("\n")[2] : "No summary provided";
   const summaryTitle = summaryWithTitle 
-  ? summaryWithTitle.split("\n")[0].replace(/#/g, '').trim() 
+  ? summaryWithTitle.split("\n")[0].replace(/[#*]/g, '').trim() 
   : "No title provided";
   const callId = payload.message.call.id;
   const startedAt = convertToISODate(payload.message.startedAt);
