@@ -60,7 +60,7 @@ export function useVapi() {
           .then((data) => {
             console.log("Call info fetched successfully:", data);
             const record: CallRecord = {
-              id: data.callId || "",
+              id: callData[callData.length-1].id + 1 || "",
               createdDate: formatDateForDisplay(data.startedAt) || "",
               duration: data.durationSeconds ? formatTime(data.durationSeconds) : "N/A",
               callId: data.callId || "",

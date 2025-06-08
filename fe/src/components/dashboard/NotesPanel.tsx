@@ -1,49 +1,54 @@
-import flagIcon from "../../assets/flag-icon.svg";
+import CloseIcon from '../../assets/plus-icon.svg'
+import FlagIcon from '../../assets/flag-icon.svg';
+import DeleteCaseButton from '../../assets/trash-icon.svg';
 import type { CallRecord } from "../../types/conversation.type";
+import { useState } from "react";
 import '../../routes/Demo.css'
 
 interface NotesPanelProps {
   record: CallRecord;
-  showTranscript?: boolean;
-  setShowTranscript: (show: boolean) => void;
+  onDeleteRecord?: (recordId: string) => void;
+  onCloseFollowUpNotes?: () => void;
 }
 
-export function NotesPanel({ record, showTranscript, setShowTranscript }: NotesPanelProps) {
+export function NotesPanel({ record, onDeleteRecord, onCloseFollowUpNotes }: NotesPanelProps) {
+  const [showTranscript, setShowTranscript] = useState(false);
+
+  const toggleTranscript = () => {
+    setShowTranscript(!showTranscript);
+  };
+
+  const handleDelete = (recordId: string) => {
+    if (onDeleteRecord) {
+      onDeleteRecord(recordId);
+    }
+  }
+
+  const handleCloseFollowUpNotes = () => {
+    if (onCloseFollowUpNotes) {
+      onCloseFollowUpNotes();
+    }
+  }
+
   const messages = record.details.messages
 
   return (
-    <div className="demo-notes">
-      <div className="demo-notes-top-row">
-        <button 
-          className={showTranscript ? "selected-demo-button" : "deselected-demo-button"}
-          onClick={() => setShowTranscript(true)}
-        >
-          Transcript
-        </button>
-        <button 
-          className={!showTranscript ? "selected-demo-button" : "deselected-demo-button"}
-          onClick={() => setShowTranscript(false)}
-        >
-          Follow-up Notes
-        </button>
-      </div>
-      
-      {record.details.structuredData.urgentStatus && (
-        <div className="demo-notes-middle-row">
-          <div className="notes-reminder-left">
-            <img src={flagIcon} alt="Flag Icon" />
-          </div>
-          <div className="notes-reminder-right">
-            <div className="notes-reminder-header">Heads up!</div>
-            <div className="notes-reminder-subtext">
-              This caller has been flagged as an urgent case and requires
-              active follow-up.
-            </div>
+    <div className="sidebar">
+        <div className="sidebar-header">
+          <div className="sidebar-header-left">Call Log</div>
+          <div className="sidebar-header-right">
+            <button onClick={()=> handleCloseFollowUpNotes()}>
+              <img src={CloseIcon} alt="close sidebar icon" />
+            </button>
           </div>
         </div>
-      )}
-      
-      {showTranscript ? (
+
+        <div className="sidebar-toggle-row">
+          <button className="selected-toggle-button" onClick={toggleTranscript}>Summary</button>
+          <button className="deselected-toggle-button" onClick={toggleTranscript}>Transcript</button>
+        </div>
+
+        {showTranscript ? (
         <div className="transcript-bottom-row">
           <div id="view-transcript" className="note-view">
             {messages.length > 0 ? (messages
@@ -95,47 +100,100 @@ export function NotesPanel({ record, showTranscript, setShowTranscript }: NotesP
           </div>
         </div>
       ) : (
-        <div className="demo-notes-bottom-row">
+        <>
+        {record.details.structuredData.urgentStatus && (
+          <div className="sidebar-urgent-row">
+            <div className="sidebar-urgent-row-left">
+              <img src={FlagIcon} alt="Flag Icon" />
+            </div>
+            <div className="sidebar-urgent-row-right">
+              <div className="sidebar-urgent-row-header">Heads up!</div>
+              <div className="sidebar-urgent-row-subtext">
+                This caller has been flagged as an urgent case and requires active
+                follow-up.
+              </div>
+            </div>
+          
+          </div>
+        )}
+
+          <div className="sidebar-call-details-row">
+            <div className="detail-row">
+              <span className="label">CALL ID:</span>
+              <span className="value">{record.callId}</span>
+            </div>
+            <div className="detail-row">
+              <span className="label">CALL STARTED AT:</span>
+              <span className="value">{record.createdDate}</span>
+            </div>
+            <div className="detail-row">
+              <span className="label">CALL DURATION:</span>
+              <span className="value">{record.duration}</span>
+            </div>
+            <div className="detail-row">
+              <span className="label">TYPE OF ABUSE:</span>
+              <span className="value">{record.details.structuredData.abuseType}</span>
+            </div>
+            <div className="detail-row">
+              <span className="label">URGENT STATUS:</span>
+              <span className="value">{record.details.structuredData.urgentStatus ? <span>TRUE</span> : <span>FALSE</span>}</span>
+            </div>
+            <div className="detail-row">
+              <span className="label">TRANSFER TO:</span>
+              <span className="value">{record.details.structuredData.transferTo}</span>
+            </div>
+            <div className="detail-row">
+              <span className="label">TRANSFER STATUS:</span>
+              <span className="value">{record.details.structuredData.transferred ? <span>TRUE</span> : <span>FALSE</span>}</span>
+            </div>
+            <div className="detail-row">
+              <span className="label">CALLER NAME:</span>
+              <span className="value">{record.details.structuredData.callerName}</span>
+            </div>
+            <div className="detail-row">
+              <span className="label">CALLER LOCATION:</span>
+              <span className="value">{record.details.structuredData.callerLocation}</span>
+            </div>
+            <div className="detail-row">
+              <span className="label">LATEST INCIDENT:</span>
+              <span className="value">{record.details.structuredData.latestIncident}</span>
+            </div>
+          </div>
+
           <div className="transcript-summary-section">
             <div className="transcript-summary-header">Transcript Summary</div>
             <div className="transcript-summary-body">
               <div className="transcript-summary-body-title">
-                {record.details.summaryTitle || "Summary of the Call"}
+              {record.details.summaryTitle}
               </div>
               <div className="transcript-summary-body-content">
-                {/* {record.details.summary.split('<br />').map((text, i) => (
-                  <React.Fragment key={i}>
-                    {i > 0 && <br /><br />}
-                    {text}
-                  </React.Fragment>
-                ))} */}
                 {record.details.summary || "No summary available."}
               </div>
             </div>
           </div>
 
           <div className="recommended-follow-up-section">
-            <div className="recommended-follow-up-header">
-              Recommended Follow-up
-            </div>
+            <div className="recommended-follow-up-header">Recommended Follow-up</div>
             <div className="recommended-follow-up-body">
-              {/* <div className="recommended-follow-up-body-title">
-                {followUpTitle}
-              </div> */}
+              <div className="recommended-follow-up-body-title">
+              {record.details.summaryTitle}
+              </div>
               <div className="recommended-follow-up-body-content">
-                {/* <ul className="recommended-follow-up-body-content-list">
-                  {record.followUpItems.map((item, index) => (
-                    <li key={index}>{item}</li>
-                  ))}
-                </ul> */}
-                <div className="recommended-follow-up-body-content-list">
-                  {record.details.structuredData.follow_up || "No follow-up required."}
-                </div>
+                <ul className="recommended-follow-up-body-content-list">
+                  <li>{record.details.structuredData.follow_up}</li>
+                </ul>
               </div>
             </div>
+            <div className="sidebar-delete-log-button">
+              <button onClick={() => handleDelete(record.id)}>
+                <div className="sidebar-delete-log-button-text">Delete Case</div>
+                <img src={DeleteCaseButton} alt="delete case button" />
+              </button>
+            </div>
           </div>
-        </div>
+          </>
       )}
-    </div>
+      </div>
+  
   );
 }

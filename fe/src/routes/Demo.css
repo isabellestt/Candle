@@ -392,6 +392,7 @@ td:has(.pill) {
 
 .expand-column span {
   text-decoration: underline;
+  color: #f3eee3;
 }
 
 .expand-column img {
