@@ -1,5 +1,4 @@
 import type { CallRecord } from "../../types/conversation.type"
-import { useState, useEffect } from "react";
 import Chevron from "../../assets/chevron.svg";
 import React from "react";
 import '../../routes/Demo.css'
@@ -7,31 +6,17 @@ import '../../routes/Demo.css'
 interface TableProps {
   records: CallRecord[];
   onOpenFollowUpNotes?: (recordId: string) => void;
+  isConnected?: boolean
 }
 
 
 export function Table({records, onOpenFollowUpNotes}: TableProps) {
-  const [newRecordIds, setNewRecordIds] = useState<string[]>(records.map(record => record.id));
-
-  useEffect(() => {
-    if (records.length > 0) {
-      const latestRecord = records[0]; 
-      if (latestRecord && !newRecordIds.includes(latestRecord.id)) {
-        setNewRecordIds(prev => [...prev, latestRecord.id]);
-        
-        setTimeout(() => {
-          setNewRecordIds(prev => prev.filter(id => id !== latestRecord.id));
-        }, 5000);
-      }
-    }
-  }, [records, newRecordIds]);
   
   const handleOpenFollowUpNotes = (recordId: string) => {
     if (onOpenFollowUpNotes) {
       onOpenFollowUpNotes(recordId);
     }
   }
-  
 
   return (
     <table className="history-table">
@@ -51,14 +36,18 @@ export function Table({records, onOpenFollowUpNotes}: TableProps) {
       </thead>
       <tbody>
       {records.map((record) => {
+        let callStatus = 'Ongoing'
+        if (record.details.summaryTitle !== 'Active Call') {
+          callStatus = 'Completed'
+        }
         return (
           <React.Fragment key={record.id}>
-            <tr className={newRecordIds.includes(record.id) ? "new-record-highlight" : ""}>
+            <tr>
               <td>{record.id}</td>
               <td data-label="Call ID">{record.callId}…</td>
               <td className="status-container" data-label="Call Status">
-                <span className="status ongoing">
-                  Ongoing
+                <span className={`status ${callStatus.toLowerCase()}`}>
+                  {callStatus}
                   <div className="circle" />
                 </span>
               </td>

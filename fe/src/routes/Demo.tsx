@@ -23,6 +23,11 @@ const Dashboard = () => {
   const [isConnecting, setIsConnecting] = useState(false)
   const [isConnected, setIsConnected] = useState(false)
 
+  useEffect(() => {
+    console.log("CallData changed:", callData);
+    setCallRecords(callData);
+  }, [callData]);
+
   const handleDeleteRecord = (recordId: string) => {
     setCallRecords((prevRecords) =>
       prevRecords.filter((record) => record.id !== recordId)
@@ -138,7 +143,8 @@ const Dashboard = () => {
       <div className="demo-bottom">
         <div className="demo-dashboard">
           <div className="table-scroll">
-            <Table records={callRecords} 
+            <Table 
+              records={callRecords} 
               onOpenFollowUpNotes={handleOpenFollowUpNotes}
             />
           </div>

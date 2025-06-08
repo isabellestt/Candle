@@ -36,6 +36,7 @@ export function useVapi() {
     const onCallStartHandler = () => {
       console.log("Call has started");
       setCallStatus(CALL_STATUS.ACTIVE);
+      
     };
 
     const onCallEnd = () => {
@@ -59,28 +60,34 @@ export function useVapi() {
           })
           .then((data) => {
             console.log("Call info fetched successfully:", data);
-            const record: CallRecord = {
-              id: callData[callData.length-1].id + 1 || "",
-              createdDate: formatDateForDisplay(data.startedAt) || "",
-              duration: data.durationSeconds ? formatTime(data.durationSeconds) : "N/A",
-              callId: data.callId || "",
-              details: {
-                summary: data.summary || "No summary provided",
-                summaryTitle: data.summaryTitle || "No summary provided",
-                structuredData: {
-                  urgentStatus: data.structuredData.urgent || false,
-                  transferTo: data.structuredData.transferTo || null,
-                  transferred: data.structuredData.transferred || false,
-                  abuseType: data.structuredData.abuse_Type || "Not specified",
-                  callerName: data.structuredData.name || "Unknown",
-                  callerLocation: data.structuredData.location || "Unknown",
-                  latestIncident: data.structuredData.latest_incident_date || "N/A",
-                  follow_up: data.structuredData.follow_up || "No follow-up required",
-                },
-                messages: data.messages || [],
-              }
-            }
-            setCallData(prevData => [record, ...prevData]);
+            
+            setCallData(prevData => {
+              return prevData.map(existingRecord => {
+                if (existingRecord.callId === data.callId) {
+                  return {
+                    ...existingRecord,
+                    createdDate: formatDateForDisplay(data.startedAt) || existingRecord.createdDate,
+                    duration: data.durationSeconds ? formatTime(data.durationSeconds) : "N/A",
+                    details: {
+                      summary: data.summary || "No summary provided",
+                      summaryTitle: data.summaryTitle || "No summary provided",
+                      structuredData: {
+                        urgentStatus: data.structuredData?.urgent || false,
+                        transferTo: data.structuredData?.transferTo || null,
+                        transferred: data.structuredData?.transferred || false,
+                        abuseType: data.structuredData?.abuseType || "Not specified",
+                        callerName: data.structuredData?.name || "Unknown",
+                        callerLocation: data.structuredData?.location || "Unknown",
+                        latestIncident: data.structuredData?.latestIncident || "N/A",
+                        follow_up: data.structuredData?.follow_up || "No follow-up required",
+                      },
+                      messages: data.messages || [],
+                    }
+                  };
+                }
+                return existingRecord;
+              });
+            });
           })
           .catch(error => {
             console.error("Error fetching call info:", error);
@@ -98,18 +105,6 @@ export function useVapi() {
     const onVolumeLevel = (volume: number) => {
       setAudioLevel(volume);
     };
-
-    // const onMessageUpdate = (message: Message) => {
-    //   if (
-    //     message.type === MessageEnum.TRANSCRIPT &&
-    //     message.transcriptType === TranscriptMessageEnum.PARTIAL
-    //   ) {
-    //     setActiveTranscript(message);
-    //   } else {
-    //     setMessages((prev) => [...prev, message]);
-    //     setActiveTranscript(null);
-    //   }
-    // };
 
     const onError = (e: unknown) => {
       setCallStatus(CALL_STATUS.INACTIVE);
@@ -145,6 +140,29 @@ export function useVapi() {
 
     response.then((res) => {
       console.log("call", res);
+
+      const record: CallRecord = {
+        id: String(Number(callData[0].id) + 1) ,
+        createdDate: formatDateForDisplay(new Date().toISOString()),
+        duration: "0:00",
+        callId: res?.id || "",
+        details: {
+          summary: "Call in progress",
+          summaryTitle: "Active Call",
+          structuredData: {
+            urgentStatus: false,
+            transferTo: "",
+            transferred: false,
+            abuseType: "",
+            callerName: "",
+            callerLocation: "",
+            latestIncident: "",
+            follow_up: "",
+          },
+          messages: [],
+        }
+      }
+      setCallData(prevData => [record, ...prevData]);
     });
   };
 
