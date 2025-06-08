@@ -9,8 +9,20 @@ interface TableProps {
   isConnected?: boolean
 }
 
-
 export function Table({records, onOpenFollowUpNotes}: TableProps) {
+  const uniqueRecords = React.useMemo(() => {
+    const uniqueIds = new Set();
+    return records.filter(record => {
+      // If we've seen this ID before, filter it out
+      if (uniqueIds.has(record.id)) {
+        console.warn(`Duplicate record detected with ID: ${record.id}`);
+        return false;
+      }
+      // Otherwise, add it to our set and keep the record
+      uniqueIds.add(record.id);
+      return true;
+    });
+  }, [records]);
   
   const handleOpenFollowUpNotes = (recordId: string) => {
     if (onOpenFollowUpNotes) {
@@ -35,7 +47,7 @@ export function Table({records, onOpenFollowUpNotes}: TableProps) {
         </tr>
       </thead>
       <tbody>
-      {records.map((record) => {
+      {uniqueRecords.map((record) => {
         let callStatus = 'Ongoing'
         if (record.details.summaryTitle !== 'Active Call') {
           callStatus = 'Completed'
