@@ -413,7 +413,6 @@ td:has(.pill) {
 
 .sidebar-toggle-row {
   background: linear-gradient(to right, #34476f 0%, #34476f 22%, #1d273d 100%);
-  width: 95%;
   border-radius: 8px;
   display: flex;
   justify-content: center;
@@ -627,8 +626,16 @@ td:has(.pill) {
     padding: 10px;
   }
 
+  .detail-row {
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: flex-start;
+  }
+
   .label {
+    flex: 0 0 auto;
     width: auto;
+    line-height: 1.4;
   }
 }
 
@@ -728,6 +735,43 @@ a:hover {
   padding: 0.5rem;
   font-size: 1.2rem;
   color: #888;
+}
+
+.transcript-bottom-row {
+  overflow: scroll;
+  display: flex;
+  justify-content: center;
+  padding: 0.5rem;
+  width: 85%;
+  margin-top: 28px;
+}
+
+.bubble {
+  max-width: 85%;
+  padding: 20px 26px;
+  border-radius: 28px;
+  font-size: 15px;
+  line-height: 22px;
+  margin-bottom: 28px;
+  word-break: break-word;
+}
+.user {
+  align-self: flex-start;
+  background: #47526b;
+  color: #f3eee3;
+}
+.bot {
+  align-self: flex-end;
+  margin-left: 3rem;
+  background: #faf8f1;
+  color: #374159;
+  text-align: right;
+}
+@media (max-width: 430px) {
+  .bubble {
+    max-width: 95%;
+    padding: 16px 20px;
+  }
 }
 
 @media (min-width: 1255px) {

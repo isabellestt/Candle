@@ -14,9 +14,10 @@ interface NotesPanelProps {
 export function NotesPanel({ record, onDeleteRecord, onCloseFollowUpNotes }: NotesPanelProps) {
   const [showTranscript, setShowTranscript] = useState(false);
 
-  const toggleTranscript = () => {
-    setShowTranscript(!showTranscript);
-  };
+  // Can be deleted
+  // const toggleTranscript = () => {
+  //   setShowTranscript(!showTranscript);
+  // };
 
   const handleDelete = (recordId: string) => {
     if (onDeleteRecord) {
@@ -43,9 +44,10 @@ export function NotesPanel({ record, onDeleteRecord, onCloseFollowUpNotes }: Not
           </div>
         </div>
 
+        {/* replaced buttons */}
         <div className="sidebar-toggle-row">
-          <button className="selected-toggle-button" onClick={toggleTranscript}>Summary</button>
-          <button className="deselected-toggle-button" onClick={toggleTranscript}>Transcript</button>
+          <button className={showTranscript ? 'deselected-toggle-button' : 'selected-toggle-button'}onClick={() => setShowTranscript(false)}>Summary</button>
+          <button className={showTranscript ? 'selected-toggle-button' : 'deselected-toggle-button'} onClick={() => setShowTranscript(true)}>Transcript</button>
         </div>
 
         {showTranscript ? (
