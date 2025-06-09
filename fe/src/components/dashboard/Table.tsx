@@ -3,6 +3,10 @@ import Chevron from "../../assets/chevron.svg";
 import React from "react";
 import '../../routes/Demo.css'
 
+// added truncate tool
+const truncate = (str: string, max: number) =>
+  str.length > max ? str.slice(0, max) + "…" : str;
+
 interface TableProps {
   records: CallRecord[];
   onOpenFollowUpNotes?: (recordId: string) => void;
@@ -56,7 +60,8 @@ export function Table({records, onOpenFollowUpNotes}: TableProps) {
           <React.Fragment key={record.id}>
             <tr>
               <td>{record.id}</td>
-              <td data-label="Call ID">{record.callId}…</td>
+              {/* applied truncate tool */}
+              <td data-label="Call ID">{truncate(record.callId, 8)}</td>
               <td className="status-container" data-label="Call Status">
                 <span className={`status ${callStatus.toLowerCase()}`}>
                   {callStatus}
@@ -70,9 +75,44 @@ export function Table({records, onOpenFollowUpNotes}: TableProps) {
                   {record.details.structuredData.urgentStatus ? 'Urgent' : 'Not Urgent'}
                 </span>
               </td>
+              {/* definitely needs to be fixed for scalability */}
               <td data-label="Transfer To">
-                <span className={`pill ${record.details.structuredData.transferTo === 'DVERT' ? 'dvert' : record.details.structuredData.transferTo === 'MSF' ? 'msf' : record.details.structuredData.transferTo === 'APS' ? 'aps' : 'not-applicable'}`}>
-                  {record.details.structuredData.transferTo ? record.details.structuredData.transferTo : 'Not Applicable'}
+                <span
+                  className={`pill ${
+                    record.details.structuredData.transferTo === 'DVERT'   ? 'dvert'   :
+                    record.details.structuredData.transferTo === 'MSF'     ? 'msf'     :
+                    record.details.structuredData.transferTo === 'APS'     ? 'aps'     :
+                    record.details.structuredData.transferTo === 'NAVH'    ? 'navh'    :
+                    record.details.structuredData.transferTo === 'SPF'     ? 'spf'     :
+                    record.details.structuredData.transferTo === 'SCDF'    ? 'scdf'    :
+                    record.details.structuredData.transferTo === 'PAVE'    ? 'pave'    :
+                    record.details.structuredData.transferTo === 'TRANS'   ? 'trans'   :
+                    record.details.structuredData.transferTo === 'START'   ? 'start'   :
+                    record.details.structuredData.transferTo === 'AWARE'   ? 'aware'   :
+                    record.details.structuredData.transferTo === 'SACC'    ? 'sacc'    :
+                    record.details.structuredData.transferTo === 'CPS'     ? 'cps'     :
+                    record.details.structuredData.transferTo === 'BIGLOVE' ? 'biglove' :
+                    record.details.structuredData.transferTo === 'HEART'   ? 'heart'   :
+                    record.details.structuredData.transferTo === 'TINKLE'  ? 'tinkle'  :
+                    record.details.structuredData.transferTo === 'SOS'     ? 'sos'     :
+                    record.details.structuredData.transferTo === 'IMH'     ? 'imh'     :
+                    record.details.structuredData.transferTo === 'CCCH'    ? 'ccch'    :
+                    record.details.structuredData.transferTo === 'TOUCH'   ? 'touch'   :
+                    record.details.structuredData.transferTo === 'SILVER'  ? 'silver'  :
+                    record.details.structuredData.transferTo === 'CARELINE'? 'careline':
+                    record.details.structuredData.transferTo === 'FSC'     ? 'fsc'     :
+                    record.details.structuredData.transferTo === 'STAR'    ? 'star'    :
+                    record.details.structuredData.transferTo === 'CRWH'    ? 'crwh'    :
+                    record.details.structuredData.transferTo === 'GSC'     ? 'gsc'     :
+                    record.details.structuredData.transferTo === 'PCWG'    ? 'pcwg'    :
+                    record.details.structuredData.transferTo === 'LAB'     ? 'lab'     :
+                    record.details.structuredData.transferTo === 'CLC'     ? 'clc'     :
+                    record.details.structuredData.transferTo === 'CJC'     ? 'cjc'     :
+                    record.details.structuredData.transferTo === 'MSC'     ? 'msc'     :
+                    'not-applicable'
+                  }`}
+                >
+                  {record.details.structuredData.transferTo || 'Not Applicable'}
                 </span>
               </td>
               <td data-label="Transfer Status">
@@ -80,7 +120,8 @@ export function Table({records, onOpenFollowUpNotes}: TableProps) {
                   {record.details.structuredData.transferred === true ? 'Transferred' : record.details.structuredData.transferred === false ? 'Not transferred' : 'Not Applicable'}
                 </span>
               </td>
-              <td data-label="Short Description">{record.details.summaryTitle}</td>
+              {/* applied truncate tool */}
+              <td data-label="Short Description">{truncate(record.details.summaryTitle, 30)}</td>
               <td className="expand-column">
                 <button onClick={() => handleOpenFollowUpNotes(record.id)}>
                   <span>Expand View</span>

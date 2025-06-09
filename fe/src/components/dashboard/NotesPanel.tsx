@@ -175,12 +175,12 @@ export function NotesPanel({ record, onDeleteRecord, onCloseFollowUpNotes }: Not
           <div className="recommended-follow-up-section">
             <div className="recommended-follow-up-header">Recommended Follow-up</div>
             <div className="recommended-follow-up-body">
-              <div className="recommended-follow-up-body-title">
-              {record.details.summaryTitle}
-              </div>
               <div className="recommended-follow-up-body-content">
                 <ul className="recommended-follow-up-body-content-list">
-                  <li>{record.details.structuredData.follow_up}</li>
+                {record.details.structuredData.follow_up
+                    .split('\n')
+                    .map((item, idx) => <li key={idx}>{item}</li>)
+                  }
                 </ul>
               </div>
             </div>
