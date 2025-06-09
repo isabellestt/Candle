@@ -524,7 +524,7 @@ td:has(.pill) {
   display: flex;
   flex-direction: column;
   gap: 12px;
-  margin-top: 32px;
+  margin: 32px;
 }
 
 .recommended-follow-up-section {
@@ -743,7 +743,7 @@ a:hover {
   justify-content: center;
   padding: 0.5rem;
   width: 85%;
-  margin-top: 28px;
+  margin: 28px 0px;
 }
 
 .bubble {
