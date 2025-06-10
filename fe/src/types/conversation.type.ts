@@ -22,12 +22,7 @@ export const TranscriptMessageEnum = {
 
 export type TranscriptMessageEnumType = typeof TranscriptMessageEnum[keyof typeof TranscriptMessageEnum];
 
-// Interface definitions with the new types
-export interface BaseMessage {
-  type: MessageEnumType;
-}
-
-export interface TranscriptMessage extends BaseMessage {
+export interface TranscriptMessage  {
   role: MessageRoleEnumType;
   message: string;
 }
