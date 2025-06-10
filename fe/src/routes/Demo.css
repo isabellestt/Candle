@@ -7,7 +7,7 @@
 
 .demo-top {
   display: flex;
-  padding: 48px;
+  padding: 48px 48px 0px 48px;
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 1rem;
@@ -697,12 +697,11 @@ td:has(.pill) {
 }
 
 .page-bottom-wrapper {
-  position: absolute;
-  bottom: 0px;
+  position: static;
 }
 
 .page-bottom {
-  padding: 48px;
+  padding: 0px 48px 48px 48px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -812,11 +811,5 @@ a:hover {
 
   .demo-subtext {
     text-align: left;
-  }
-}
-
-@media (max-height: 855px) {
-  .page-bottom-wrapper {
-    position: static;
   }
 }
