@@ -78,40 +78,7 @@ export function Table({records, onOpenFollowUpNotes}: TableProps) {
               {/* definitely needs to be fixed for scalability */}
               <td data-label="Transfer To">
                 <span
-                  className={`pill ${
-                    record.details.structuredData.transferTo === 'DVERT'   ? 'dvert'   :
-                    record.details.structuredData.transferTo === 'MSF'     ? 'msf'     :
-                    record.details.structuredData.transferTo === 'APS'     ? 'aps'     :
-                    record.details.structuredData.transferTo === 'NAVH'    ? 'navh'    :
-                    record.details.structuredData.transferTo === 'SPF'     ? 'spf'     :
-                    record.details.structuredData.transferTo === 'SCDF'    ? 'scdf'    :
-                    record.details.structuredData.transferTo === 'PAVE'    ? 'pave'    :
-                    record.details.structuredData.transferTo === 'TRANS'   ? 'trans'   :
-                    record.details.structuredData.transferTo === 'START'   ? 'start'   :
-                    record.details.structuredData.transferTo === 'AWARE'   ? 'aware'   :
-                    record.details.structuredData.transferTo === 'SACC'    ? 'sacc'    :
-                    record.details.structuredData.transferTo === 'CPS'     ? 'cps'     :
-                    record.details.structuredData.transferTo === 'BIGLOVE' ? 'biglove' :
-                    record.details.structuredData.transferTo === 'HEART'   ? 'heart'   :
-                    record.details.structuredData.transferTo === 'TINKLE'  ? 'tinkle'  :
-                    record.details.structuredData.transferTo === 'SOS'     ? 'sos'     :
-                    record.details.structuredData.transferTo === 'IMH'     ? 'imh'     :
-                    record.details.structuredData.transferTo === 'CCCH'    ? 'ccch'    :
-                    record.details.structuredData.transferTo === 'TOUCH'   ? 'touch'   :
-                    record.details.structuredData.transferTo === 'SILVER'  ? 'silver'  :
-                    record.details.structuredData.transferTo === 'CARELINE'? 'careline':
-                    record.details.structuredData.transferTo === 'FSC'     ? 'fsc'     :
-                    record.details.structuredData.transferTo === 'STAR'    ? 'star'    :
-                    record.details.structuredData.transferTo === 'CRWH'    ? 'crwh'    :
-                    record.details.structuredData.transferTo === 'GSC'     ? 'gsc'     :
-                    record.details.structuredData.transferTo === 'PCWG'    ? 'pcwg'    :
-                    record.details.structuredData.transferTo === 'LAB'     ? 'lab'     :
-                    record.details.structuredData.transferTo === 'CLC'     ? 'clc'     :
-                    record.details.structuredData.transferTo === 'CJC'     ? 'cjc'     :
-                    record.details.structuredData.transferTo === 'MSC'     ? 'msc'     :
-                    'not-applicable'
-                  }`}
-                >
+                  className={`pill ${record.details.structuredData.transferTo}`}>
                   {record.details.structuredData.transferTo || 'Not Applicable'}
                 </span>
               </td>
