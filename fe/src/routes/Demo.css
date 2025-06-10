@@ -196,152 +196,152 @@ td:has(.pill) {
   background-color: #9b482c60;
 }
 
-.dvert {
+.DVERT {
   border: 1px solid #845c5c;
   background-color: #845c5c60;
 }
 
-.msf {
+.MSF {
   border: 1px solid #f3c84d;
   background-color: #f3c84d60;
 }
 
-.aps {
+.APS {
   border: 1px solid #5490c3;
   background-color: #5490c360;
 }
 
-.navh {
+.NAVH {
   border: 1px solid #ef476f;
   background-color: #ef476f60;
 }
 
-.spf {
+.SPF {
   border: 1px solid #06d6a0;
   background-color: #06d6a060;
 }
 
-.scdf {
+.SCDF {
   border: 1px solid #f4a261;
   background-color: #f4a26160;
 }
 
-.pave {
+.PAVE {
   border: 1px solid #8ee4af;
   background-color: #8ee4af60;
 }
 
-.trans {
+.TRANS {
   border: 1px solid #ffb4a2;
   background-color: #ffb4a260;
 }
 
-.start {
+.START {
   border: 1px solid #c6a4e7;
   background-color: #c6a4e760;
 }
 
-.aware {
+.AWARE {
   border: 1px solid #f7b32b;
   background-color: #f7b32b60;
 }
 
-.sacc {
+.SACC {
   border: 1px solid #9ae3d5;
   background-color: #9ae3d560;
 }
 
-.cps {
+.CPS {
   border: 1px solid #ffafcc;
   background-color: #ffafcc60;
 }
 
-.biglove {
+.BIGLOVE {
   border: 1px solid #a0c4ff;
   background-color: #a0c4ff60;
 }
 
-.heart {
+.HEART {
   border: 1px solid #d6ffe7;
   background-color: #d6ffe760;
 }
 
-.tinkle {
+.TINKLE {
   border: 1px solid #ffcf56;
   background-color: #ffcf5660;
 }
 
-.sos {
+.SOS {
   border: 1px solid #7fd8be;
   background-color: #7fd8be60;
 }
 
-.imh {
+.IMH {
   border: 1px solid #ff9e9e;
   background-color: #ff9e9e60;
 }
 
-.ccch {
+.CCCH {
   border: 1px solid #b4b6f8;
   background-color: #b4b6f860;
 }
 
-.touch {
+.TOUCH {
   border: 1px solid #6ad3d9;
   background-color: #6ad3d960;
 }
 
-.silver {
+.SILVER {
   border: 1px solid #f8b195;
   background-color: #f8b19560;
 }
 
-.careline {
+.CARELINE {
   border: 1px solid #9dd67b;
   background-color: #9dd67b60;
 }
 
-.fsc {
+.FSC {
   border: 1px solid #d3a4ff;
   background-color: #d3a4ff60;
 }
 
-.star {
+.STAR {
   border: 1px solid #ffb570;
   background-color: #ffb57060;
 }
 
-.crwh {
+.CRWH {
   border: 1px solid #88e0ef;
   background-color: #88e0ef60;
 }
 
-.gsc {
+.GSC {
   border: 1px solid #f6b9c5;
   background-color: #f6b9c560;
 }
 
-.pcwg {
+.PCWG {
   border: 1px solid #ecc45b;
   background-color: #ecc45b60;
 }
 
-.lab {
+.LAB {
   border: 1px solid #7ece9e;
   background-color: #7ece9e60;
 }
 
-.clc {
+.CLC {
   border: 1px solid #f4a7d3;
   background-color: #f4a7d360;
 }
 
-.cjc {
+.CJC {
   border: 1px solid #89c2ef;
   background-color: #89c2ef60;
 }
 
-.msc {
+.MSC {
   border: 1px solid #ebc45a;
   background-color: #ebc45a60;
 }
@@ -815,7 +815,7 @@ a:hover {
   }
 }
 
-@media (max-height: 600px) {
+@media (max-height: 855px) {
   .page-bottom-wrapper {
     position: static;
   }
