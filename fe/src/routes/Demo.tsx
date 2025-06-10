@@ -10,6 +10,7 @@ import { useEffect, useState } from 'react';
 import { Table } from '../components/dashboard/Table';
 import { NotesPanel } from '../components/dashboard/NotesPanel';
 import type { CallRecord } from '../types/conversation.type';
+import { NavLink } from 'react-router';
 
 
 const Dashboard = () => {
@@ -72,11 +73,13 @@ const Dashboard = () => {
       <div className="demo-top">
         <div className="demo-top-left">
           <div className="demo-logo-container">
-            <img
-              className="demo-logo"
-              src={CandlingLogo}
-              alt="Candling's logo"
-            />
+            <NavLink to="/">
+              <img
+                className="demo-logo"
+                src={CandlingLogo}
+                alt="Candling's logo"
+              />
+            </NavLink>
           </div>
           <div className="demo-subtext">
             Welcome to our product demonstration, click the “Talk to Candling”
