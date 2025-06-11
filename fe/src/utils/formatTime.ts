@@ -7,15 +7,9 @@ export default function formatDuration(durationInSeconds: number): string {
   const minutes = Math.floor((durationInSeconds % 3600) / 60);
   const seconds = Math.floor(durationInSeconds % 60);
 
-  if (hours > 0) {         
-    return minutes > 0 
-      ? `${hours}h ${minutes}min`
-      : `${hours}h`;
-  } else if (minutes > 0) {
-    return seconds > 0 && minutes < 10
-      ? `${minutes}min ${seconds}s` 
-      : `${minutes}min`;
-  } else {
-    return `${seconds}s`;
-  }
+  const formattedHours = `${hours}h`;
+  const formattedMinutes = `${minutes.toString().padStart(2, '0')}m`;
+  const formattedSeconds = `${seconds.toString().padStart(2, '0')}s`;
+
+  return `${formattedHours} ${formattedMinutes} ${formattedSeconds}`;
 }
