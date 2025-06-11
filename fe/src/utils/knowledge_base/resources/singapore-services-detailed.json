@@ -1,0 +1,283 @@
+[
+  {
+    "name": "National Anti-Violence Helpline (NAVH)",
+    "category": "24/7 crisis hotline (government)",
+    "audience": "Anyone facing or reporting family violence or sexual harassment",
+    "languages": ["English","Mandarin","Malay","Tamil"],
+    "hotline": "1800-777-0000",
+    "hours": "24/7",
+    "emergency_escalation": "Can 3-way Police 999 or deploy DVERT social worker",
+    "services": "Risk assess, emotional support, safety plan, referrals",
+    "anon_allowed": true,
+    "url": "https://www.msf.gov.sg/what-we-do/Family-Violence"
+  },
+  {
+    "name": "Singapore Police Force (Emergency)",
+    "category": "Emergency responder – Police",
+    "audience": "Any person in immediate danger",
+    "languages": ["English","translation on request"],
+    "hotline": "999",
+    "hours": "24/7",
+    "services": "On-scene protection, arrest powers, can activate DVERT",
+    "url": "https://www.police.gov.sg"
+  },
+  {
+    "name": "SCDF Ambulance & Fire",
+    "category": "Emergency responder – Medical / Fire",
+    "audience": "Medical emergencies, rescue, burns",
+    "languages": ["English","translation on request"],
+    "hotline": "995",
+    "hours": "24/7",
+    "services": "Ambulance dispatch, fire rescue; coordinates with Police",
+    "url": "https://www.scdf.gov.sg"
+  },
+  {
+    "name": "PAVE – Family Violence Specialist Centre",
+    "category": "Domestic-violence specialist (NGO)",
+    "audience": "Victims, perpetrators, families (all genders)",
+    "languages": ["English","Mandarin","Malay","Tamil"],
+    "hotline": "6555 0390",
+    "hours": "Mon-Fri 09:00-17:00",
+    "services": "Casework, PPO help, trauma counselling, abuser program",
+    "intake": "Phone self-referral or via NAVH / Police",
+    "url": "https://www.pave.org.sg"
+  },
+  {
+    "name": "TRANS SAFE Centre",
+    "category": "Domestic-violence specialist (NGO)",
+    "audience": "Families in east SG experiencing DV",
+    "languages": ["English","Mandarin","Malay"],
+    "hotline": "6449 9088",
+    "hours": "Mon-Fri 09:00-18:00",
+    "services": "Safety planning, legal referral, shelter linkage",
+    "intake": "Phone or referral; visits by appt",
+    "url": "https://www.transfamilyservices.org.sg/trans-safe-centre"
+  },
+  {
+    "name": "Care Corner Project StART",
+    "category": "Domestic-violence specialist (NGO)",
+    "audience": "DV cases (central / west SG)",
+    "languages": ["English","Mandarin"],
+    "hotline": "6476 1482",
+    "hours": "Mon-Fri 09:00-18:00",
+    "services": "Risk assessment, counselling, court liaison",
+    "intake": "Phone self-referral or agency referral",
+    "url": "https://www.carecorner.org.sg/services/counselling-centre/project-start"
+  },
+  {
+    "name": "AWARE Women’s Helpline",
+    "category": "Women-only crisis helpline (NGO)",
+    "audience": "Women facing DV, sexual or marital issues",
+    "languages": ["English","Mandarin","Malay","Tamil"],
+    "hotline": "1800-777-5555",
+    "hours": "Mon-Fri 10:00-18:00",
+    "services": "Emotional support, PPO info, legal clinic booking",
+    "eligibility": "Women; men referred elsewhere",
+    "url": "https://www.aware.org.sg/womens-care-centre/helpline/"
+  },
+  {
+    "name": "AWARE Sexual Assault Care Centre (SACC)",
+    "category": "Sexual-violence helpline & clinic",
+    "audience": "Survivors of sexual assault (all genders)",
+    "languages": ["English","other via interpreter"],
+    "hotline": "6779 0282",
+    "hours": "Mon-Fri 10:00-18:00 (to 22:00 some days)",
+    "services": "Helpline, forensic exam support, court befrienders",
+    "url": "https://sacc.aware.org.sg"
+  },
+  {
+    "name": "MSF Child Protective Service (via NAVH)",
+    "category": "Government child-abuse reporting",
+    "audience": "Public or professionals reporting child abuse",
+    "languages": ["English","Mandarin","Malay","Tamil"],
+    "hotline": "1800-777-0000",
+    "hours": "24/7 (after-hours handled by NAVH)",
+    "services": "Investigation, safety orders, possible removal",
+    "mandatory_report": true,
+    "url": "https://www.msf.gov.sg"
+  },
+  {
+    "name": "Big Love Child Protection Specialist Centre",
+    "category": "Child-protection specialist (NGO)",
+    "audience": "Moderate-risk child protection cases",
+    "languages": ["English","Mandarin"],
+    "hotline": "6445 0400",
+    "hours": "Mon-Fri 09:00-18:00",
+    "services": "Family work, parenting support, monitoring",
+    "intake": "Referral from MSF / Police; consults welcome",
+    "url": "https://montfortcare.org.sg/programmes/big-love"
+  },
+  {
+    "name": "HEART @ Fei Yue CPSC",
+    "category": "Child-protection specialist (NGO)",
+    "audience": "Families & victims of child abuse or neglect",
+    "languages": ["English","Mandarin","Malay"],
+    "hotline": "6819 9170",
+    "hours": "Mon-Fri 09:30-17:30",
+    "services": "Risk assess, therapy, community resources",
+    "url": "https://fycs.org/child-protection-specialist-centre/"
+  },
+  {
+    "name": "Tinkle Friend",
+    "category": "Helpline for children 7-12",
+    "audience": "Primary-school kids needing a safe listener",
+    "languages": ["English","Mandarin"],
+    "hotline": "1800-2744-788",
+    "hours": "Mon-Fri 14:30-17:00 (chat till 19:00)",
+    "services": "Support, advice, can escalate to CPS",
+    "url": "https://www.tinklefriend.sg"
+  },
+  {
+    "name": "Samaritans of Singapore (SOS)",
+    "category": "24/7 suicide-prevention helpline",
+    "audience": "Anyone in crisis or suicidal distress",
+    "languages": ["English","interpreters on request"],
+    "hotline": "1800-221-4444",
+    "hours": "24/7",
+    "services": "Active listening, suicide risk SAFETY plan, referral",
+    "url": "https://www.sos.org.sg"
+  },
+  {
+    "name": "IMH Mental Health Helpline",
+    "category": "Hospital psychiatric crisis line",
+    "audience": "Acute mental-health crises, trauma, caregivers",
+    "languages": ["English","interpreters"],
+    "hotline": "6389 2222",
+    "hours": "24/7",
+    "services": "Psych advice, may direct to IMH A&E",
+    "url": "https://www.imh.com.sg/Clinical-Services/emergency-services"
+  },
+  {
+    "name": "Care Corner Counselling Hotline",
+    "category": "General counselling helpline",
+    "audience": "Public needing emotional support",
+    "languages": ["English","Mandarin"],
+    "hotline": "1800-3535-800",
+    "hours": "Daily 10:00-22:00",
+    "services": "Talk-through, basic coping, DV referrals",
+    "url": "https://www.carecorner.org.sg/services/counselling-centre"
+  },
+  {
+    "name": "TOUCHline",
+    "category": "Youth & family counselling helpline",
+    "audience": "Youth, parents, caregivers",
+    "languages": ["English","Mandarin"],
+    "hotline": "1800-377-2252",
+    "hours": "Mon-Fri 09:00-18:00",
+    "services": "Youth issues, cyber-wellness, abuse guidance",
+    "url": "https://www.touch.org.sg/get-help/touchline"
+  },
+  {
+    "name": "Silver Ribbon MH Helpline",
+    "category": "Mental-health advice (NGO)",
+    "audience": "Anyone with MH concerns (non-urgent)",
+    "languages": ["English","Mandarin"],
+    "hotline": "6385 3714",
+    "hours": "Mon-Fri 09:00-17:00",
+    "services": "Advice, referral to affordable therapy",
+    "url": "https://www.silverribbonsingapore.com"
+  },
+  {
+    "name": "SingHealth Care Line",
+    "category": "24/7 support line for seniors",
+    "audience": "Elderly living alone or caregivers",
+    "languages": ["English","Mandarin","dialects"],
+    "hotline": "1800-650-6480",
+    "hours": "24/7",
+    "services": "Befriending, daily check-in, links to APS",
+    "url": "https://www.cgh.com.sg/careline"
+  },
+  {
+    "name": "Family Service Centres (FSC) – ComCare",
+    "category": "Community social service network",
+    "audience": "Families & individuals needing casework",
+    "languages": ["English","Mandarin","Malay","Tamil"],
+    "hotline": "1800-222-0000",
+    "hours": "Daily 07:00-24:00",
+    "services": "Counselling, safety plan, financial aid, shelter referral",
+    "url": "https://www.msf.gov.sg/dfcs/family-service-centres"
+  },
+  {
+    "name": "Star Shelter (SCWO)",
+    "category": "Crisis shelter (secular)",
+    "audience": "Women 21-59 + children (boys <13)",
+    "languages": ["English","Malay","Mandarin","Tamil"],
+    "hotline": "Referral only (6571 0192)",
+    "hours": "24/7 admission via agency",
+    "capacity": "28 beds",
+    "eligibility": "Victim of family-violence; any nationality",
+    "services": "Safe housing, counselling, micro-loans",
+    "url": "https://www.scwo.org.sg/star-shelter"
+  },
+  {
+    "name": "Casa Raudha Women Home",
+    "category": "Crisis shelter (Muslim-run)",
+    "audience": "Women (mostly Muslim) + children",
+    "languages": ["English","Malay"],
+    "hotline": "8963 0887 (intake line)",
+    "hours": "24/7 admission via referral",
+    "services": "Shelter, religious-sensitive care, family programs",
+    "url": "https://www.casaraudha.org"
+  },
+  {
+    "name": "Good Shepherd Centre",
+    "category": "Crisis shelter (Catholic-run)",
+    "audience": "Women (incl. foreign) + children",
+    "languages": ["English","Mandarin","Malay"],
+    "hotline": "6256 4440",
+    "hours": "24/7 admission via referral",
+    "services": "Housing, trauma care, reintegration support",
+    "url": "https://marymountctr.org.sg/good_shepherd_centre.html"
+  },
+  {
+    "name": "Pertapis Centre for Women & Girls",
+    "category": "Crisis shelter (Muslim welfare)",
+    "audience": "Muslim women 18+ and teenage girls",
+    "languages": ["English","Malay"],
+    "hotline": "6284 4707",
+    "hours": "24/7 admission via referral",
+    "services": "Shelter, religious guidance, skills training",
+    "url": "https://www.pertapis.org.sg/welfare-services/pertapis-centre-for-women-and-girls"
+  },
+  {
+    "name": "Legal Aid Bureau (LAB)",
+    "category": "Government legal aid",
+    "audience": "Low-income Singaporeans / PRs",
+    "languages": ["English","Mandarin","Malay","Tamil"],
+    "hotline": "1800-2255-529",
+    "hours": "Mon-Fri 08:30-17:00",
+    "eligibility": "Means + merits test; SG/PR only",
+    "services": "Lawyer for PPO, divorce, maintenance",
+    "url": "https://lab.mlaw.gov.sg"
+  },
+  {
+    "name": "Community Legal Clinics (Pro Bono SG)",
+    "category": "Free evening legal clinics",
+    "audience": "Residents needing basic legal advice",
+    "languages": ["English","interpreters possible"],
+    "hotline": "6536 0650 (appt)",
+    "hours": "Mon-Fri 09:00-18:00 (clinics evenings)",
+    "services": "20-min advice, Syariah & migrant sessions",
+    "url": "https://probono.sg/legal-clinics/"
+  },
+  {
+    "name": "Community Justice Centre (CJC)",
+    "category": "Court self-help desk",
+    "audience": "Litigants-in-person (PPO, divorce)",
+    "languages": ["English","multi-lang volunteers"],
+    "hotline": "On-site only",
+    "hours": "Mon-Fri 08:30-18:00",
+    "services": "Form filling, lawyer-on-duty scheme, victim support",
+    "url": "https://www.cjc.org.sg"
+  },
+  {
+    "name": "Maintenance Support Central (MSC)",
+    "category": "Maintenance enforcement help",
+    "audience": "Divorced / separated needing maintenance",
+    "languages": ["English","Mandarin"],
+    "hotline": "6571 0185",
+    "hours": "Mon-Fri 09:00-18:00",
+    "services": "Enforcement filing, mediation, legal info",
+    "url": "https://www.scwo.org.sg/maintenance-support-central"
+  }
+]
