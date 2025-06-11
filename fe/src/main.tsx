@@ -4,6 +4,10 @@ import { BrowserRouter, Routes, Route } from 'react-router'
 import './index.css'
 import App from './App.tsx'
 import Dashboard  from './routes/Demo.tsx'
+import { initializeLocalStorage } from './utils/localStorage';
+
+console.log('Initializing localStorage from main.tsx');
+initializeLocalStorage();
 
 createRoot(document.getElementById('root')!).render(
   <BrowserRouter>

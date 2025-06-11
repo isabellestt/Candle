@@ -3,9 +3,11 @@ import { vapi } from "./vapi.sdk";
 import type { CallRecord } from './../../types/conversation.type';
 import { helplineAssistant } from './helpline.assistant';
 import { squad } from '../squad/squad';
-import { callData as initialCallData } from '../../../public/callData';
+// import { callData } from '../../../public/callData';
 import formatDateForDisplay from "../formatDate";
 import formatTime from "../formatTime";
+import { getStoredCallRecords, storeCallRecords, getDeletedIds } from '../localStorage';
+
 
 export const CALL_STATUS = {
   INACTIVE: "inactive",
@@ -17,7 +19,17 @@ export const CALL_STATUS = {
 export type CALL_STATUS_TYPE = typeof CALL_STATUS[keyof typeof CALL_STATUS]
   
 export function useVapi() {
-  const [callData, setCallData] = useState<CallRecord[]>(initialCallData);
+  const deletedIds = getDeletedIds();
+  const [callData, setCallData] = useState<CallRecord[]>(getStoredCallRecords().filter(record => !deletedIds.includes(record.id)));
+
+  const updateCallData = (updater: (prevData: CallRecord[]) => CallRecord[]) => {
+    setCallData(prevData => {
+      const newData = updater(prevData);
+      storeCallRecords(newData); 
+      return newData;
+    });
+  };
+
   const [isSpeechActive, setIsSpeechActive] = useState(false);
   const [callStatus, setCallStatus] = useState<CALL_STATUS_TYPE>(
     CALL_STATUS.INACTIVE
@@ -25,6 +37,11 @@ export function useVapi() {
   const [audioLevel, setAudioLevel] = useState(0);
 
   const timeoutRef = useRef<NodeJS.Timeout | null>(null)
+  
+  useEffect(() => {
+    localStorage.setItem('callRecords', JSON.stringify(callData));
+  }, [callData]);
+  
 
   useEffect(() => {
     const onSpeechStart = () => setIsSpeechActive(true);
@@ -61,7 +78,7 @@ export function useVapi() {
           .then((data) => {
             console.log("Call info fetched successfully:", data);
             
-            setCallData(prevData => {
+            updateCallData(prevData => {
               return prevData.map(existingRecord => {
                 if (existingRecord.callId === data.callId) {
                   return {
@@ -141,8 +158,16 @@ export function useVapi() {
     response.then((res) => {
       console.log("call", res);
 
+      const allRecords = getStoredCallRecords();
+      
+      const highestId = allRecords.length > 0 
+        ? Math.max(...allRecords.map(record => parseInt(record.id) || 0))
+        : 0;
+      
+      const newId = String(highestId + 1);
+
       const record: CallRecord = {
-        id: String(Number(callData[0].id) + 1) ,
+        id: newId,
         createdDate: formatDateForDisplay(new Date().toISOString()),
         duration: "0:00",
         callId: res?.id || "",
@@ -162,7 +187,7 @@ export function useVapi() {
           messages: [],
         }
       }
-      setCallData(prevData => [record, ...prevData]);
+      updateCallData(prevData => [record, ...prevData]);
     });
   };
 

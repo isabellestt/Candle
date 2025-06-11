@@ -11,13 +11,14 @@ import { Table } from '../components/dashboard/Table';
 import { NotesPanel } from '../components/dashboard/NotesPanel';
 import type { CallRecord } from '../types/conversation.type';
 import { NavLink } from 'react-router';
+import { initializeLocalStorage, getStoredCallRecords, storeCallRecords, addDeletedId, getDeletedIds } from '../utils/localStorage';
 
 
 const Dashboard = () => {
-  const { toggleCall, isSpeechActive, callStatus, audioLevel, callData} =
-      useVapi();
+  const { toggleCall, isSpeechActive, callStatus, audioLevel, callData} = useVapi();
 
-  const [callRecords, setCallRecords] = useState<CallRecord[]>(callData);
+  const [callRecords, setCallRecords] = useState<CallRecord[]>(getStoredCallRecords());
+
   const [selectedRecord, setSelectedRecord] = useState<CallRecord | null>(callData[0]);
   const [showTranscript, setShowTranscript] = useState(false);
 
@@ -25,18 +26,62 @@ const Dashboard = () => {
   const [isConnected, setIsConnected] = useState(false)
 
   useEffect(() => {
-    console.log("CallData changed:", callData);
-    setCallRecords(callData);
+    storeCallRecords(callRecords);
+  }, [callRecords]);
+  
+  useEffect(() => {
+    if (callData.length > 0) {
+      setCallRecords(prevRecords => {
+        const mergedRecords = [...prevRecords];
+        let hasChanges = false;
+        
+        callData.forEach(newRecord => {
+          const existingIndex = mergedRecords.findIndex(r => r.id === newRecord.id);
+          
+          if (existingIndex === -1) {
+            mergedRecords.unshift(newRecord);
+            hasChanges = true;
+          } else if (JSON.stringify(mergedRecords[existingIndex]) !== JSON.stringify(newRecord)) {
+            mergedRecords[existingIndex] = newRecord;
+            hasChanges = true;
+          }
+        });
+        
+        if (hasChanges) {
+          storeCallRecords(mergedRecords); 
+          return [...mergedRecords];
+        }
+        
+        return prevRecords;
+      });
+    }
   }, [callData]);
 
   const handleDeleteRecord = (recordId: string) => {
-    setCallRecords((prevRecords) =>
-      prevRecords.filter((record) => record.id !== recordId)
-    );
-    if (selectedRecord?.id === recordId) {
-      setSelectedRecord(null);
+    addDeletedId(recordId);
+    const deleteIndex = callRecords.findIndex(record => record.id === recordId);
+    const isSelectedRecord = selectedRecord?.id === recordId;
+
+    setCallRecords(prevRecords => {
+      const updatedRecords = prevRecords.filter(record => record.id !== recordId);
+      
+      localStorage.setItem('callRecords', JSON.stringify(updatedRecords));
+      
+      return updatedRecords;
+    });
+    
+    if (isSelectedRecord) {
+      setCallRecords(updatedRecords => {
+        if (updatedRecords.length > 0) {
+          const nextIndex = Math.min(deleteIndex, updatedRecords.length - 1);
+          setSelectedRecord(updatedRecords[nextIndex]);
+        } else {
+          setSelectedRecord(null);
+        }
+        return updatedRecords;
+      });
     }
-  } 
+  };
   
   const handleOpenFollowUpNotes = (recordId: string) => {
     console.log("Opening follow-up notes for record ID:", recordId);
@@ -50,6 +95,13 @@ const Dashboard = () => {
   const handleCloseFollowUoNotes = () => {
     setShowTranscript(false);
   }
+
+  const resetToDefaultData = () => {
+    localStorage.removeItem('callRecords');
+    initializeLocalStorage();
+    setCallRecords(getStoredCallRecords());
+    setSelectedRecord(getStoredCallRecords()[0] || null);
+  };
     
   useEffect(() => {
     if (callStatus === "inactive") {
@@ -85,6 +137,12 @@ const Dashboard = () => {
             Welcome to our product demonstration, click the “Talk to Candling”
             button to start!
           </div>
+          <button 
+            onClick={resetToDefaultData}
+            className="reset-button"
+          >
+            Reset to Default Data
+          </button>
         </div>
 
         <div className="demo-top-right">

@@ -135,7 +135,7 @@ C2 non-urgent family DV | warmTransferFVC | See sg-services list
       transferCall {agency:"SOS"}; stay until hand-off.  
    • If no  → ${t.provideCounselling.label}.
 
-4. If Bucket C1 (child / elder) → ${t.warmTransferProtective.label}  
+4. If Bucket C1 (child / elder) → ${t.warmTransferNAVH.label}  
   • Ask: “May I connect you with (child or adult) protective services while I stay on the line?”  
    • If caller asks “What is child or adult protective services?” → read matching row in sg-services.md and give one-sentence purpose + how it helps + ask for consent to transfer again.
    • If yes → collect name, location, latest incident date, abuse type;  

@@ -7,6 +7,7 @@ import { CandlingInsights } from './components/landing/insights/CandlingInsights
 import { Vapi } from './components/landing/vapi/Vapi'
 import { Footer } from './components/landing/footer/Footer'
 
+
 function App() {
   return (
     <>
