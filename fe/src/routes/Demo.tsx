@@ -11,7 +11,7 @@ import { Table } from '../components/dashboard/Table';
 import { NotesPanel } from '../components/dashboard/NotesPanel';
 import type { CallRecord } from '../types/conversation.type';
 import { NavLink } from 'react-router';
-import { initializeLocalStorage, getStoredCallRecords, storeCallRecords, addDeletedId, getDeletedIds } from '../utils/localStorage';
+import { getStoredCallRecords, storeCallRecords, addDeletedId } from '../utils/localStorage';
 
 
 const Dashboard = () => {
@@ -95,13 +95,6 @@ const Dashboard = () => {
   const handleCloseFollowUoNotes = () => {
     setShowTranscript(false);
   }
-
-  const resetToDefaultData = () => {
-    localStorage.removeItem('callRecords');
-    initializeLocalStorage();
-    setCallRecords(getStoredCallRecords());
-    setSelectedRecord(getStoredCallRecords()[0] || null);
-  };
     
   useEffect(() => {
     if (callStatus === "inactive") {
@@ -137,12 +130,6 @@ const Dashboard = () => {
             Welcome to our product demonstration, click the “Talk to Candling”
             button to start!
           </div>
-          <button 
-            onClick={resetToDefaultData}
-            className="reset-button"
-          >
-            Reset to Default Data
-          </button>
         </div>
 
         <div className="demo-top-right">
