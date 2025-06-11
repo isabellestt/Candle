@@ -36,7 +36,7 @@ export const helplineAssistant: CreateAssistantDTO = {
   },
   silenceTimeoutSeconds: 98,
   server: {
-      url: import.meta.env.VITE_PUBLIC_NGROK_API_URL + "/api/webHook" || "",
+      url: import.meta.env.VITE_PUBLIC_API_URL + "/api/webHook" || "",
   },
   clientMessages: [
       "conversation-update",
