@@ -20,11 +20,15 @@ export const systemPromptData = {
 
   agentTasks: [
     { id: "triageCaller",            label: "Triage caller" },
-    { id: "warmTransferAuthorities", label: "Warm-transfer to SPF" },
+    { id: "checkDateTime",           label: "Determine Date Time for helpline access and summary report" },
+    { id: "warmTransferAuthorities", label: "Warm-transfer to Authorities" },
     { id: "warmTransferSOS",         label: "Warm-transfer to SOS" },
-    { id: "provideCounselling",      label: "Provide counselling" },
+    { id: "warmTransferNAVH", label: "Warm-transfer to NAVH" },
     { id: "warmTransferHelplines",   label: "Warm-transfer to available helplines"},
+    { id: "provideCounselling",      label: "Provide counselling" },
     { id: "coldTransfer",            label: "Cold-transfer to relevant protection service" },
-    { id: "documentAndFollowUp",     label: "Document & follow-up note" }
+    { id: "handoff",            label: "Handoff call to follow-up agent" },
+    { id: "endCall",     label: "Thank the caller and end the call." },
+    { id: "documentAndFollowUp",     label: "Document & follow-up note" },
   ] as const
 };
