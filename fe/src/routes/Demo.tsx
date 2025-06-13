@@ -67,20 +67,17 @@ const Dashboard = () => {
       
       localStorage.setItem('callRecords', JSON.stringify(updatedRecords));
       
+      if (isSelectedRecord && callRecords.length > 1) {
+        const nextIndex = Math.min(deleteIndex, updatedRecords.length - 1);
+        setSelectedRecord(updatedRecords[nextIndex]);
+        
+      } else if (isSelectedRecord && callRecords.length === 1) {
+        setSelectedRecord(null);
+        setShowTranscript(false);
+      }
       return updatedRecords;
     });
     
-    if (isSelectedRecord) {
-      setCallRecords(updatedRecords => {
-        if (updatedRecords.length > 0) {
-          const nextIndex = Math.min(deleteIndex, updatedRecords.length - 1);
-          setSelectedRecord(updatedRecords[nextIndex]);
-        } else {
-          setSelectedRecord(null);
-        }
-        return updatedRecords;
-      });
-    }
   };
   
   const handleOpenFollowUpNotes = (recordId: string) => {
