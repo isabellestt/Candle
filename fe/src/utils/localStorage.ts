@@ -8,7 +8,7 @@ export const LOCAL_STORAGE_KEYS = {
 export function initializeLocalStorage() {
   const existingData = localStorage.getItem(LOCAL_STORAGE_KEYS.CALL_RECORDS);
   
-  if (existingData == '[]') {
+  if (!existingData) {
     localStorage.setItem(LOCAL_STORAGE_KEYS.CALL_RECORDS, JSON.stringify(defaultCallData));
     console.log('Initialized localStorage with default call data');
   }
