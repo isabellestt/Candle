@@ -66,6 +66,8 @@ export function useVapi() {
       }
 
       if (apiUrl) {
+        const mostRecentRecord = callData.length > 0 ? callData[0] : null;
+        const mostRecentRecordId = mostRecentRecord ? mostRecentRecord.callId : null;
         setTimeout(() => {
           console.log("Fetching call data after delay...")
           fetch(`${apiUrl}/api/getCallInfo`)
@@ -108,6 +110,12 @@ export function useVapi() {
           })
           .catch(error => {
             console.error("Error fetching call info:", error);
+
+            if (mostRecentRecordId) {
+              updateCallData(prevData => {
+                return prevData.filter(record => record.callId !== mostRecentRecordId);
+              })
+            }
           });
         }, 6000)
         
@@ -153,19 +161,21 @@ export function useVapi() {
 
   const start = async () => {
     setCallStatus(CALL_STATUS.LOADING);
-    const response = vapi.start(helplineAssistant, undefined, squad);
+    try {
 
-    response.then((res) => {
-      console.log("call", res);
-
+      const res = await vapi.start(helplineAssistant, undefined, squad);
+      console.log("call", res)
+      if (!res) {
+        setCallStatus(CALL_STATUS.ERROR);
+        throw new Error("Failed to start call");
+      }
+  
       const allRecords = getStoredCallRecords();
-      
       const highestId = allRecords.length > 0 
         ? Math.max(...allRecords.map(record => parseInt(record.id) || 0))
         : 0;
-      
       const newId = String(highestId + 1);
-
+  
       const record: CallRecord = {
         id: newId,
         createdDate: formatDateForDisplay(new Date().toISOString()),
@@ -188,7 +198,11 @@ export function useVapi() {
         }
       }
       updateCallData(prevData => [record, ...prevData]);
-    });
+
+    } catch (error) {
+      console.error("Error starting call:", error);
+      setCallStatus(CALL_STATUS.ERROR);
+    }
   };
 
   const stop = () => {

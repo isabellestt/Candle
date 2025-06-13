@@ -107,6 +107,11 @@ const Dashboard = () => {
       setIsConnecting(false)
       setIsConnected(true)
     }
+
+    if (callStatus === "error") {
+      setIsConnecting(false)
+      setIsConnected(false)
+    }
     
   },[callStatus])
 
