@@ -26,7 +26,6 @@ export function addDeletedId(id: string) {
     if (!deletedIds.includes(id)) {
       deletedIds.push(id);
       localStorage.setItem('deletedRecordIds', JSON.stringify(deletedIds));
-      console.log(`Added ID ${id} to deleted records list`);
     }
   } catch (error) {
     console.error('Error adding deleted ID:', error);

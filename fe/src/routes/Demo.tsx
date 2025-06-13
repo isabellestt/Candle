@@ -81,7 +81,6 @@ const Dashboard = () => {
   };
   
   const handleOpenFollowUpNotes = (recordId: string) => {
-    console.log("Opening follow-up notes for record ID:", recordId);
     const record = callRecords.find(r => r.id === recordId);
     if (record) {
       setSelectedRecord(record);

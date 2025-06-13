@@ -73,12 +73,13 @@ export function useVapi() {
           fetch(`${apiUrl}/api/getCallInfo`)
           .then((response) => {
             if (!response.ok) {
-              throw new Error(`Server responded with status: ${response.status}`);
+              return response.text().then(text => {
+                throw new Error(`Server responded with status: ${response.status}, body: ${text}`);
+              });
             }
             return response.json();
           })
           .then((data) => {
-            console.log("Call info fetched successfully:", data);
             
             updateCallData(prevData => {
               return prevData.map(existingRecord => {
@@ -153,18 +154,14 @@ export function useVapi() {
       // vapi.off("message", onMessageUpdate);
       vapi.off("error", onError);
     };
-  }, []);
-
-  useEffect(() => {
-    console.log("Updated callData:", callData);
   }, [callData]);
+
 
   const start = async () => {
     setCallStatus(CALL_STATUS.LOADING);
     try {
 
       const res = await vapi.start(helplineAssistant, undefined, squad);
-      console.log("call", res)
       if (!res) {
         setCallStatus(CALL_STATUS.ERROR);
         throw new Error("Failed to start call");
