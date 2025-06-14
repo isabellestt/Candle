@@ -27,6 +27,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     storeCallRecords(callRecords);
+    console.log("Call records updated in local storage:", callRecords);
   }, [callRecords]);
   
   useEffect(() => {

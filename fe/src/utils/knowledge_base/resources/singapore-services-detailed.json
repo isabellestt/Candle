@@ -279,5 +279,17 @@
     "hours": "Mon-Fri 09:00-18:00",
     "services": "Enforcement filing, mediation, legal info",
     "url": "https://www.scwo.org.sg/maintenance-support-central"
+  },
+  {
+    "name": "Adult Protective Service (APS)",
+    "category": "Government vulnerable-adult protection service",
+    "audience": "Adults (18+) with mental or physical infirmity who face abuse, neglect, or self-neglect; professionals or public wishing to report such cases",
+    "languages": ["English", "Mandarin", "Malay", "Tamil"],
+    "hotline": "1800-777-0000 (via NAVH)",
+    "hours": "24/7 through NAVH; APS office hours Mon-Fri 08:30-17:30",
+    "services": "Risk assessment and investigation, statutory protection orders, emergency removal to safe care, coordinated case management, caregiver and social support referrals",
+    "emergency_escalation": "Works with Police 999, SCDF 995 and DVERT for on-scene interventions",
+    "intake": "Reports accepted via NAVH hotline/web form, Police referral or healthcare/social-service professionals",
+    "url": "https://www.msf.gov.sg"
   }
 ]

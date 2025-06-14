@@ -1,3 +1,4 @@
+import type { AssistantOverrides } from './../../../node_modules/@vapi-ai/web/dist/api.d';
 import { useEffect, useState, useRef } from "react";
 import { vapi } from "./vapi.sdk";
 import type { CallRecord } from './../../types/conversation.type';
@@ -93,12 +94,12 @@ export function useVapi() {
                       summaryTitle: data.summaryTitle || "No summary provided",
                       structuredData: {
                         urgentStatus: data.structuredData?.urgent || false,
-                        transferTo: data.structuredData?.transferTo || null,
+                        transferTo: data.structuredData?.transfer_to || null,
                         transferred: data.structuredData?.transferred || false,
-                        abuseType: data.structuredData?.abuseType || "Not specified",
+                        abuseType: data.structuredData?.abuse_type || "Not specified",
                         callerName: data.structuredData?.name || "Unknown",
                         callerLocation: data.structuredData?.location || "Unknown",
-                        latestIncident: data.structuredData?.latestIncident || "N/A",
+                        latestIncident: data.structuredData?.latest_incident_date || "N/A",
                         follow_up: data.structuredData?.follow_up || "No follow-up required",
                       },
                       messages: data.messages || [],
@@ -160,8 +161,12 @@ export function useVapi() {
   const start = async () => {
     setCallStatus(CALL_STATUS.LOADING);
     try {
-
-      const res = await vapi.start(helplineAssistant, undefined, squad);
+      const assistantOverrides: AssistantOverrides = {
+        "variableValues": {
+          "agency": ""
+        }
+      }
+      const res = await vapi.start(helplineAssistant, assistantOverrides, squad);
       if (!res) {
         setCallStatus(CALL_STATUS.ERROR);
         throw new Error("Failed to start call");

@@ -3,7 +3,7 @@ import type { CreateAssistantDTO } from "@vapi-ai/web/dist/api";
 export const authorityAssistant: CreateAssistantDTO = {
   name: "Authorities",
   voice: {
-      voiceId: "Elliot",
+      voiceId: "Neha",
       provider: "vapi"
   },
   model: {
