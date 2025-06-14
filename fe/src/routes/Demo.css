@@ -700,6 +700,10 @@ td:has(.pill) {
   position: static;
 }
 
+.page-bottom-wrapper .footer-feedback-button {
+  margin-left: 48px;
+}
+
 .page-bottom {
   padding: 0px 48px 48px 48px;
   display: flex;
@@ -801,6 +805,10 @@ a:hover {
   .page-bottom {
     position: relative;
     padding: 24px;
+  }
+
+  .page-bottom-wrapper .footer-feedback-button {
+    margin-left: 24px;
   }
 }
 
