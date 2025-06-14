@@ -9,7 +9,7 @@ import './Segment.css'
 export function AudienceSegments() {
   return (
     // second-wrapper
-    <div className="second-wrapper">
+    <div className="second-wrapper" id='segment'>
       {/* second-wrapper-top */}
       <div className="second-wrapper-top">
         {/* second-subtext */}
@@ -44,10 +44,7 @@ export function AudienceSegments() {
           modalTitle={<>For Victims of Abuse</>}
           modalDescription={
             <>
-              Even after hours, help is just a phone call away. <br />
-              Candling offers 24/7 access to a compassionate, listening voice, built on memory-enhanced voice AI. <br />
-              Callers don’t need to know what to ask for as our agent listens patiently, <br /> 
-              responds with care, and gently helps them find the support they need.
+              Even after hours, help is just a phone call away. Candling offers 24/7 access to a compassionate, listening voice, trained on Singapore's care network. Callers don’t need to know what to ask for as our agent listens patiently, responds with care, and gently helps them find the support they need.
             </>
           }
           modalCtaText="Learn how Candling comforts in crisis moments"
@@ -59,9 +56,7 @@ export function AudienceSegments() {
           modalTitle={<>For First Responder <br /> Teams</>}
           modalDescription={
             <>
-              Candling flags high-risk calls based on tone and keywords, automatically<br />
-              alerting duty officers. Whether it's a police officer, social worker, or DVERT<br />
-              responder, support teams receive concise summaries of what was said,<br /> how the caller felt, and what follow-up is needed.
+              Candling flags high-risk calls based on escalation-trigger keywords, automatically alerting duty officers through warm transfers. Whether it's a police officer, social worker, or helpline responder, support teams receive concise summaries of what was said, how the caller felt, and what follow-up is needed.
             </>
           }
           modalCtaText="See how Candling amplifies responder readiness"
@@ -78,12 +73,7 @@ export function AudienceSegments() {
           modalDescription={
           <>
             Each overnight call generates a structured case summary, sent
-            straight to <br />
-            the morning team’s dashboard. PSCs can see which callers may need
-            <br />
-            outreach, what services were discussed, and how distressed the
-            caller
-            <br />sounded, all without breaching PDPA.
+            straight to the morning team’s dashboard. PSC counsellors can see which callers may need outreach, what services were discussed, and how distressed the caller sounded, all without breaching PDPA.
           </>
           }
           modalCtaText="Explore how Candling powers next-day continuity" 

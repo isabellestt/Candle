@@ -1,5 +1,6 @@
 import plusIcon from '../../../assets/plus-icon.svg'
 import chevron from '../../../assets/chevron.svg';
+import { Link } from 'react-router'
 import './Modal.css'
 
 interface ModalProps {
@@ -54,6 +55,7 @@ export function Modal({
               {description}
             </div>
             {/* modal-cta */}
+            <Link to="/demo">
             <div className="modal-cta">
               {/* modal-cta-text */}
               <div className="modal-cta-text">
@@ -64,6 +66,7 @@ export function Modal({
                 <img src={chevron} alt="arrow pointing right" />
               </div>
             </div>
+            </Link>
           </div>
         </div>
       </div>

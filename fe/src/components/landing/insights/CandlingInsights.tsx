@@ -42,7 +42,7 @@ export function CandlingInsights() {
         <InsightCard
           header="Call summaries"
           subtext="Automatically generated call recaps capture emotional tone, risk
-        level, and referral decisions, ready by the time the call ends."
+        level, and referral decisions, ready within seconds after the call ends."
         />
 
         <InsightCard

@@ -14,14 +14,11 @@ export function Hero() {
         {/* landing-hero-title */}
         <div className="landing-hero-title">
           Voice AI Support for <br className='landing-hero-title-line-break' />
-          Non-violent crisis situations
+          Singapore's Crisis Landscape
         </div>
         {/* landing-hero-subtitle */}
         <div className="landing-hero-subtitle">
-          24/7 victim support with real-time resource access, seamless authority
-          handoffs,
-          and omni-channel communication with protection centres to
-          improve response times and save more lives.
+          24/7 voice support that triages callers and delivers instant case notes to duty teams. Reducing call overload so frontline responders can focus on urgent care.
         </div>
         {/* landing-cta-button */}
         <Link to="/demo">
@@ -32,10 +29,22 @@ export function Hero() {
           </button>
         </Link>
         {/* landing-sub-cta */}
-        <div className="landing-sub-cta">
-          {/* landing-sub-cta-text */}
-          <div className="landing-sub-cta-text">More about Candling's Mission</div>
-          {/* landing-sub-cta-arrow */}
+        <div
+          className="landing-sub-cta"
+          role="link"            
+          tabIndex={0}          
+          onClick={() => {
+            document.getElementById('segment')
+                    ?.scrollIntoView({ behavior: 'smooth' });
+          }}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              document.getElementById('segment')
+                      ?.scrollIntoView({ behavior: 'smooth' });
+            }
+          }}
+        >
+          <span className="landing-sub-cta-text">More about Candling&apos;s Mission</span>
           <img
             className="landing-sub-cta-arrow"
             src={chevron}
@@ -43,7 +52,6 @@ export function Hero() {
           />
         </div>
       </div>
-
       {/* landing-right */}
       <div className="landing-right">
         {/* landing-header-gif */}
