@@ -75,7 +75,7 @@ voice: {
       summaryPlan: {
           "messages": [
                 {
-                    "content": "You are an expert note taker and you will be given a transcript of this call. Write a summary based on the transcript, with a title describing the summary of the call. The title and summary will be separated by a line break or '\n'. An example of the title is: Intimate-partner violence. Do not add a prefix like 'Summary title:' in front of the titile. An example of the summary of a violent situation is is: 'Caller identified herself as Heather. She reported being physically intimidated by her partner in the middle of the night at her family’s flat in Hougang. \n\nShe described ongoing tension in the household and mentioned this was not the first incident where she feared serious harm, with her partner’s repeat history of violence. Despite sharing about her pre-existing anxiety symptoms, Heather remained coherent and showcased no signs of suicidal ideation. \n\n Given the violent nature of Heather’s environment, consent was provided for a warm transfer to the Singapore Police Force.' Do break up paragraphs with a line break or '\n'. Do not add a prefix like 'Summary:' in front of the summary. Do not add any other information in the summary. Do not add any other information in the title.",
+                    "content": "You are an expert note taker and you will be given a transcript of this call. Write a summary based on the transcript, with a title describing the summary of the call.",
                     "role": "system"
                 },
                 {

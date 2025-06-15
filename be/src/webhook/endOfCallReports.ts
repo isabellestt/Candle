@@ -5,11 +5,10 @@ import convertToISODate from "../utils/convertDate";
 export const EndOfCallReportHandler = (
   payload: EndOfCallReportPayload
 ) => {
-  console.log("summaryWithTitle", summaryWithTitle);
-
   const endedReason = payload.message.endedReason;
   const messages = payload.message.artifact?.messages || [];
   const summaryWithTitle = payload.message.analysis.summary;
+  console.log("summary", summaryWithTitle);
   const summary = summaryWithTitle ? summaryWithTitle.split("\n")[2] : "No summary provided";
   const summaryTitle = summaryWithTitle 
   ? summaryWithTitle.split("\n")[0].replace(/[#*]/g, '').trim() 
