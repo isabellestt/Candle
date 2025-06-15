@@ -78,7 +78,7 @@ export function Table({records, onOpenFollowUpNotes}: TableProps) {
               {/* definitely needs to be fixed for scalability */}
               <td data-label="Transfer To">
                 <span
-                  className={`pill ${record.details.structuredData.transferTo ? record.details.structuredData.transferTo === 'Not Applicable' ? 'not-applicable' : record.details.structuredData.transferTo : 'not-applicable'}`}>
+                  className={`pill ${record.details.structuredData.transferTo}`}>
                   {record.details.structuredData.transferTo || 'Not Applicable'}
                 </span>
               </td>
