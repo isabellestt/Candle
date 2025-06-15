@@ -5,6 +5,8 @@ import convertToISODate from "../utils/convertDate";
 export const EndOfCallReportHandler = (
   payload: EndOfCallReportPayload
 ) => {
+  console.log("summaryWithTitle", summaryWithTitle);
+
   const endedReason = payload.message.endedReason;
   const messages = payload.message.artifact?.messages || [];
   const summaryWithTitle = payload.message.analysis.summary;
@@ -17,7 +19,6 @@ export const EndOfCallReportHandler = (
   const durationSeconds = payload.message.durationSeconds;
   const structuredData = payload.message.analysis.structuredData;
 
-  console.log("summaryWithTitle", summaryWithTitle.split("\n"));
 
   const res: EndOfCallReportMessageResponse = {
     callId,
