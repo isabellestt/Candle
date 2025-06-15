@@ -3,12 +3,6 @@ import { VapiPayload, VapiWebhookEnum, EndOfCallReportPayload } from "../types";
 import { EndOfCallReportHandler } from "./endOfCallReports";
 
 export const WebhookHandler = (req: Request, res: Response) => {
-  const MAX_SIZE = 2 * 1024 * 1024; 
-  const contentLength = parseInt(req.headers['content-length'] || '0', 10);
-  
-  if (contentLength > MAX_SIZE) {
-    return res.status(413).json({ error: 'Request body too large (max 2 MB).' });
-  }
   const payload: VapiPayload = req.body;
 
   try {
