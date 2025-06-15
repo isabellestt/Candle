@@ -12,78 +12,43 @@ import { Table } from '../components/dashboard/Table';
 import { NotesPanel } from '../components/dashboard/NotesPanel';
 import type { CallRecord } from '../types/conversation.type';
 import { NavLink } from 'react-router';
-import { getStoredCallRecords, storeCallRecords, addDeletedId } from '../utils/localStorage';
 
 
 const Dashboard = () => {
   const { toggleCall, isSpeechActive, callStatus, audioLevel, callData} = useVapi();
 
-  const [callRecords, setCallRecords] = useState<CallRecord[]>(getStoredCallRecords());
+  const [callRecords, setCallRecords] = useState<CallRecord[]>(callData);
 
   const [selectedRecord, setSelectedRecord] = useState<CallRecord | null>(callData[0]);
   const [showTranscript, setShowTranscript] = useState(false);
 
   const [isConnecting, setIsConnecting] = useState(false)
   const [isConnected, setIsConnected] = useState(false)
+  const [deletedIds, setDeletedIds] = useState<string[]>([]);
+
+
 
   useEffect(() => {
-    storeCallRecords(callRecords);
-    console.log("Call records updated in local storage:", callRecords);
-  }, [callRecords]);
-  
-  useEffect(() => {
-    if (callData.length > 0) {
-      setCallRecords(prevRecords => {
-        const mergedRecords = [...prevRecords];
-        let hasChanges = false;
-        
-        callData.forEach(newRecord => {
-          const existingIndex = mergedRecords.findIndex(r => r.id === newRecord.id);
-          
-          if (existingIndex === -1) {
-            mergedRecords.unshift(newRecord);
-            hasChanges = true;
-          } else if (JSON.stringify(mergedRecords[existingIndex]) !== JSON.stringify(newRecord)) {
-            mergedRecords[existingIndex] = newRecord;
-            hasChanges = true;
-          }
-        });
-        
-        if (hasChanges) {
-          storeCallRecords(mergedRecords); 
-          return [...mergedRecords];
-        }
-        
-        return prevRecords;
-      });
-    }
-  }, [callData]);
+    const filteredCallData = callData.filter(record => !deletedIds.includes(record.id));
+
+    setCallRecords(filteredCallData);
+  }, [callData, deletedIds]);
 
   const handleDeleteRecord = (recordId: string) => {
-    addDeletedId(recordId);
-    const deleteIndex = callRecords.findIndex(record => record.id === recordId);
-    const isSelectedRecord = selectedRecord?.id === recordId;
+    setDeletedIds(prev => [...prev, recordId]);
 
-    setCallRecords(prevRecords => {
-      const updatedRecords = prevRecords.filter(record => record.id !== recordId);
-      
-      localStorage.setItem('callRecords', JSON.stringify(updatedRecords));
-      
-      if (isSelectedRecord && callRecords.length > 1) {
-        const nextIndex = Math.min(deleteIndex, updatedRecords.length - 1);
-        setSelectedRecord(updatedRecords[nextIndex]);
-        
-      } else if (isSelectedRecord && callRecords.length === 1) {
-        setSelectedRecord(null);
-        setShowTranscript(false);
-      }
-      return updatedRecords;
-    });
+    setCallRecords((prevRecords) =>
+      prevRecords.filter((record) => record.id !== recordId)
+    );
+    if (selectedRecord?.id === recordId) {
+      setSelectedRecord(null);
+    }
     
   };
   
   const handleOpenFollowUpNotes = (recordId: string) => {
     const record = callRecords.find(r => r.id === recordId);
+    
     if (record) {
       setSelectedRecord(record);
       setShowTranscript(true);

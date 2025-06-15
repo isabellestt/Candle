@@ -4,10 +4,9 @@ import { vapi } from "./vapi.sdk";
 import type { CallRecord } from './../../types/conversation.type';
 import { helplineAssistant } from './helpline.assistant';
 import { squad } from '../squad/squad';
-// import { callData } from '../../../public/callData';
+import { callData as defaultCallData } from '../../../public/callData';
 import formatDateForDisplay from "../formatDate";
 import formatTime from "../formatTime";
-import { getStoredCallRecords, storeCallRecords, getDeletedIds } from '../localStorage';
 
 
 export const CALL_STATUS = {
@@ -20,16 +19,7 @@ export const CALL_STATUS = {
 export type CALL_STATUS_TYPE = typeof CALL_STATUS[keyof typeof CALL_STATUS]
   
 export function useVapi() {
-  const deletedIds = getDeletedIds();
-  const [callData, setCallData] = useState<CallRecord[]>(getStoredCallRecords().filter(record => !deletedIds.includes(record.id)));
-
-  const updateCallData = (updater: (prevData: CallRecord[]) => CallRecord[]) => {
-    setCallData(prevData => {
-      const newData = updater(prevData);
-      storeCallRecords(newData); 
-      return newData;
-    });
-  };
+  const [callData, setCallData] = useState<CallRecord[]>(defaultCallData);
 
   const [isSpeechActive, setIsSpeechActive] = useState(false);
   const [callStatus, setCallStatus] = useState<CALL_STATUS_TYPE>(
@@ -82,7 +72,7 @@ export function useVapi() {
           })
           .then((data) => {
             
-            updateCallData(prevData => {
+            setCallData(prevData => {
               return prevData.map(existingRecord => {
                 if (existingRecord.callId === data.callId) {
                   return {
@@ -114,7 +104,7 @@ export function useVapi() {
             console.error("Error fetching call info:", error);
 
             if (mostRecentRecordId) {
-              updateCallData(prevData => {
+              setCallData(prevData => {
                 return prevData.filter(record => record.callId !== mostRecentRecordId);
               })
             }
@@ -172,9 +162,8 @@ export function useVapi() {
         throw new Error("Failed to start call");
       }
   
-      const allRecords = getStoredCallRecords();
-      const highestId = allRecords.length > 0 
-        ? Math.max(...allRecords.map(record => parseInt(record.id) || 0))
+      const highestId = callData.length > 0 
+        ? Math.max(...callData.map(record => parseInt(record.id) || 0))
         : 0;
       const newId = String(highestId + 1);
   
@@ -199,7 +188,7 @@ export function useVapi() {
           messages: [],
         }
       }
-      updateCallData(prevData => [record, ...prevData]);
+      setCallData(prevData => [record, ...prevData]);
 
     } catch (error) {
       console.error("Error starting call:", error);
