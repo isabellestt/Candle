@@ -28,7 +28,7 @@ voice: {
           }
       ],
       provider: "openai",
-      temperature: 0
+      temperature: 0.3
   },
   firstMessage: "Hello, you’ve reached Candling, an after-hours support assistant. I’m here to listen, and no personal data will be stored. May I ask if you are in a violent or dangerous situation right now? This is important for determining your immediate safety.",
   endCallMessage: "I'm really glad you reached out today. You're always welcome to call again, even if it's just to talk. Remember that this is only the first step, and following up with the services we discussed can really help you feel more supported. Thank you for calling Candling, goodbye.",
