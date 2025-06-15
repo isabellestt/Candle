@@ -6,8 +6,8 @@ import cors from 'cors'
 const {PORT, ORIGINS} = process.env
 
 const app = express()
-
-app.use(express.json())
+app.use(express.static('dist'));
+app.use(express.json({ limit: '2mb' }))
 
 app.use(cors({
   origin: ORIGINS,
