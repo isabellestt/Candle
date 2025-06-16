@@ -696,19 +696,8 @@ td:has(.pill) {
   }
 }
 
-.page-bottom-wrapper {
-  position: static;
-}
-
-.page-bottom-wrapper .footer-feedback-button {
-  margin-left: 48px;
-}
-
 .page-bottom {
   padding: 0px 48px 48px 48px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
 }
 
 .callout {
@@ -732,6 +721,12 @@ a:hover {
 
 .vapi-demo-logo {
   width: 50px;
+}
+
+.demo-feedback-button {
+  padding: 1rem 0 0 0;
+  color: #f3eee38f;
+  text-decoration: underline;
 }
 
 .scroll-icon {
@@ -805,10 +800,6 @@ a:hover {
   .page-bottom {
     position: relative;
     padding: 24px;
-  }
-
-  .page-bottom-wrapper .footer-feedback-button {
-    margin-left: 24px;
   }
 }
 

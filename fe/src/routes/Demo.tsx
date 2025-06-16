@@ -2,10 +2,8 @@ import CandlingLogo from '../assets/candling-logo.png';
 import CtaButtonLogo from '../assets/cta-button-logo.png';
 import VapiDemoLogo from '../assets/vapi-demo-logo.svg';
 import MidCallIcon from '../assets/mid-call-icon.svg'
-import feedbackIcon from '../assets/feedback-icon.svg'
 import '../App.css'
 import './Demo.css'
-
 import { useVapi } from '../utils/assistant/useVapi';
 import { useEffect, useState } from 'react';
 import { Table } from '../components/dashboard/Table';
@@ -164,11 +162,11 @@ const Dashboard = () => {
               onOpenFollowUpNotes={handleOpenFollowUpNotes}
             />
           </div>
+          <button onClick={() => window.open('https://forms.gle/SQDHcDD83htNhy5c7', '_blank', 'noopener')} className="demo-feedback-button">Provide Feedback Here</button>
           <div className="scroll-icon">⇆</div>
         </div>
       </div>
 
-      <div className="page-bottom-wrapper">
         <div className="page-bottom">
           <a href="https://vapi.ai/">
             <div className="callout">
@@ -180,19 +178,6 @@ const Dashboard = () => {
               />
             </div>
           </a>
-        </div>
-        <button
-                onClick={() => window.open('https://forms.gle/SQDHcDD83htNhy5c7', '_blank', 'noopener')}
-                className="footer-feedback-button"
-              >
-                <div className="footer-feedback-button-text">
-                  Provide Feedback Here
-                </div>
-                <img
-                  src={feedbackIcon}
-                  alt="call to action button"
-                />
-              </button>
       </div>
       
 
