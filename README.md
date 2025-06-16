@@ -1,6 +1,6 @@
 # Candling: [Vapi](https://www.vapi.ai) Build Challenge Entry
 
-[Live Demo](https://candling.xyz/demo) | [Project Website](https://candling.xyz) | [LinkedIn Post](https://www.linkedin.com/posts/brianchristianbc_buildwithvapi-techforpublicgood-activity-7339920345912496128-N05V?utm_source=share&utm_medium=member_desktop&rcm=ACoAADZjnvABWKKWDZHAr6xIq49X7kI7MF-L9Ec) | 
+[Live Demo](https://candling.xyz/demo) | [Project Website](https://candling.xyz) | [LinkedIn Post](https://www.linkedin.com/posts/brianchristianbc_buildwithvapi-techforpublicgood-activity-7339920345912496128-N05V?utm_source=share&utm_medium=member_desktop&rcm=ACoAADZjnvABWKKWDZHAr6xIq49X7kI7MF-L9Ec) 
 
 
 
