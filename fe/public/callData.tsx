@@ -484,9 +484,6 @@ export const callData: CallRecord[] = [
     role: "bot",
     message: "All right. They’ll come over tomorrow morning. Do you need any more support, I'm here to listen."
   },
-  { role: "user", message: "No it's okay, I think I'm going to go pray and wash up for bed." },
-  { role: "bot", message: "That sounds like a healthy step forward. You’re not alone Mr Rahman, please call back anytime if you need more support. " },
-  { role: "user", message: "Okay, thank you and goodnight." },
       ]
     }
   }
