@@ -2,11 +2,6 @@ import type { CreateAssistantDTO } from "@vapi-ai/web/dist/api";
 
 export const helplineAssistant: CreateAssistantDTO = {
   name: "MSF Helpline Agent",
-//   voice: {
-//       model: "tts-1",
-//       voiceId: "nova",
-//       provider: "openai"
-//   },
 voice: {
         "voiceId": "Elliot",
         "provider": "vapi"
