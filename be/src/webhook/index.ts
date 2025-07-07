@@ -14,7 +14,7 @@ export const WebhookHandler = (req: Request, res: Response) => {
       //   res.status(200).json({ message: "Tool calls webhook received" });
       //   break;
       default: 
-        console.log("Unhandled webhook type:", payload.message.type);
+        // console.log("Unhandled webhook type:", payload.message.type);
         res.status(400).json({ error: "Unhandled webhook type" });
         break;
     }

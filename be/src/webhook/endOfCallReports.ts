@@ -8,15 +8,18 @@ export const EndOfCallReportHandler = (
   const endedReason = payload.message.endedReason;
   const messages = payload.message.artifact?.messages || [];
   const summaryWithTitle = payload.message.analysis.summary;
-  console.log("summary", summaryWithTitle);
-  const summary = summaryWithTitle ? summaryWithTitle.split("\n")[2] : "No summary provided";
-  const summaryTitle = summaryWithTitle 
-  ? summaryWithTitle.split("\n")[0].replace(/[#*]/g, '').trim() 
-  : "No title provided";
+  console.log("summary: ", summaryWithTitle);
+  const [summaryTitle, ...bodyLines] = summaryWithTitle.trim().split(/\r?\n/) 
+  const summary = bodyLines.join('\n\n')
+  // const summary = summaryWithTitle ? summaryWithTitle.split("\n")[2] : "No summary provided";
+  // const summaryTitle = summaryWithTitle 
+  // ? summaryWithTitle.split("\n")[0].replace(/[#*]/g, '').trim() 
+  // : "No title provided";
   const callId = payload.message.call.id;
   const startedAt = convertToISODate(payload.message.startedAt);
   const durationSeconds = payload.message.durationSeconds;
   const structuredData = payload.message.analysis.structuredData;
+  console.log("follow up: ", structuredData.follow_up)
 
 
   const res: EndOfCallReportMessageResponse = {
@@ -34,7 +37,7 @@ export const EndOfCallReportHandler = (
     ...memoryStore[callId],
     ...res};
 
-  console.log("EndOfCallReportHandler memoryStore", memoryStore[callId]);
+  // console.log("EndOfCallReportHandler memoryStore", memoryStore[callId]);
 
   return res;
 };

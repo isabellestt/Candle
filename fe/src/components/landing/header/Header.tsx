@@ -5,7 +5,7 @@ export function Header() {
   return (
     <nav>
       {/* landing-header */}
-      <div className="landing-header">
+      <div className="flex justify-between items-center mb-[150px] p-[48px]">
         {/* Logo */}
         <img
           className="logo"

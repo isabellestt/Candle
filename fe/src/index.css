@@ -1,7 +1,18 @@
 @import "tailwindcss";
 
 @theme {
-  --color-test: #769deb;
+  /* spacing */
+  --header-padding-x: 48px;
+  --header-margin-b: 150px;
+  --header-margin-b-sm: 100px;
+
+  /* logo sizes */
+  --logo-w: 156px;
+  --logo-w-sm: 106px;
+
+  /* typography */
+  --build-font-size: 20px;
+  --build-font-size-sm: 1rem;
 }
 
 body {

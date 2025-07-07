@@ -31,7 +31,7 @@ router.get("/assistant", async (req, res) => {
       ...filteredData
     } = body;
 
-    console.log(filteredData);
+    // console.log(filteredData);
     res.json(filteredData)
   } catch (error) {
     console.error("Error fetching assistant data:", error);
@@ -43,7 +43,7 @@ router.post("/webhook", WebhookHandler)
 
 router.get("/getCallInfo", (req, res) => {
   const latest_call = Object.values(memoryStore).pop();
-  console.log("Latest call info:", latest_call);
+  // console.log("Latest call info:", latest_call);
   res.json(latest_call)
 })
 
