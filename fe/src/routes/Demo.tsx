@@ -24,8 +24,6 @@ const Dashboard = () => {
   const [isConnected, setIsConnected] = useState(false)
   const [deletedIds, setDeletedIds] = useState<string[]>([]);
 
-
-
   useEffect(() => {
     const filteredCallData = callData.filter(record => !deletedIds.includes(record.id));
 
@@ -181,9 +179,9 @@ const Dashboard = () => {
       </div>
       
 
-      {showTranscript && (
+      {showTranscript && selectedRecord && (
         <NotesPanel
-          record={selectedRecord || callData[0]}
+          record={selectedRecord}
           onDeleteRecord={handleDeleteRecord}
           onCloseFollowUpNotes={handleCloseFollowUoNotes} 
         />

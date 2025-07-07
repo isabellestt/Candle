@@ -1,5 +1,11 @@
 import type { CreateAssistantDTO } from "@vapi-ai/web/dist/api";
 
+let serverUrl: string;
+if (import.meta.env.ENVIRONMENT == 'development') {
+     serverUrl = import.meta.env.VITE_PUBLIC_NGROK_API_URL;
+} else {
+    serverUrl = import.meta.env.VITE_PUBLIC_API_URL;
+}
 export const helplineAssistant: CreateAssistantDTO = {
   name: "MSF Helpline Agent",
 voice: {
@@ -35,7 +41,7 @@ voice: {
   },
   silenceTimeoutSeconds: 30,
   server: {
-      url: import.meta.env.VITE_PUBLIC_API_URL + "/api/webHook" || "",
+      url: serverUrl + "/api/webHook" || "",
   },
   clientMessages: [
       "conversation-update",

@@ -109,7 +109,7 @@ export function useVapi() {
               })
             }
           });
-        }, 8000)
+        }, 10000)
         
       } else {
         console.warn("API URL not defined, skipping call info fetch");
