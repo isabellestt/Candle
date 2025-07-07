@@ -180,7 +180,7 @@ export function NotesPanel({ record, onDeleteRecord, onCloseFollowUpNotes }: Not
               <div className="recommended-follow-up-body-content">
                 <ul className="recommended-follow-up-body-content-list">
                 {record.details.structuredData.follow_up
-                    .split('\n')
+                    .split('. ')
                     .map((item, idx) => <li key={idx}>{item}</li>)
                   }
                 </ul>
