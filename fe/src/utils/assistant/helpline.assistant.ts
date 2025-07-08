@@ -1,11 +1,12 @@
 import type { CreateAssistantDTO } from "@vapi-ai/web/dist/api";
 
 let serverUrl: string;
-if (import.meta.env.ENVIRONMENT == 'development') {
-     serverUrl = import.meta.env.VITE_PUBLIC_NGROK_API_URL;
+if (import.meta.env.VITE_PUBLIC_ENVIRONMENT == 'development') {
+    serverUrl = import.meta.env.VITE_PUBLIC_NGROK_API_URL;
 } else {
     serverUrl = import.meta.env.VITE_PUBLIC_API_URL;
 }
+
 export const helplineAssistant: CreateAssistantDTO = {
   name: "MSF Helpline Agent",
 voice: {
@@ -93,7 +94,7 @@ voice: {
                         type: "string"
                     },
                     urgent: {
-                        type: "string"
+                        type: "boolean"
                     },
                     location: {
                         type: "string"
