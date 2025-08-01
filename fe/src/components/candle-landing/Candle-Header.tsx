@@ -5,6 +5,7 @@ import cardImg1 from '../../assets/card-img-1.png'
 import cardImg2 from '../../assets/card-img-2.png'
 import cardImg3 from '../../assets/card-img-3.png'
 import { useState } from 'react'
+import { Link } from 'react-router'
 
 export function CandleHeader() {
 
@@ -53,12 +54,12 @@ And no, we don’t sell your data 💅🏻`, image: cardImg2, imageAlt: "Two enc
 
   function Button({text}: ButtonProps) {
     return(
-      <button className='inline-flex items-center gap-0 bg-[#FF9C25] border-4 rounded-xl px-[14px] py-[11px]'>
-      <div className='font-extrabold text-[16px] tracking-[-0.5px] text-black whitespace-nowrap'>
-        {text}
-      </div>
-      <img src={chevron} alt="Button to demo page" />
-    </button>
+        <button className='inline-flex items-center gap-0 bg-[#FF9C25] border-4 rounded-xl px-[14px] py-[11px]'>
+        <div className='font-extrabold text-[16px] tracking-[-0.5px] text-black whitespace-nowrap'>
+          {text}
+        </div>
+          <img src={chevron} alt="Button to demo page" />
+        </button>
     )
   }
 
@@ -72,9 +73,11 @@ And no, we don’t sell your data 💅🏻`, image: cardImg2, imageAlt: "Two enc
 
   return(
     <>
-    <section className='bg-[#3E75FA] py-6 px-8 flex place-content-between'>
+    <section id='altLanding' className='bg-[#3E75FA] py-6 px-8 flex place-content-between'>
       <img src={candleLogo} alt="Logo for Candle" />
-      <Button text={buttons[0].text}></Button>
+      <Link to='/candle'>
+        <Button text={buttons[0].text}></Button>
+      </Link>
     </section>
     <main>
     <section className='bg-[#3E75FA] text-white text-center p-8'>
@@ -97,7 +100,9 @@ And no, we don’t sell your data 💅🏻`, image: cardImg2, imageAlt: "Two enc
     <section className='bg-[#3E75FA] flex flex-col items-center pt-4 pb-16'>
       <h2 className='text-4xl font-bold mb-4 text-center text-white px-24'>Your space, not ours.</h2>
       <p className='text-2xl text-center text-white p-8'>For when counsellors feel like too much, ChatGPT feels too robotic, and you’ve got intrusive thoughts with no one to share them with.</p>
-      <Button text={buttons[1].text}></Button>
+      <Link to='/candle'>
+        <Button text={buttons[1].text}></Button>
+      </Link>
     </section>
     <section className='mb-16'>
       <h2 className='text-4xl font-bold mb-4 text-center pt-16'>Stay in the loop</h2>
@@ -106,9 +111,9 @@ And no, we don’t sell your data 💅🏻`, image: cardImg2, imageAlt: "Two enc
       {!isSubmitted ? (
         <form className='flex flex-col items-center gap-8' action={getFormData}>
         <label htmlFor="firstName"></label>
-        <input className="focus:outline-none border-b-2 pb-4 pl-4 w-80 text-xl" type="text" id="firstName" name="firstName" placeholder='First Name'/>
+        <input className="focus:outline-none border-b-2 pb-4 pl-4 w-80 text-xl" type="text" id="firstName" name="firstName" placeholder='First Name' required/>
         <label htmlFor="email"></label>
-        <input className="focus:outline-none border-b-2 pb-4 pl-4 w-80 text-xl mb-8" type="email" id="email" name="email" placeholder='Email'/>
+        <input className="focus:outline-none border-b-2 pb-4 pl-4 w-80 text-xl mb-8" type="email" id="email" name="email" placeholder='Email' required/>
         <Button text={buttons[2].text}></Button>
       </form>
       ):(
@@ -123,9 +128,12 @@ And no, we don’t sell your data 💅🏻`, image: cardImg2, imageAlt: "Two enc
       <img className='scale-200 mb-2' src={candleLogo} alt="Logo for Candle" />
       <span>© Candle, Inc.</span>
       <nav className='flex gap-4'>
-        <div>Try Candle</div>
-        <div>Privacy Policy</div>
-        <div>Terms of Service</div>
+        <Link to='/candle'>
+          <div>Try Candle</div>
+        </Link>
+        <a href="#altLanding" onClick={() => alert('To be added!')}>Privacy Policy</a>
+        <a href="#altLanding" onClick={() => alert('To be added!')}>Terms of Service</a>
+
       </nav>
     </section>
     </>
