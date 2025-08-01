@@ -25,7 +25,7 @@ export function Modal({
           {/* modal-top */}
           <div className="modal-top">
             <button 
-              className="border-0 cursor-pointer p-0"
+              className="border-0 cursor-pointer p-0 segment-button"
               onClick={onClose}
             >
               {/* close-modal-button */}

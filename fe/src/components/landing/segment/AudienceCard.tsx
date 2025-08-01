@@ -42,7 +42,7 @@ export function AudienceCard({
         <div className="card-bottom-wrapper">
           {/* For Victims of Abuse */}
           <div className="segment-card-subtext">{title}</div>
-          <button 
+          <button className=' segment-button'
             onClick={openModal}
           >
             <img

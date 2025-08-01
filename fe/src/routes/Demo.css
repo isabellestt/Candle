@@ -3,6 +3,7 @@
   display: block;
   box-sizing: border-box;
   overflow-x: auto;
+  background-color: #0a1835;
 }
 
 .demo-top {
