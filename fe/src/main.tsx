@@ -1,12 +1,12 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import { BrowserRouter, Routes, Route } from 'react-router'
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import { BrowserRouter, Routes, Route } from "react-router";
 // import './index.css'
-import App from './App.tsx'
-import Dashboard  from './routes/Demo.tsx'
-import Candle from './routes/Candle.tsx'
+import App from "./App.tsx";
+import Dashboard from "./routes/Demo.tsx";
+import Candle from "./routes/Candle.tsx";
 
-createRoot(document.getElementById('root')!).render(
+createRoot(document.getElementById("root")!).render(
   <BrowserRouter>
     <StrictMode>
       <Routes>
@@ -15,5 +15,5 @@ createRoot(document.getElementById('root')!).render(
         <Route path="/Candle" element={<Candle />} />
       </Routes>
     </StrictMode>
-  </BrowserRouter>
-)
+  </BrowserRouter>,
+);

@@ -1,38 +1,36 @@
-import type { AssistantOverrides } from './../../../node_modules/@vapi-ai/web/dist/api.d';
+import type { AssistantOverrides } from "./../../../node_modules/@vapi-ai/web/dist/api.d";
 import { useEffect, useState, useRef } from "react";
 import { vapi } from "./vapi.sdk";
-import type { CallRecord } from './../../types/conversation.type';
-import { helplineAssistant } from './helpline.assistant';
-import { squad } from '../squad/squad';
-import { callData as defaultCallData } from '../../../public/callData';
+import type { CallRecord } from "./../../types/conversation.type";
+import { helplineAssistant } from "./helpline.assistant";
+import { squad } from "../squad/squad";
+import { callData as defaultCallData } from "../../../public/callData";
 import formatDateForDisplay from "../formatDate";
 import formatTime from "../formatTime";
-
 
 export const CALL_STATUS = {
   INACTIVE: "inactive",
   ACTIVE: "active",
   LOADING: "loading",
   ERROR: "error",
-} as const
+} as const;
 
-export type CALL_STATUS_TYPE = typeof CALL_STATUS[keyof typeof CALL_STATUS]
-  
+export type CALL_STATUS_TYPE = (typeof CALL_STATUS)[keyof typeof CALL_STATUS];
+
 export function useVapi() {
   const [callData, setCallData] = useState<CallRecord[]>(defaultCallData);
 
   const [isSpeechActive, setIsSpeechActive] = useState(false);
   const [callStatus, setCallStatus] = useState<CALL_STATUS_TYPE>(
-    CALL_STATUS.INACTIVE
+    CALL_STATUS.INACTIVE,
   );
   const [audioLevel, setAudioLevel] = useState(0);
 
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null)
-  
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+
   useEffect(() => {
-    localStorage.setItem('callRecords', JSON.stringify(callData));
+    localStorage.setItem("callRecords", JSON.stringify(callData));
   }, [callData]);
-  
 
   useEffect(() => {
     const onSpeechStart = () => setIsSpeechActive(true);
@@ -44,7 +42,6 @@ export function useVapi() {
     const onCallStartHandler = () => {
       console.log("Call has started");
       setCallStatus(CALL_STATUS.ACTIVE);
-      
     };
 
     const onCallEnd = () => {
@@ -58,66 +55,78 @@ export function useVapi() {
 
       if (apiUrl) {
         const mostRecentRecord = callData.length > 0 ? callData[0] : null;
-        const mostRecentRecordId = mostRecentRecord ? mostRecentRecord.callId : null;
+        const mostRecentRecordId = mostRecentRecord
+          ? mostRecentRecord.callId
+          : null;
         setTimeout(() => {
-          console.log("Fetching call data after delay...")
+          console.log("Fetching call data after delay...");
           fetch(`${apiUrl}/api/getCallInfo`)
-          .then((response) => {
-            if (!response.ok) {
-              return response.text().then(text => {
-                throw new Error(`Server responded with status: ${response.status}, body: ${text}`);
-              });
-            }
-            return response.json();
-          })
-          .then((data) => {
-            
-            setCallData(prevData => {
-              return prevData.map(existingRecord => {
-                if (existingRecord.callId === data.callId) {
-                  return {
-                    ...existingRecord,
-                    createdDate: formatDateForDisplay(data.startedAt) || existingRecord.createdDate,
-                    duration: data.durationSeconds ? formatTime(data.durationSeconds) : "N/A",
-                    details: {
-                      summary: data.summary || "No summary provided",
-                      summaryTitle: data.summaryTitle || "No summary provided",
-                      structuredData: {
-                        urgentStatus: data.structuredData?.urgent || false,
-                        transferTo: data.structuredData?.transfer_to || null,
-                        transferred: data.structuredData?.transferred || false,
-                        abuseType: data.structuredData?.abuse_type || "Not specified",
-                        callerName: data.structuredData?.name || "Unknown",
-                        callerLocation: data.structuredData?.location || "Unknown",
-                        latestIncident: data.structuredData?.latest_incident_date || "N/A",
-                        follow_up: data.structuredData?.follow_up || "No follow-up required",
+            .then((response) => {
+              if (!response.ok) {
+                return response.text().then((text) => {
+                  throw new Error(
+                    `Server responded with status: ${response.status}, body: ${text}`,
+                  );
+                });
+              }
+              return response.json();
+            })
+            .then((data) => {
+              setCallData((prevData) => {
+                return prevData.map((existingRecord) => {
+                  if (existingRecord.callId === data.callId) {
+                    return {
+                      ...existingRecord,
+                      createdDate:
+                        formatDateForDisplay(data.startedAt) ||
+                        existingRecord.createdDate,
+                      duration: data.durationSeconds
+                        ? formatTime(data.durationSeconds)
+                        : "N/A",
+                      details: {
+                        summary: data.summary || "No summary provided",
+                        summaryTitle:
+                          data.summaryTitle || "No summary provided",
+                        structuredData: {
+                          urgentStatus: data.structuredData?.urgent || false,
+                          transferTo: data.structuredData?.transfer_to || null,
+                          transferred:
+                            data.structuredData?.transferred || false,
+                          abuseType:
+                            data.structuredData?.abuse_type || "Not specified",
+                          callerName: data.structuredData?.name || "Unknown",
+                          callerLocation:
+                            data.structuredData?.location || "Unknown",
+                          latestIncident:
+                            data.structuredData?.latest_incident_date || "N/A",
+                          follow_up:
+                            data.structuredData?.follow_up ||
+                            "No follow-up required",
+                        },
+                        messages: data.messages || [],
                       },
-                      messages: data.messages || [],
-                    }
-                  };
-                }
-                return existingRecord;
+                    };
+                  }
+                  return existingRecord;
+                });
               });
-            });
-          })
-          .catch(error => {
-            console.error("Error fetching call info:", error);
+            })
+            .catch((error) => {
+              console.error("Error fetching call info:", error);
 
-            if (mostRecentRecordId) {
-              setCallData(prevData => {
-                return prevData.filter(record => record.callId !== mostRecentRecordId);
-              })
-            }
-          });
-        }, 10000)
-        
+              if (mostRecentRecordId) {
+                setCallData((prevData) => {
+                  return prevData.filter(
+                    (record) => record.callId !== mostRecentRecordId,
+                  );
+                });
+              }
+            });
+        }, 10000);
       } else {
         console.warn("API URL not defined, skipping call info fetch");
       }
-
     };
-
-    
 
     const onVolumeLevel = (volume: number) => {
       setAudioLevel(volume);
@@ -147,26 +156,30 @@ export function useVapi() {
     };
   }, [callData]);
 
-
   const start = async () => {
     setCallStatus(CALL_STATUS.LOADING);
     try {
       const assistantOverrides: AssistantOverrides = {
-        "variableValues": {
-          "agency": ""
-        }
-      }
-      const res = await vapi.start(helplineAssistant, assistantOverrides, squad);
+        variableValues: {
+          agency: "",
+        },
+      };
+      const res = await vapi.start(
+        helplineAssistant,
+        assistantOverrides,
+        squad,
+      );
       if (!res) {
         setCallStatus(CALL_STATUS.ERROR);
         throw new Error("Failed to start call");
       }
-  
-      const highestId = callData.length > 0 
-        ? Math.max(...callData.map(record => parseInt(record.id) || 0))
-        : 0;
+
+      const highestId =
+        callData.length > 0
+          ? Math.max(...callData.map((record) => parseInt(record.id) || 0))
+          : 0;
       const newId = String(highestId + 1);
-  
+
       const record: CallRecord = {
         id: newId,
         createdDate: formatDateForDisplay(new Date().toISOString()),
@@ -186,10 +199,9 @@ export function useVapi() {
             follow_up: "",
           },
           messages: [],
-        }
-      }
-      setCallData(prevData => [record, ...prevData]);
-
+        },
+      };
+      setCallData((prevData) => [record, ...prevData]);
     } catch (error) {
       console.error("Error starting call:", error);
       setCallStatus(CALL_STATUS.ERROR);
@@ -198,7 +210,7 @@ export function useVapi() {
 
   const stop = () => {
     setCallStatus(CALL_STATUS.LOADING);
-    vapi.stop()
+    vapi.stop();
   };
 
   const toggleCall = () => {
@@ -216,6 +228,6 @@ export function useVapi() {
     start,
     stop,
     toggleCall,
-    callData
+    callData,
   };
 }

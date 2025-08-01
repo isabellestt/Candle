@@ -1,50 +1,53 @@
-import CandlingLogo from '../assets/candling-logo.png';
-import CtaButtonLogo from '../assets/cta-button-logo.png';
-import VapiDemoLogo from '../assets/vapi-demo-logo.svg';
-import MidCallIcon from '../assets/mid-call-icon.svg'
-import '../App.css'
-import './Demo.css'
-import { useVapi } from '../utils/assistant/useVapi';
-import { useEffect, useState } from 'react';
-import { Table } from '../components/dashboard/Table';
-import { NotesPanel } from '../components/dashboard/NotesPanel';
-import type { CallRecord } from '../types/conversation.type';
-import { NavLink } from 'react-router';
-
+import CandlingLogo from "../assets/candling-logo.png";
+import CtaButtonLogo from "../assets/cta-button-logo.png";
+import VapiDemoLogo from "../assets/vapi-demo-logo.svg";
+import MidCallIcon from "../assets/mid-call-icon.svg";
+import "../App.css";
+import "./Demo.css";
+import { useVapi } from "../utils/assistant/useVapi";
+import { useEffect, useState } from "react";
+import { Table } from "../components/dashboard/Table";
+import { NotesPanel } from "../components/dashboard/NotesPanel";
+import type { CallRecord } from "../types/conversation.type";
+import { NavLink } from "react-router";
 
 const Dashboard = () => {
-  const { toggleCall, isSpeechActive, callStatus, audioLevel, callData} = useVapi();
+  const { toggleCall, isSpeechActive, callStatus, audioLevel, callData } =
+    useVapi();
 
   const [callRecords, setCallRecords] = useState<CallRecord[]>(callData);
 
-  const [selectedRecord, setSelectedRecord] = useState<CallRecord | null>(callData[0]);
+  const [selectedRecord, setSelectedRecord] = useState<CallRecord | null>(
+    callData[0],
+  );
   const [showTranscript, setShowTranscript] = useState(false);
 
-  const [isConnecting, setIsConnecting] = useState(false)
-  const [isConnected, setIsConnected] = useState(false)
+  const [isConnecting, setIsConnecting] = useState(false);
+  const [isConnected, setIsConnected] = useState(false);
   const [deletedIds, setDeletedIds] = useState<string[]>([]);
 
   useEffect(() => {
-    const filteredCallData = callData.filter(record => !deletedIds.includes(record.id));
+    const filteredCallData = callData.filter(
+      (record) => !deletedIds.includes(record.id),
+    );
 
     setCallRecords(filteredCallData);
   }, [callData, deletedIds]);
 
   const handleDeleteRecord = (recordId: string) => {
-    setDeletedIds(prev => [...prev, recordId]);
+    setDeletedIds((prev) => [...prev, recordId]);
 
     setCallRecords((prevRecords) =>
-      prevRecords.filter((record) => record.id !== recordId)
+      prevRecords.filter((record) => record.id !== recordId),
     );
     if (selectedRecord?.id === recordId) {
       setSelectedRecord(null);
     }
-    
   };
-  
+
   const handleOpenFollowUpNotes = (recordId: string) => {
-    const record = callRecords.find(r => r.id === recordId);
-    
+    const record = callRecords.find((r) => r.id === recordId);
+
     if (record) {
       setSelectedRecord(record);
       setShowTranscript(true);
@@ -53,29 +56,28 @@ const Dashboard = () => {
 
   const handleCloseFollowUoNotes = () => {
     setShowTranscript(false);
-  }
-    
+  };
+
   useEffect(() => {
     if (callStatus === "inactive") {
-      setIsConnecting(false)
-      setIsConnected(false)
+      setIsConnecting(false);
+      setIsConnected(false);
     }
 
     if (callStatus === "loading") {
-      setIsConnecting(true)
+      setIsConnecting(true);
     }
 
     if (callStatus === "active") {
-      setIsConnecting(false)
-      setIsConnected(true)
+      setIsConnecting(false);
+      setIsConnected(true);
     }
 
     if (callStatus === "error") {
-      setIsConnecting(false)
-      setIsConnected(false)
+      setIsConnecting(false);
+      setIsConnected(false);
     }
-    
-  },[callStatus])
+  }, [callStatus]);
 
   return (
     <div className="demo-wrapper">
@@ -97,22 +99,25 @@ const Dashboard = () => {
         </div>
 
         <div className="demo-top-right">
-        <div>
+          <div>
             <div>
-              {
-                isConnected ? isConnecting ? (
+              {isConnected ? (
+                isConnecting ? (
                   <p className="text-center">Connecting to Candling...</p>
                 ) : (
                   <p className="text-center">Connected to Candling</p>
-                ) : (
-                  <></>
                 )
-              }
-              
+              ) : (
+                <></>
+              )}
 
               {isConnected && (
                 <div className="mt-2.5">
-                  <p className="text-center">{isSpeechActive ? "Assistant is speaking" : "Assistant is listening"}</p>
+                  <p className="text-center">
+                    {isSpeechActive
+                      ? "Assistant is speaking"
+                      : "Assistant is listening"}
+                  </p>
 
                   {/* Volume indicator */}
                   <div className="flex justify-center mt-2.5 mb-2.5 gap-[3px]">
@@ -132,21 +137,25 @@ const Dashboard = () => {
                   disabled={isConnecting}
                   className="demo-cta-button"
                 >
-                  {isConnecting ? <span className="demo-cta-button-text">Connecting...</span> : isConnected ? 
-                  <>
-                    <div className="mid-call demo-cta-button-text">End Call</div>
-                    <img src={MidCallIcon} alt="call to action button" />
-                  </> : 
-                  <>
-                    <img
-                    src={CtaButtonLogo}
-                    alt="call to action button"
-                    />
-                    <div className="demo-cta-button-text">Talk to Candling</div>
-                  </>}
+                  {isConnecting ? (
+                    <span className="demo-cta-button-text">Connecting...</span>
+                  ) : isConnected ? (
+                    <>
+                      <div className="mid-call demo-cta-button-text">
+                        End Call
+                      </div>
+                      <img src={MidCallIcon} alt="call to action button" />
+                    </>
+                  ) : (
+                    <>
+                      <img src={CtaButtonLogo} alt="call to action button" />
+                      <div className="demo-cta-button-text">
+                        Talk to Candling
+                      </div>
+                    </>
+                  )}
                 </button>
               </div>
-
             </div>
           </div>
         </div>
@@ -155,35 +164,45 @@ const Dashboard = () => {
       <div className="demo-bottom">
         <div className="demo-dashboard">
           <div className="table-scroll">
-            <Table 
-              records={callRecords} 
+            <Table
+              records={callRecords}
               onOpenFollowUpNotes={handleOpenFollowUpNotes}
             />
           </div>
-          <button onClick={() => window.open('https://forms.gle/SQDHcDD83htNhy5c7', '_blank', 'noopener')} className="demo-feedback-button">Provide Feedback Here</button>
+          <button
+            onClick={() =>
+              window.open(
+                "https://forms.gle/SQDHcDD83htNhy5c7",
+                "_blank",
+                "noopener",
+              )
+            }
+            className="demo-feedback-button"
+          >
+            Provide Feedback Here
+          </button>
           <div className="scroll-icon">⇆</div>
         </div>
       </div>
 
-        <div className="page-bottom">
-          <a href="https://vapi.ai/">
-            <div className="callout">
-              <div className="callout-text">Built with</div>
-              <img
-                className="vapi-demo-logo"
-                src={VapiDemoLogo}
-                alt="Vapi Logo"
-              />
-            </div>
-          </a>
+      <div className="page-bottom">
+        <a href="https://vapi.ai/">
+          <div className="callout">
+            <div className="callout-text">Built with</div>
+            <img
+              className="vapi-demo-logo"
+              src={VapiDemoLogo}
+              alt="Vapi Logo"
+            />
+          </div>
+        </a>
       </div>
-      
 
       {showTranscript && selectedRecord && (
         <NotesPanel
           record={selectedRecord}
           onDeleteRecord={handleDeleteRecord}
-          onCloseFollowUpNotes={handleCloseFollowUoNotes} 
+          onCloseFollowUpNotes={handleCloseFollowUoNotes}
         />
       )}
     </div>

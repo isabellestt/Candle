@@ -1,6 +1,6 @@
-import vapiLogo from '../../../assets/vapi-logo.svg';
-import dashboard from '../../../assets/vapi-dashboard-skewed.png';
-import './Vapi.css'
+import vapiLogo from "../../../assets/vapi-logo.svg";
+import dashboard from "../../../assets/vapi-dashboard-skewed.png";
+import "./Vapi.css";
 
 export function Vapi() {
   return (
@@ -20,7 +20,9 @@ export function Vapi() {
         <div className="fourth-cta">
           {/* fourth-cta-button */}
           <button
-            onClick={() => window.open('https://vapi.ai/', '_blank', 'noopener')}
+            onClick={() =>
+              window.open("https://vapi.ai/", "_blank", "noopener")
+            }
             className="fourth-cta-button"
           >
             {/* fourth-cta-button-text */}
@@ -28,11 +30,7 @@ export function Vapi() {
             {/* fourth-cta-button-vapi-logo */}
             <div className="fourth-cta-button-vapi-logo">
               {/* vapi-logo */}
-              <img
-                className="vapi-logo"
-                src={vapiLogo}
-                alt="Vapi's logo"
-              />
+              <img className="vapi-logo" src={vapiLogo} alt="Vapi's logo" />
             </div>
           </button>
         </div>
@@ -47,5 +45,5 @@ export function Vapi() {
         />
       </div>
     </div>
-  )
+  );
 }

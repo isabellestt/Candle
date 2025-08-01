@@ -3,7 +3,7 @@ export const VAPI_CALL_STATUSES = [
   "ringing",
   "in-progress",
   "forwarding",
-  "ended"
+  "ended",
 ] as const;
 export type VapiCallStatus = (typeof VAPI_CALL_STATUSES)[number];
 
@@ -15,7 +15,7 @@ export enum VapiWebhookEnum {
   END_OF_CALL_REPORT = "end-of-call-report",
   HANG = "hang",
   SPEECH_UPDATE = "speech-update",
-  TRANSCRIPT = "transcript"
+  TRANSCRIPT = "transcript",
 }
 
 interface ToolCall {
@@ -23,7 +23,7 @@ interface ToolCall {
   type: "function";
   function: {
     name: string;
-    arguments: Record<string, any>; 
+    arguments: Record<string, any>;
   };
 }
 
@@ -41,21 +41,36 @@ export interface ConversationMessage {
 export interface StructuredData {
   name: string;
   location: string;
-  transfer_to: 'FSC' | 'SPF' | 'APS' | 'CPS' | 'SACC' | 'ComCare' | 'SOS' | 'Shelter' | 'Other';
+  transfer_to:
+    | "FSC"
+    | "SPF"
+    | "APS"
+    | "CPS"
+    | "SACC"
+    | "ComCare"
+    | "SOS"
+    | "Shelter"
+    | "Other";
   transferred: boolean;
   urgent: boolean;
-  latest_incident_date: string; 
-  abuse_type: 'Physical' | 'Sexual' | 'Emotional' | 'Financial' | 'Neglect' | 'Other';
+  latest_incident_date: string;
+  abuse_type:
+    | "Physical"
+    | "Sexual"
+    | "Emotional"
+    | "Financial"
+    | "Neglect"
+    | "Other";
   follow_up: string;
 }
 export interface EndOfCallReportPayload {
   message: {
     type: VapiWebhookEnum.END_OF_CALL_REPORT;
-    toolCalls?: ToolCall[]; 
+    toolCalls?: ToolCall[];
     artifact?: {
       messages: ConversationMessage[];
       messagesOpenAIFormatted?: any[];
-    }; 
+    };
     call: {
       id: string;
       orgId: string;
@@ -69,7 +84,7 @@ export interface EndOfCallReportPayload {
     analysis: {
       summary: string;
       structuredData: StructuredData;
-    }
+    };
     durationSeconds: number;
     endedReason: string;
   };

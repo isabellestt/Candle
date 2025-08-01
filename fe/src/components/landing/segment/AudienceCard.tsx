@@ -1,7 +1,7 @@
-import plusIcon from '../../../assets/plus-icon.svg'
-import { useState } from 'react'
-import { Modal } from './Modal'
-import './Segment.css'
+import plusIcon from "../../../assets/plus-icon.svg";
+import { useState } from "react";
+import { Modal } from "./Modal";
+import "./Segment.css";
 
 interface AudienceCardProps {
   img: string;
@@ -10,29 +10,28 @@ interface AudienceCardProps {
   modalTitle: React.ReactNode;
   modalDescription: React.ReactNode;
   modalCtaText: string;
-} 
+}
 export function AudienceCard({
   img,
   title,
   modalImg,
   modalTitle,
   modalDescription,
-  modalCtaText
+  modalCtaText,
 }: AudienceCardProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const openModal = () => {
     setIsModalOpen(true);
-    document.body.style.overflow = 'hidden'; 
+    document.body.style.overflow = "hidden";
   };
 
   const closeModal = () => {
     setIsModalOpen(false);
-    document.body.style.overflow = 'auto'; 
+    document.body.style.overflow = "auto";
   };
   return (
     <div>
-
       <div className="segment-card segment-card-one">
         <img
           className="segment-img"
@@ -42,14 +41,8 @@ export function AudienceCard({
         <div className="card-bottom-wrapper">
           {/* For Victims of Abuse */}
           <div className="segment-card-subtext">{title}</div>
-          <button className=' segment-button'
-            onClick={openModal}
-          >
-            <img
-              className="expand-icon"
-              src={plusIcon}
-              alt="expand icon"
-            />
+          <button className=" segment-button" onClick={openModal}>
+            <img className="expand-icon" src={plusIcon} alt="expand icon" />
           </button>
         </div>
       </div>
@@ -62,7 +55,6 @@ export function AudienceCard({
           onClose={closeModal}
         />
       )}
-      
     </div>
-  )
+  );
 }

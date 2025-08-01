@@ -1,7 +1,7 @@
-import plusIcon from '../../../assets/plus-icon.svg'
-import chevron from '../../../assets/chevron.svg';
-import { Link } from 'react-router'
-import './Modal.css'
+import plusIcon from "../../../assets/plus-icon.svg";
+import chevron from "../../../assets/chevron.svg";
+import { Link } from "react-router";
+import "./Modal.css";
 
 interface ModalProps {
   img: string;
@@ -15,60 +15,54 @@ export function Modal({
   title,
   description,
   ctaText,
-  onClose
+  onClose,
 }: ModalProps) {
   return (
     // modal-container
     <div className="modal-container">
       {/* modal */}
-        <div className="modal">
-          {/* modal-top */}
-          <div className="modal-top">
-            <button 
-              className="border-0 cursor-pointer p-0 segment-button"
-              onClick={onClose}
-            >
-              {/* close-modal-button */}
-              <img
-                className="close-modal-button"
-                src={plusIcon}
-                alt="Close modal"
-              />
-            </button>
+      <div className="modal">
+        {/* modal-top */}
+        <div className="modal-top">
+          <button
+            className="border-0 cursor-pointer p-0 segment-button"
+            onClick={onClose}
+          >
+            {/* close-modal-button */}
+            <img
+              className="close-modal-button"
+              src={plusIcon}
+              alt="Close modal"
+            />
+          </button>
+        </div>
+        {/* modal-bottom */}
+        <div className="modal-bottom">
+          {/* modal-img */}
+          <div className="modal-img">
+            {/* "./assets/protection-centre.svg" */}
+            <img
+              src={img}
+              alt="woman who is a protection specialist centre calling looking hopeful"
+            />
           </div>
-          {/* modal-bottom */}
-          <div className="modal-bottom">
-            {/* modal-img */}
-            <div className="modal-img">
-              {/* "./assets/protection-centre.svg" */}
-              <img
-                src={img}
-                alt="woman who is a protection specialist centre calling looking hopeful"
-              />
-            </div>
-            {/* modal-header */}
-            <div className="modal-header">
-              {title}
-            </div>
-            {/* modal-subtext */}
-            <div className="modal-subtext">
-              {description}
-            </div>
-            {/* modal-cta */}
-            <Link to="/demo">
+          {/* modal-header */}
+          <div className="modal-header">{title}</div>
+          {/* modal-subtext */}
+          <div className="modal-subtext">{description}</div>
+          {/* modal-cta */}
+          <Link to="/demo">
             <div className="modal-cta">
               {/* modal-cta-text */}
-              <div className="modal-cta-text">
-                {ctaText}
-              </div>
+              <div className="modal-cta-text">{ctaText}</div>
               {/* modal-cta-arrow */}
               <div className="modal-cta-arrow">
                 <img src={chevron} alt="arrow pointing right" />
               </div>
             </div>
-            </Link>
-          </div>
+          </Link>
         </div>
       </div>
+    </div>
   );
 }

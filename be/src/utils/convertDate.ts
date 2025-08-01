@@ -6,7 +6,6 @@ function convertToISODate(dateString: string): string {
     console.error(`Invalid date format: ${dateString}`);
     return new Date().toISOString();
   }
-
 }
 
 export default convertToISODate;

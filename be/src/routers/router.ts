@@ -11,15 +11,18 @@ router.get("/assistant", async (req, res) => {
   if (!assistantId) {
     res.status(400).json({ error: "Assistant ID is missing" });
     return;
-  } 
+  }
 
-  try{
-    const response = await fetch(`https://api.vapi.ai/assistant/${assistantId}`, {
-      method: "GET",
-      headers: {
-        "Authorization": "Bearer " + apiKey,
+  try {
+    const response = await fetch(
+      `https://api.vapi.ai/assistant/${assistantId}`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: "Bearer " + apiKey,
+        },
       },
-    });
+    );
 
     const body = await response.json();
     const {
@@ -32,19 +35,19 @@ router.get("/assistant", async (req, res) => {
     } = body;
 
     // console.log(filteredData);
-    res.json(filteredData)
+    res.json(filteredData);
   } catch (error) {
     console.error("Error fetching assistant data:", error);
     res.status(500).json({ error: "Failed to fetch assistant data" });
   }
-})
+});
 
-router.post("/webhook", WebhookHandler)
+router.post("/webhook", WebhookHandler);
 
 router.get("/getCallInfo", (req, res) => {
   const latest_call = Object.values(memoryStore).pop();
   // console.log("Latest call info:", latest_call);
-  res.json(latest_call)
-})
+  res.json(latest_call);
+});
 
 export default router;

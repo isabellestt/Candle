@@ -1,4 +1,4 @@
-import {EndOfCallReportMessageResponse} from "../types";
+import { EndOfCallReportMessageResponse } from "../types";
 
 export interface UnifiedCallLog {
   callId: string;

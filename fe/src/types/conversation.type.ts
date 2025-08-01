@@ -5,7 +5,7 @@ export const MessageEnum = {
   ADD_MESSAGE: "add-message",
 } as const;
 
-export type MessageEnumType = typeof MessageEnum[keyof typeof MessageEnum];
+export type MessageEnumType = (typeof MessageEnum)[keyof typeof MessageEnum];
 
 export const MessageRoleEnum = {
   USER: "user",
@@ -13,27 +13,28 @@ export const MessageRoleEnum = {
   ASSISTANT: "bot",
 } as const;
 
-export type MessageRoleEnumType = typeof MessageRoleEnum[keyof typeof MessageRoleEnum];
+export type MessageRoleEnumType =
+  (typeof MessageRoleEnum)[keyof typeof MessageRoleEnum];
 
 export const TranscriptMessageEnum = {
   PARTIAL: "partial",
   FINAL: "final",
 } as const;
 
-export type TranscriptMessageEnumType = typeof TranscriptMessageEnum[keyof typeof TranscriptMessageEnum];
+export type TranscriptMessageEnumType =
+  (typeof TranscriptMessageEnum)[keyof typeof TranscriptMessageEnum];
 
-export interface TranscriptMessage  {
+export interface TranscriptMessage {
   role: MessageRoleEnumType;
   message: string;
 }
-
 
 export interface CallRecord {
   id: string;
   createdDate: string;
   duration: string;
   callId: string;
-  details : {
+  details: {
     structuredData: {
       urgentStatus: boolean;
       transferTo: string;
@@ -47,5 +48,5 @@ export interface CallRecord {
     summaryTitle: string;
     summary: string;
     messages: TranscriptMessage[];
-  }
+  };
 }

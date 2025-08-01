@@ -1,6 +1,6 @@
 export default function formatDuration(durationInSeconds: number): string {
   if (!durationInSeconds && durationInSeconds !== 0) {
-    return 'N/A';
+    return "N/A";
   }
 
   const hours = Math.floor(durationInSeconds / 3600);
@@ -8,8 +8,8 @@ export default function formatDuration(durationInSeconds: number): string {
   const seconds = Math.floor(durationInSeconds % 60);
 
   const formattedHours = `${hours}h`;
-  const formattedMinutes = `${minutes.toString().padStart(2, '0')}m`;
-  const formattedSeconds = `${seconds.toString().padStart(2, '0')}s`;
+  const formattedMinutes = `${minutes.toString().padStart(2, "0")}m`;
+  const formattedSeconds = `${seconds.toString().padStart(2, "0")}s`;
 
   return `${formattedHours} ${formattedMinutes} ${formattedSeconds}`;
 }
