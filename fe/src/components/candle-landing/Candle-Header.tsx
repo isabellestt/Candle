@@ -4,8 +4,11 @@ import phone from '../../assets/landing-phone-mockup.svg'
 import cardImg1 from '../../assets/card-img-1.png'
 import cardImg2 from '../../assets/card-img-2.png'
 import cardImg3 from '../../assets/card-img-3.png'
+import { useState } from 'react'
 
 export function CandleHeader() {
+
+  const [isSubmitted, setIsSubmitted] = useState(false)
 
   let nextCardID = 1;
   let nextButtonID = 1;
@@ -25,7 +28,16 @@ And no, we don’t sell your data 💅🏻`, image: cardImg2, imageAlt: "Two enc
 
   const cardList = cards.map(card => <Card key={card.id} header={card.header} body={card.body} image={card.image} imageAlt={card.imageAlt} background={card.background} textCol={card.textCol}></Card>)
 
-  function Card({header, body, image, imageAlt, background, textCol}) {
+  type CardProps = {
+  header: string;
+  body: string;
+  image: string;
+  imageAlt: string;
+  background: string;
+  textCol: string;
+};
+
+  function Card({header, body, image, imageAlt, background, textCol}: CardProps) {
     return (
       <div className='flex items-center flex-col gap-[20px] border-3 rounded-[36px] px-[42px] py-[30px] w-90'>
       <h2 className={`text-2xl font-bold text-center border-3 border-black rounded-[5px] px-[12px] py-[3px] bg-[${background}] ${textCol}`}>{header}</h2>
@@ -35,7 +47,11 @@ And no, we don’t sell your data 💅🏻`, image: cardImg2, imageAlt: "Two enc
     )
   }
 
-  function Button({text}) {
+  type ButtonProps = {
+  text: string;
+};
+
+  function Button({text}: ButtonProps) {
     return(
       <button className='inline-flex items-center gap-0 bg-[#FF9C25] border-4 rounded-xl px-[14px] py-[11px]'>
       <div className='font-extrabold text-[16px] tracking-[-0.5px] text-black whitespace-nowrap'>
@@ -46,10 +62,10 @@ And no, we don’t sell your data 💅🏻`, image: cardImg2, imageAlt: "Two enc
     )
   }
 
-  function getFormData(formData) {
+  function getFormData(formData: FormData): void {
     const submitted = Object.fromEntries(formData);
     console.log(submitted)
-    return submitted
+    setIsSubmitted(true)
   }
 
 
@@ -83,19 +99,27 @@ And no, we don’t sell your data 💅🏻`, image: cardImg2, imageAlt: "Two enc
       <p className='text-2xl text-center text-white p-8'>For when counsellors feel like too much, ChatGPT feels too robotic, and you’ve got intrusive thoughts with no one to share them with.</p>
       <Button text={buttons[1].text}></Button>
     </section>
-    <section className='bg-[FF9C25] mb-16'>
+    <section className='mb-16'>
       <h2 className='text-4xl font-bold mb-4 text-center pt-16'>Stay in the loop</h2>
       <p className='text-2xl text-center p-8'>We add new features all the time. Find out more and grow together with Candle.</p>
-      <form className='flex flex-col items-center gap-8' action={getFormData}>
-        <label htmlFor="font-inter firstName"></label>
+
+      {!isSubmitted ? (
+        <form className='flex flex-col items-center gap-8' action={getFormData}>
+        <label htmlFor="firstName"></label>
         <input className="focus:outline-none border-b-2 pb-4 pl-4 w-80 text-xl" type="text" id="firstName" name="firstName" placeholder='First Name'/>
         <label htmlFor="email"></label>
         <input className="focus:outline-none border-b-2 pb-4 pl-4 w-80 text-xl mb-8" type="email" id="email" name="email" placeholder='Email'/>
         <Button text={buttons[2].text}></Button>
       </form>
+      ):(
+        <div className='flex flex-col items-center gap-4 text-gray-400'>
+      <strong>Thank you for joining our mailing list.</strong>
+        </div>
+      )}
+      
     </section>
     </main>
-    <section className='bg-[#7FE56F] py-16 py-8 flex flex-col gap-4 items-center  text-sm'>
+    <section className='bg-[#7FE56F] py-16 flex flex-col gap-4 items-center  text-sm'>
       <img className='scale-200 mb-2' src={candleLogo} alt="Logo for Candle" />
       <span>© Candle, Inc.</span>
       <nav className='flex gap-4'>
