@@ -31,10 +31,10 @@ const Candle = () => {
     switch (currentFlow) {
       case FLOW_STATES.INITIAL:
         return (
-          <div id="1" className="py-40">
+          <div id="1" className="py-10 lg:py-40 flex flex-col items-center scale-95 lg:scale-100">
             <div
               id="olivia"
-              className="bg-[#FF9C25] w-95 h-47.5 rounded-t-xl flex flex-row items-center justify-center gap-x-2"
+              className="bg-[#FF9C25] w-70 h-45 lg:w-90 lg:h-47.5 rounded-t-xl flex flex-row items-center justify-center gap-x-2"
               onClick={() => {
                 setSelectedCaller("Olivia");
                 setCurrentFlow(FLOW_STATES.REQUEST_MICROPHONE);
@@ -47,7 +47,7 @@ const Candle = () => {
             </div>
             <div
               id="noah"
-              className="bg-[#FFD098] w-95 h-47.5 rounded-b-xl flex flex-row items-center justify-center gap-x-2"
+              className="bg-[#FFD098] w-70 h-45 lg:w-90 lg:h-47.5 rounded-b-xl flex flex-row items-center justify-center gap-x-2"
               onClick={() => {
                 setSelectedCaller("Noah");
                 setCurrentFlow(FLOW_STATES.REQUEST_MICROPHONE);
@@ -166,7 +166,7 @@ const Candle = () => {
         {renderFlowContent()}
       </section>
       <div>
-        <p className="text-center px-8 text-[#A9A9A9] absolute bottom-10">
+        <p className="text-center px-17 text-[#A9A9A9] absolute bottom-10 text-xs lg:text-md leading-5">
           By using our services, you agree to Candle’s
           <a href="#" onClick={() => alert("To be added!")}>
             {" "}
