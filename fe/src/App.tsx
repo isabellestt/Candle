@@ -11,6 +11,7 @@ import { CandleHeader } from "./components/candle-landing/Candle-Header";
 function App() {
   return (
     <>
+      <CandleHeader />
       <div className="main-app">
         <Header />
         <Hero />
@@ -20,7 +21,6 @@ function App() {
         <Vapi />
         <Footer />
       </div>
-      <CandleHeader />
     </>
     // <div className="flex flex-col items-center justify-center">
     //   cooking
