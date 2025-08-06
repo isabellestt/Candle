@@ -16,8 +16,8 @@ export function CandleHeader() {
   const cards = [
     {
       id: nextCardID++,
-      header: "Be yourself.",
-      body: "Just a space to chill, rant, cry, curse, overshare, whisper, spiral, whatever helps ✨",
+      header: "Always By Your Side.",
+      body: "Think of Candle as your non-judgmental best friend who’s available 24/7, even when everyone else is asleep.",
       image: cardImg1,
       imageAlt:
         "A young man wearing glasses and headphones looks at his smartphone while a green speech bubble with message lines appears nearby, indicating he is engaged in text messaging or chat communication.",
@@ -26,9 +26,8 @@ export function CandleHeader() {
     },
     {
       id: nextCardID++,
-      header: "Keep it private.",
-      body: `What you say stays between you and Candle. Nothing’s saved unless you say so. 
-And no, we don’t sell your data 💅🏻`,
+      header: "Safe & Private.",
+      body: `We know trust is a big deal. Your personal chats with Candle are private. We don’t show them to others, and you stay anonymous.`,
       image: cardImg2,
       imageAlt:
         "Two encrypted message bubbles, one blue and one green. Each secured with a padlock icon, connected by a dotted line to illustrate secure, end-to-end encrypted messaging between users.",
@@ -37,12 +36,12 @@ And no, we don’t sell your data 💅🏻`,
     },
     {
       id: nextCardID++,
-      header: "Always available.",
-      body: "No app to download (for now). You control when the conversation begins and ends with no pressure and no judgement 🧃",
+      header: "Support For No Cost.",
+      body: "Take our demo for a spin and sign up for longer conversations and greater personalisation, its all free.",
       image: cardImg3,
       imageAlt:
         "A blue hand icon pointing at and touching an orange phone interface on a mobile device screen, demonstrating user interaction with our instant calling feature.",
-      background: "#FF71DF",
+      background: "#7FE56F",
       textCol: "text-black",
     },
   ];
@@ -114,10 +113,9 @@ And no, we don’t sell your data 💅🏻`,
       </section>
       <main>
         <section className="bg-[#3E75FA] text-white text-center p-8">
-          <h1 className="text-6xl font-bold mb-4">Talk it out</h1>
-          <p className="text-2xl">
-            Speak freely with a voice companion that responds without anyone
-            watching, judging, or interrupting.
+          <h1 className="text-4xl font-bold mb-4">Your 24/7 AI Friend for Life's Ups and Downs</h1>
+          <p className="text-1xl">
+            Feeling stressed from exams, fighting with friends, or just bored at 2 AM? Candle is an AI companion who’s always here to listen and chat. No judgements and no pressure, just a friendly voice whenever you need it.
           </p>
         </section>
         <section className="flex items-center">
@@ -133,7 +131,7 @@ And no, we don’t sell your data 💅🏻`,
           </div>
         </section>
         <section>
-          <h2 className="text-4xl font-bold mb-4 text-center">
+          <h2 className="text-3xl font-bold mb-4 text-center">
             Why Use Candle?
           </h2>
           <section className="flex flex-col items-center gap-8">
@@ -145,22 +143,21 @@ And no, we don’t sell your data 💅🏻`,
           className="aspect-[960/300] w-full bg-no-repeat bg-center bg-cover flex items-center justify-center"
         ></div>
         <section className="bg-[#3E75FA] flex flex-col items-center pt-4 pb-16">
-          <h2 className="text-4xl font-bold mb-4 text-center text-white px-24">
-            Your space, not ours.
+          <h2 className="text-3xl font-bold text-center mb-4 text-white px-24">
+            You're not alone.
           </h2>
-          <p className="text-2xl text-center text-white p-8">
-            For when counsellors feel like too much, ChatGPT feels too robotic,
-            and you’ve got intrusive thoughts with no one to share them with.
+          <p className="text-1xl text-center text-white pb-8 px-8">
+            1 in 3 youth in Singapore feel similar pressures and emotions. Candle is built specifically for teens, is judgment-free and endlessly patient, so you can truly be yourself while feeling heard and understood.
           </p>
           <Link to="/candle">
             <Button text={buttons[1].text}></Button>
           </Link>
         </section>
         <section className="mb-16">
-          <h2 className="text-4xl font-bold mb-4 text-center pt-16">
+          <h2 className="text-3xl font-bold mb-4 text-center pt-16">
             Stay in the loop
           </h2>
-          <p className="text-2xl text-center p-8">
+          <p className="text-1xl text-center p-8">
             We add new features all the time. Find out more and grow together
             with Candle.
           </p>
