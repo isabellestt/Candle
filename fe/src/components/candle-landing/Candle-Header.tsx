@@ -82,7 +82,7 @@ export function CandleHeader() {
     textCol,
   }: CardProps) {
     return (
-      <div className="flex items-center flex-col gap-[20px] border-3 rounded-[36px] px-[42px] py-[30px] w-90">
+      <div className="flex items-center flex-col gap-[20px] border-3 rounded-[36px] px-[42px] py-[30px] w-[90%]">
         <h2
           className={`text-2xl font-bold text-center border-3 border-black rounded-[5px] px-[12px] py-[3px] bg-[${background}] ${textCol}`}
         >
@@ -113,9 +113,14 @@ export function CandleHeader() {
       </section>
       <main>
         <section className="bg-[#6366F1] text-white text-center p-8">
-          <h1 className="text-4xl font-bold mb-4">Your 24/7 AI Friend for Life's Ups and Downs</h1>
+          <h1 className="text-4xl font-bold mb-4">
+            Your 24/7 AI Friend for Life's Ups and Downs
+          </h1>
           <p className="text-1xl">
-            Feeling stressed from exams, fighting with friends, or just bored at 2 AM? Candle is an AI companion who’s always here to listen and chat. No judgements and no pressure, just a friendly voice whenever you need it.
+            Feeling stressed from exams, fighting with friends, or just bored at
+            2 AM? Candle is an AI companion who’s always here to listen and
+            chat. No judgements and no pressure, just a friendly voice whenever
+            you need it.
           </p>
         </section>
         <section className="flex items-center">
@@ -147,7 +152,10 @@ export function CandleHeader() {
             You're not alone.
           </h2>
           <p className="text-1xl text-center text-white pb-8 px-8">
-            1 in 3 youth in Singapore feel similar pressures and emotions. Candle is built specifically for teens, is judgment-free and endlessly patient, so you can truly be yourself while feeling heard and understood.
+            1 in 3 youth in Singapore feel similar pressures and emotions.
+            Candle is built specifically for teens, is judgment-free and
+            endlessly patient, so you can truly be yourself while feeling heard
+            and understood.
           </p>
           <Link to="/candle">
             <Button text={buttons[1].text}></Button>
