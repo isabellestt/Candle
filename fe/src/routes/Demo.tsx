@@ -133,7 +133,7 @@ const Dashboard = () => {
 
               <div className="flex justify-center mt-4">
                 <button
-                  onClick={toggleCall}
+                  onClick={()=>toggleCall("helpline")}
                   disabled={isConnecting}
                   className="demo-cta-button"
                 >

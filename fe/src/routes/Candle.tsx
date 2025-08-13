@@ -7,7 +7,10 @@ import End from "../assets/end-call-icon.svg";
 import ConnectingLogo from "../assets/connecting-icon.svg";
 import GoogleLogo from "../assets/google-logo.svg";
 import Arrow from "../assets/chevron.svg";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useVapi } from "../utils/assistant/useVapi";
+
+
 
 const FLOW_STATES = {
   INITIAL: "initial",
@@ -21,11 +24,40 @@ const Candle = () => {
   const [currentFlow, setCurrentFlow] = useState(FLOW_STATES.INITIAL);
   const [selectedCaller, setSelectedCaller] = useState("Olivia");
 
-  const simulateConnection = () => {
-    setTimeout(() => {
-      setCurrentFlow(FLOW_STATES.IN_CALL);
-    }, 1000);
-  };
+  const { toggleCall, callDuration, callStatus } =
+    useVapi();
+
+
+  const [isConnected, setIsConnected] = useState(false);
+
+  useEffect(() => {
+    if (callStatus === "inactive") {
+      setIsConnected(false);
+    }
+
+
+
+    if (callStatus === "active") {
+      setIsConnected(true);
+    }
+
+    if (callStatus === "error") {
+      setIsConnected(false);
+    }
+  }, [callStatus]);
+
+  useEffect(() => {
+    const simulateConnection = () => {
+      toggleCall("noah");
+      setTimeout(() => {
+        setCurrentFlow(FLOW_STATES.IN_CALL);
+      }, 1000);
+    };
+
+    if (currentFlow === FLOW_STATES.CONNECTING) {
+      simulateConnection();
+    }
+  }, [currentFlow, toggleCall]);
 
   const renderFlowContent = () => {
     switch (currentFlow) {
@@ -61,66 +93,65 @@ const Candle = () => {
       case FLOW_STATES.REQUEST_MICROPHONE:
         return (
           <>
-          {selectedCaller === "Olivia" && (
-          <div id="2" className="py-10 lg:py-40 flex flex-col items-center scale-95 lg:scale-100">
-            <div
-              id="loading"
-              className="bg-[#FF9C25] w-70 lg:w-90 h-90 lg:95 rounded-xl flex flex-row items-center justify-center gap-x-2"
-              onClick={() => {
-                setCurrentFlow(FLOW_STATES.CONNECTING);
-              }}
-            >
-              <p className="text-white text-lg font-semibold px-5 text-center leading-[33px]">
-                To chat with {selectedCaller}, please allow us to use your
-                microphone (click here)
-              </p>
-            </div>
-          </div>)}
-          {selectedCaller === "Noah" && (
-          <div id="2" className="py-10 lg:py-40 flex flex-col items-center scale-95 lg:scale-100">
-            <div
-              id="loading"
-              className="bg-[#FFD098] w-70 lg:w-90 h-90 lg:95 rounded-xl flex flex-row items-center justify-center gap-x-2"
-              onClick={() => {
-                setCurrentFlow(FLOW_STATES.CONNECTING);
-              }}
-            >
-              <p className="text-white text-lg font-semibold px-5 text-center leading-[33px]">
-                To chat with {selectedCaller}, please allow us to use your
-                microphone (click here)
-              </p>
-            </div>
-          </div>)}
+            {selectedCaller === "Olivia" && (
+              <div id="2" className="py-10 lg:py-40 flex flex-col items-center scale-95 lg:scale-100">
+                <div
+                  id="loading"
+                  className="bg-[#FF9C25] w-70 lg:w-90 h-90 lg:95 rounded-xl flex flex-row items-center justify-center gap-x-2"
+                  onClick={() => {
+                    setCurrentFlow(FLOW_STATES.CONNECTING);
+                  }}
+                >
+                  <p className="text-white text-lg font-semibold px-5 text-center leading-[33px]">
+                    To chat with {selectedCaller}, please allow us to use your
+                    microphone (click here)
+                  </p>
+                </div>
+              </div>)}
+            {selectedCaller === "Noah" && (
+              <div id="2" className="py-10 lg:py-40 flex flex-col items-center scale-95 lg:scale-100">
+                <div
+                  id="loading"
+                  className="bg-[#FFD098] w-70 lg:w-90 h-90 lg:95 rounded-xl flex flex-row items-center justify-center gap-x-2"
+                  onClick={() => {
+                    setCurrentFlow(FLOW_STATES.CONNECTING);
+                  }}
+                >
+                  <p className="text-white text-lg font-semibold px-5 text-center leading-[33px]">
+                    To chat with {selectedCaller}, please allow us to use your
+                    microphone (click here)
+                  </p>
+                </div>
+              </div>)}
           </>
         );
       case FLOW_STATES.CONNECTING:
-        simulateConnection();
         return (
           <>
-          {selectedCaller === "Olivia" && (
-          <div id="2" className="py-10 lg:py-40 flex flex-col items-center scale-95 lg:scale-100">
-            <div
-              id="loading"
-              className="bg-[#FF9C25] w-70 lg:w-90 h-90 lg:95 rounded-xl flex flex-row items-center justify-center gap-x-2"
-            >
-              <p className="text-white text-lg font-semibold">
-                Connecting to {selectedCaller}
-              </p>
-              <img src={ConnectingLogo} alt="Phone icon" />
-            </div>
-          </div>)}
-          {selectedCaller === "Noah" && (
-          <div id="2" className="py-10 lg:py-40 flex flex-col items-center scale-95 lg:scale-100">
-            <div
-              id="loading"
-              className="bg-[#FFD098] w-70 lg:w-90 h-90 lg:95 rounded-xl flex flex-row items-center justify-center gap-x-2"
-            >
-              <p className="text-white text-lg font-semibold">
-                Connecting to {selectedCaller}
-              </p>
-              <img src={ConnectingLogo} alt="Phone icon" />
-            </div>
-          </div>)}
+            {selectedCaller === "Olivia" && (
+              <div id="2" className="py-10 lg:py-40 flex flex-col items-center scale-95 lg:scale-100">
+                <div
+                  id="loading"
+                  className="bg-[#FF9C25] w-70 lg:w-90 h-90 lg:95 rounded-xl flex flex-row items-center justify-center gap-x-2"
+                >
+                  <p className="text-white text-lg font-semibold">
+                    Connecting to {selectedCaller}
+                  </p>
+                  <img src={ConnectingLogo} alt="Phone icon" />
+                </div>
+              </div>)}
+            {selectedCaller === "Noah" && (
+              <div id="2" className="py-10 lg:py-40 flex flex-col items-center scale-95 lg:scale-100">
+                <div
+                  id="loading"
+                  className="bg-[#FFD098] w-70 lg:w-90 h-90 lg:95 rounded-xl flex flex-row items-center justify-center gap-x-2"
+                >
+                  <p className="text-white text-lg font-semibold">
+                    Connecting to {selectedCaller}
+                  </p>
+                  <img src={ConnectingLogo} alt="Phone icon" />
+                </div>
+              </div>)}
           </>
         );
       case FLOW_STATES.IN_CALL:
@@ -128,13 +159,22 @@ const Candle = () => {
           <div id="3" className="py-10 lg:py-40 flex flex-col items-center scale-95 lg:scale-100">
             <div className="flex flex-col items-center">
               <h2 className="text-[#FF9C25] font-bold text-[28px] tracking-[-1px]">
-                {selectedCaller} 00:08
+
+                {isConnected ? (
+                  <p>{selectedCaller}{" "}
+                    {String(Math.floor(callDuration / 60)).padStart(2, '0')}:
+                    {String(callDuration % 60).padStart(2, '0')}</p>
+                ) : (
+                  <p>Connecting to {selectedCaller}</p>
+                )
+                }
+
               </h2>
               <p className="text-[#A9A9A9]">by Candle</p>
             </div>
             <div className="w-40 h-40 rounded-full bg-[linear-gradient(to_bottom_right,_#ECDAC3_2%,_#FF9C25_100%)] my-16"></div>
             <div className="flex items-center bg-[#FF9C2540] px-[36px] py-[15px] w-75 place-content-around rounded-md text-[#FF9C25] font-bold tracking-[-1px]">
-              <div className="flex items-center gap-[6px] cursor-pointer" onClick={() => {alert("To add feature")}}>
+              <div className="flex items-center gap-[6px] cursor-pointer" onClick={() => { alert("To add feature") }}>
                 <img src={Mute} alt="Mute call button" />
                 <p>Mute</p>
               </div>
@@ -163,7 +203,7 @@ const Candle = () => {
               <p className="text-white text-sm font-light text-center text-[12px] px-12 lg:px-18 py-4 mb-6">
                 Includes long-term memory, and access to longer sessions.
               </p>
-              <button className="text-[14px] flex justify-center gap-3 items-center bg-white w-[80%] rounded-md py-[10px] mb-4 lg:mb-2" onClick={()=> {
+              <button className="text-[14px] flex justify-center gap-3 items-center bg-white w-[80%] rounded-md py-[10px] mb-4 lg:mb-2" onClick={() => {
                 alert('to add feature')
               }}>
                 <img src={GoogleLogo} alt="Sign up with Google" />
@@ -180,13 +220,13 @@ const Candle = () => {
               </button>
             </div>
             <a
-  href="https://forms.gle/psLTVG3JgNCsw24X8"
-  className="text-[#FF9C25] text-[12px] text-center pt-8"
-  target="_blank"              
-  rel="noopener noreferrer"    
->
-  <u>Leave feedback here</u>
-</a>
+              href="https://forms.gle/psLTVG3JgNCsw24X8"
+              className="text-[#FF9C25] text-[12px] text-center pt-8"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <u>Leave feedback here</u>
+            </a>
           </div>
         );
       default:

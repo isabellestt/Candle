@@ -7,6 +7,7 @@ import { squad } from "../squad/squad";
 import { callData as defaultCallData } from "../../../public/callData";
 import formatDateForDisplay from "../formatDate";
 import formatTime from "../formatTime";
+import { getAssistantByName } from "./assistants";
 
 export const CALL_STATUS = {
   INACTIVE: "inactive",
@@ -25,6 +26,17 @@ export function useVapi() {
     CALL_STATUS.INACTIVE,
   );
   const [audioLevel, setAudioLevel] = useState(0);
+  const [callDuration, setCallDuration] = useState(0);
+
+  useEffect(() => {
+    if (callStatus === CALL_STATUS.ACTIVE) {
+      const interval = setInterval(() => {
+        setCallDuration((prev) => prev + 1);
+      }, 1000);
+
+      return () => clearInterval(interval);
+    }
+  }, [callStatus]);
 
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -156,7 +168,7 @@ export function useVapi() {
     };
   }, [callData]);
 
-  const start = async () => {
+  const start = async (assistant: string) => {
     setCallStatus(CALL_STATUS.LOADING);
     try {
       const assistantOverrides: AssistantOverrides = {
@@ -165,7 +177,7 @@ export function useVapi() {
         },
       };
       const res = await vapi.start(
-        helplineAssistant,
+        assistant === "helpline" ? helplineAssistant : getAssistantByName(assistant),
         assistantOverrides,
         squad,
       );
@@ -213,11 +225,11 @@ export function useVapi() {
     vapi.stop();
   };
 
-  const toggleCall = () => {
+  const toggleCall = (assistantName: string) => {
     if (callStatus == CALL_STATUS.ACTIVE) {
       stop();
     } else {
-      start();
+      start(assistantName);
     }
   };
 
@@ -225,6 +237,7 @@ export function useVapi() {
     isSpeechActive,
     callStatus,
     audioLevel,
+    callDuration,
     start,
     stop,
     toggleCall,
