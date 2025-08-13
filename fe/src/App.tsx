@@ -1,18 +1,18 @@
 // import { NavLink } from 'react-router'
-// import { Header } from "./components/landing/header/Header";
-// import { Hero } from "./components/landing/hero/Hero";
-// import { Marquee } from "./components/landing/marquee/Marquee";
-// import { AudienceSegments } from "./components/landing/segment/AudienceSegments";
-// import { CandlingInsights } from "./components/landing/insights/CandlingInsights";
-// import { Vapi } from "./components/landing/vapi/Vapi";
-// import { Footer } from "./components/landing/footer/Footer";
+import { Header } from "./components/landing/header/Header";
+import { Hero } from "./components/landing/hero/Hero";
+import { Marquee } from "./components/landing/marquee/Marquee";
+import { AudienceSegments } from "./components/landing/segment/AudienceSegments";
+import { CandlingInsights } from "./components/landing/insights/CandlingInsights";
+import { Vapi } from "./components/landing/vapi/Vapi";
+import { Footer } from "./components/landing/footer/Footer";
 import { CandleHeader } from "./components/candle-landing/Candle-Header";
 
 function App() {
   return (
     <>
       <CandleHeader />
-      {/* <div className="main-app">
+      <div className="main-app">
         <Header />
         <Hero />
         <Marquee />
@@ -20,7 +20,7 @@ function App() {
         <CandlingInsights />
         <Vapi />
         <Footer />
-      </div> */}
+      </div>
     </>
     // <div className="flex flex-col items-center justify-center">
     //   cooking

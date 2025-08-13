@@ -2,10 +2,8 @@ import { NavLink } from "react-router";
 import Button from "../../src/components/candle-landing/alt-components/Button";
 import CandleLogo from "../assets/candle-logo.svg";
 import PhoneIcon from "../../src/assets/phone-icon.svg";
-import MuteOlivia from "../assets/microphone-icon-olivia.svg";
-import EndOlivia from "../assets/end-call-icon-olivia.svg";
-import MuteNoah from "../assets/microphone-icon-noah.svg";
-import EndNoah from "../assets/end-call-icon-noah.svg";
+import Mute from "../assets/microphone-icon.svg";
+import End from "../assets/end-call-icon.svg";
 import ConnectingLogo from "../assets/connecting-icon.svg";
 import Arrow from "../assets/chevron.svg";
 import { useEffect, useState, useRef } from "react";
@@ -24,9 +22,6 @@ declare global {
     };
   }
 }
-import PlayButton from "../assets/play-button.png";
-import StopButton from "../assets/stop-button.png";
-import { useState } from "react";
 
 const FLOW_STATES = {
   INITIAL: "initial",
@@ -35,13 +30,10 @@ const FLOW_STATES = {
   END_CALL: "end_call",
 };
 
-type Caller = "Olivia" | "Noah";
-
 const Candle = () => {
   const [currentFlow, setCurrentFlow] = useState(FLOW_STATES.INITIAL);
   const [selectedCaller, setSelectedCaller] = useState("Olivia");
   const googleSignInRef = useRef<HTMLDivElement>(null);
-  const [previewStatus, setPreviewStatus] = useState(false);
 
   const { toggleCall, callDuration, callStatus } =
     useVapi();
@@ -131,107 +123,35 @@ const Candle = () => {
       setIsConnected(false);
     }
   }, [callStatus]);
-  const playPreview = (caller: string) => {
-    alert(`insert preview for ${caller}`);
-  };
-
-  const handleCardClick = (caller: string) => {
-    setSelectedCaller(caller);
-    setCurrentFlow(FLOW_STATES.REQUEST_MICROPHONE);
-  };
-
-  const handlePreviewClick = (e: React.MouseEvent, caller: Caller) => {
-    e.stopPropagation();
-    setPreviewStatus(!previewStatus);
-    playPreview(caller);
-  };
 
   const renderFlowContent = () => {
     switch (currentFlow) {
       case FLOW_STATES.INITIAL:
         return (
-          <div
-            id="1"
-            className="py-10 lg:py-40 flex flex-col items-center scale-95 lg:scale-100"
-          >
+          <div id="1" className="py-10 lg:py-40 flex flex-col items-center scale-95 lg:scale-100">
             <div
               id="olivia"
-              className="bg-[#14B8A6] w-[280px] h-[180px] lg:w-[360px] lg:h-[190px] rounded-t-xl flex items-center justify-center px-4"
+              className="bg-[#FF9C25] w-70 h-45 lg:w-90 lg:h-47.5 rounded-t-xl flex flex-row items-center justify-center gap-x-2"
               onClick={() => {
-                handleCardClick("Olivia");
+                setSelectedCaller("Olivia");
+                setCurrentFlow(FLOW_STATES.REQUEST_MICROPHONE);
               }}
             >
-              <div className="flex w-[80%] h-full items-center justify-between">
-                <div className="flex flex-col items-start justify-center text-left gap-1 w-[95%]">
-                  <div className="flex items-center gap-2 mb-2">
-                    <img src={PhoneIcon} alt="Phone icon" />
-                    <p className="text-white text-lg font-semibold">Olivia</p>
-                  </div>
-                  <p className="text-white opacity-80 text-sm font-medium w-[90%] lg:w-[85%]">
-                    Talk it out, keep it light, tiny, next step.
-                  </p>
-                </div>
-
-                <button
-                  className="flex items-center"
-                  onClick={(e) => handlePreviewClick(e, "Olivia")}
-                >
-                  {previewStatus === false && (
-                    <img
-                      src={PlayButton}
-                      alt="Play audio preview for Olivia"
-                      className="pointer-events-none"
-                    />
-                  )}
-                  {previewStatus === true && (
-                    <img
-                      src={StopButton}
-                      alt="Pause audio preview for Olivia"
-                      className="pointer-events-none"
-                    />
-                  )}
-                </button>
-              </div>
+              <img src={PhoneIcon} alt="Phone icon" />
+              <p className="text-white text-lg font-semibold">
+                {selectedCaller}
+              </p>
             </div>
-            <div className="bg-[#63CDF1] h-[2px] w-[280px] lg:w-[360px]"></div>
             <div
               id="noah"
-              className="bg-[#6366F1] w-[280px] h-[180px] lg:w-[360px] lg:h-[190px] rounded-b-xl flex items-center justify-center px-4"
+              className="bg-[#FFD098] w-70 h-45 lg:w-90 lg:h-47.5 rounded-b-xl flex flex-row items-center justify-center gap-x-2"
               onClick={() => {
-                handleCardClick("Noah");
+                setSelectedCaller("Noah");
+                setCurrentFlow(FLOW_STATES.REQUEST_MICROPHONE);
               }}
             >
-              <div className="flex w-[80%] h-full items-center justify-between">
-                <div className="flex flex-col items-start justify-center text-left gap-1 w-[95%]">
-                  <div className="flex items-center gap-2 mb-2">
-                    <img src={PhoneIcon} alt="Phone icon" />
-                    <p className="text-white text-lg font-semibold">Noah</p>
-                  </div>
-                  <p className="text-white opacity-80 text-sm font-medium w-[90%] lg:w-[85%]">
-                    Make a plan, move one step, find the right help.
-                  </p>
-                </div>
-
-                <button
-                  className="flex items-center"
-                  onClick={(e) => handlePreviewClick(e, "Noah")}
-                >
-                  {previewStatus === false && (
-                    <img
-                      src={PlayButton}
-                      alt="Play audio preview for Noah"
-                      className="pointer-events-none"
-                    />
-                  )}
-                  {previewStatus === true && (
-                    <img
-                      src={StopButton}
-                      alt="Pause audio preview for Noah"
-                      className="pointer-events-none"
-                    />
-                  )}
-                </button>
-              </div>
+              <img src={PhoneIcon} alt="Phone icon" />
+              <p className="text-white text-lg font-semibold">Noah</p>
             </div>
           </div>
         );
@@ -239,35 +159,24 @@ const Candle = () => {
         return (
           <>
             {selectedCaller === "Olivia" && (
-              <div
-                id="2"
-                className="py-10 lg:py-40 flex flex-col items-center scale-95 lg:scale-100"
-              >
+              <div id="2" className="py-10 lg:py-40 flex flex-col items-center scale-95 lg:scale-100">
                 <div
                   id="loading"
-                  className="bg-[#14B8A6] w-70 lg:w-90 h-90 lg:95 rounded-xl flex flex-row items-center justify-center gap-x-2"
-                  onClick={() => {
-                    setCurrentFlow(FLOW_STATES.CONNECTING);
-                  }}
+                  className="bg-[#FF9C25] w-70 lg:w-90 h-90 lg:95 rounded-xl flex flex-row items-center justify-center gap-x-2"
+                  onClick={handleMicrophonePermission}
                 >
                   <p className="text-white text-lg font-semibold px-5 text-center leading-[33px]">
                     To chat with {selectedCaller}, please allow us to use your
                     microphone (click here)
                   </p>
                 </div>
-              </div>
-            )}
+              </div>)}
             {selectedCaller === "Noah" && (
-              <div
-                id="2"
-                className="py-10 lg:py-40 flex flex-col items-center scale-95 lg:scale-100"
-              >
+              <div id="2" className="py-10 lg:py-40 flex flex-col items-center scale-95 lg:scale-100">
                 <div
                   id="loading"
-                  className="bg-[#6366F1] w-70 lg:w-90 h-90 lg:95 rounded-xl flex flex-row items-center justify-center gap-x-2"
-                  onClick={() => {
-                    setCurrentFlow(FLOW_STATES.CONNECTING);
-                  }}
+                  className="bg-[#FFD098] w-70 lg:w-90 h-90 lg:95 rounded-xl flex flex-row items-center justify-center gap-x-2"
+                  onClick={handleMicrophonePermission}
                 >
                   <p className="text-white text-lg font-semibold px-5 text-center leading-[33px]">
                     To chat with {selectedCaller}, please allow us to use your
@@ -314,81 +223,16 @@ const Candle = () => {
                 <p>Mute</p>
               </div>
               <div
-                id="3"
-                className="py-10 lg:py-40 flex flex-col items-center scale-95 lg:scale-100"
+                className="flex items-center gap-[6px] cursor-pointer"
+                onClick={() => {
+                  setCurrentFlow(FLOW_STATES.END_CALL);
+                }}
               >
-                <div className="flex flex-col items-center">
-                  <h2 className="text-[#14B8A6] font-bold text-[28px] tracking-[-1px]">
-                    {selectedCaller} 00:08
-                  </h2>
-                  <p className="text-[#A9A9A9]">by Candle</p>
-                </div>
-                <div
-                  className="w-40 aspect-square rounded-full my-16
-                bg-gradient-to-br from-[#14B8A6] to-[rgba(20,184,166,0.25)]"
-                />
-
-                <div className="flex items-center bg-[#14B8A640] px-[36px] py-[15px] w-75 place-content-around rounded-md text-[#14B8A6] font-bold tracking-[-1px]">
-                  <div
-                    className="flex items-center gap-[6px] cursor-pointer"
-                    onClick={() => {
-                      alert("To add feature");
-                    }}
-                  >
-                    <img src={MuteOlivia} alt="Mute call button" />
-                    <p>Mute</p>
-                  </div>
-                  <div
-                    className="flex items-center gap-[6px] cursor-pointer"
-                    onClick={() => {
-                      setCurrentFlow(FLOW_STATES.END_CALL);
-                    }}
-                  >
-                    <img src={EndOlivia} alt="End call button" />
-                    <p>End Call</p>
-                  </div>
-                </div>
+                <img src={End} alt="End call button" />
+                <p>End Call</p>
               </div>
-            )}
-            {selectedCaller === "Noah" && (
-              <div
-                id="3"
-                className="py-10 lg:py-40 flex flex-col items-center scale-95 lg:scale-100"
-              >
-                <div className="flex flex-col items-center">
-                  <h2 className="text-[#6366F1] font-bold text-[28px] tracking-[-1px]">
-                    {selectedCaller} 00:08
-                  </h2>
-                  <p className="text-[#A9A9A9]">by Candle</p>
-                </div>
-                <div
-                  className="w-40 aspect-square rounded-full my-16
-                bg-gradient-to-br from-[#6366F1] to-[rgba(99,102,241,0.25)]"
-                />
-
-                <div className="flex items-center bg-[#6366F140] px-[36px] py-[15px] w-75 place-content-around rounded-md text-[#6366F1] font-bold tracking-[-1px]">
-                  <div
-                    className="flex items-center gap-[6px] cursor-pointer"
-                    onClick={() => {
-                      alert("To add feature");
-                    }}
-                  >
-                    <img src={MuteNoah} alt="Mute call button" />
-                    <p>Mute</p>
-                  </div>
-                  <div
-                    className="flex items-center gap-[6px] cursor-pointer"
-                    onClick={() => {
-                      setCurrentFlow(FLOW_STATES.END_CALL);
-                    }}
-                  >
-                    <img src={EndNoah} alt="End call button" />
-                    <p>End Call</p>
-                  </div>
-                </div>
-              </div>
-            )}
-          </>
+            </div>
+          </div>
         );
       case FLOW_STATES.END_CALL:
         return (
@@ -412,66 +256,13 @@ const Candle = () => {
                   setCurrentFlow(FLOW_STATES.INITIAL);
                 }}
               >
-                <p className="text-white text-sm font-semibold text-center text-[18px] lg:text-[16px] tracking-[-0.8px] px-8 lg:px-0">
-                  Login for a better personalised experience
-                </p>
-                <p className="text-white text-sm font-light text-center text-[12px] px-12 lg:px-18 py-4 mb-6">
-                  Includes long-term memory, and access to longer sessions.
-                </p>
-                <button
-                  className="text-[14px] flex justify-center gap-3 items-center bg-white w-[80%] rounded-md py-[10px] mb-4 lg:mb-2"
-                  onClick={() => {
-                    alert("to add feature");
-                  }}
-                >
-                  <img src={GoogleLogo} alt="Sign up with Google" />
-                  <p>Continue with Google</p>
-                </button>
-                <button
-                  className="text-[14px] flex justify-center gap-3 items-center border-1 border-white text-white w-[80%] rounded-md py-[10px]"
-                  onClick={() => {
-                    setCurrentFlow(FLOW_STATES.INITIAL);
-                  }}
-                >
-                  <p>Start a new conversation</p>
-                  <img src={Arrow} alt="Start a new conversation" />
-                </button>
-              </div>
-            )}
-            {selectedCaller === "Noah" && (
-              <div
-                id="login"
-                className="bg-[#6366F1] w-70 lg:w-90 h-90 lg:95 rounded-xl flex flex-col items-center justify-center gap-x-2"
-              >
-                <p className="text-white text-sm font-semibold text-center text-[18px] lg:text-[16px] tracking-[-0.8px] px-8 lg:px-0">
-                  Login for a better personalised experience
-                </p>
-                <p className="text-white text-sm font-light text-center text-[12px] px-12 lg:px-18 py-4 mb-6">
-                  Includes long-term memory, and access to longer sessions.
-                </p>
-                <button
-                  className="text-[14px] flex justify-center gap-3 items-center bg-white w-[80%] rounded-md py-[10px] mb-4 lg:mb-2"
-                  onClick={() => {
-                    alert("to add feature");
-                  }}
-                >
-                  <img src={GoogleLogo} alt="Sign up with Google" />
-                  <p>Continue with Google</p>
-                </button>
-                <button
-                  className="text-[14px] flex justify-center gap-3 items-center border-1 border-white text-white w-[80%] rounded-md py-[10px]"
-                  onClick={() => {
-                    setCurrentFlow(FLOW_STATES.INITIAL);
-                  }}
-                >
-                  <p>Start a new conversation</p>
-                  <img src={Arrow} alt="Start a new conversation" />
-                </button>
-              </div>
-            )}
+                <p>Start a new conversation</p>
+                <img src={Arrow} alt="Start a new conversation" />
+              </button>
+            </div>
             <a
               href="https://forms.gle/psLTVG3JgNCsw24X8"
-              className=" text-[#A9A9A9] text-[12px] text-center pt-8"
+              className="text-[#FF9C25] text-[12px] text-center pt-8"
               target="_blank"
               rel="noopener noreferrer"
             >
