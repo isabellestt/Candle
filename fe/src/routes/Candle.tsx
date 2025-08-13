@@ -5,17 +5,27 @@ import PhoneIcon from "../../src/assets/phone-icon.svg";
 import Mute from "../assets/microphone-icon.svg";
 import End from "../assets/end-call-icon.svg";
 import ConnectingLogo from "../assets/connecting-icon.svg";
-import GoogleLogo from "../assets/google-logo.svg";
 import Arrow from "../assets/chevron.svg";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useVapi } from "../utils/assistant/useVapi";
 
-
+// Add Google types
+declare global {
+  interface Window {
+    google: {
+      accounts: {
+        id: {
+          initialize: (config: { client_id: string; callback: (response: { credential: string }) => void }) => void;
+          renderButton: (element: HTMLElement, options: { type: string; shape: string; theme: string; text: string; size: string; logo_alignment: string; width?: string }) => void;
+        };
+      };
+    };
+  }
+}
 
 const FLOW_STATES = {
   INITIAL: "initial",
   REQUEST_MICROPHONE: "request_microphone",
-  CONNECTING: "connecting",
   IN_CALL: "in_call",
   END_CALL: "end_call",
 };
@@ -23,6 +33,7 @@ const FLOW_STATES = {
 const Candle = () => {
   const [currentFlow, setCurrentFlow] = useState(FLOW_STATES.INITIAL);
   const [selectedCaller, setSelectedCaller] = useState("Olivia");
+  const googleSignInRef = useRef<HTMLDivElement>(null);
 
   const { toggleCall, callDuration, callStatus } =
     useVapi();
@@ -30,34 +41,88 @@ const Candle = () => {
 
   const [isConnected, setIsConnected] = useState(false);
 
+  const handleMicrophonePermission = async () => {
+    try {
+      // Request microphone permission
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      // If permission is granted, stop the stream and proceed to connecting state
+      stream.getTracks().forEach(track => track.stop());
+      toggleCall(selectedCaller.toLowerCase());
+      setCurrentFlow(FLOW_STATES.IN_CALL);
+    } catch (error) {
+      console.error('Microphone permission denied:', error);
+      // Stay in REQUEST_MICROPHONE state if permission is denied
+      // You could also show an error message to the user here
+      alert('Microphone permission is required to use this feature. Please allow microphone access and try again.');
+    }
+  };
+
+  // Initialize Google Sign-In
+  useEffect(() => {
+    const initializeGoogleSignIn = () => {
+      if (window.google && googleSignInRef.current) { 
+        window.google.accounts.id.initialize({
+          client_id: "329414935998-e83p6opiv7j1stu5i9o0nrpu1s2vfre4.apps.googleusercontent.com",
+          callback: handleCredentialResponse,
+        });
+
+        window.google.accounts.id.renderButton(googleSignInRef.current, {
+          type: "standard",
+          shape: "rectangular",
+          theme: "outline",
+          text: "signin_with",
+          size: "large",
+          logo_alignment: "center",
+          width: "80%",
+        });
+
+        // Add custom styling to match the other button
+        setTimeout(() => {
+          const googleButton = googleSignInRef.current?.querySelector('div[role="button"]') as HTMLElement;
+          if (googleButton) {
+            googleButton.style.width = '100%';
+            googleButton.style.border = '1px solid white';
+            googleButton.style.borderRadius = '6px';
+            googleButton.style.padding = '10px';
+            googleButton.style.fontSize = '14px';
+            googleButton.style.color = 'white';
+            googleButton.style.backgroundColor = 'transparent';
+          }
+        }, 100);
+      }
+    };
+
+    // Check if Google script is loaded
+    if (window.google) {
+      initializeGoogleSignIn();
+    } else {
+      // Wait for Google script to load
+      const checkGoogle = setInterval(() => {
+        if (window.google) {
+          clearInterval(checkGoogle);
+          initializeGoogleSignIn();
+        }
+      }, 100);
+    }
+  }, [currentFlow]);
+
+  const handleCredentialResponse = (response: { credential: string }) => {
+    console.log("Google Sign-In response:", response);
+    // Handle the credential response here
+    // You can send this to your backend for verification
+  };
+
   useEffect(() => {
     if (callStatus === "inactive") {
       setIsConnected(false);
     }
-
-
-
     if (callStatus === "active") {
       setIsConnected(true);
     }
-
     if (callStatus === "error") {
       setIsConnected(false);
     }
   }, [callStatus]);
-
-  useEffect(() => {
-    const simulateConnection = () => {
-      toggleCall("noah");
-      setTimeout(() => {
-        setCurrentFlow(FLOW_STATES.IN_CALL);
-      }, 1000);
-    };
-
-    if (currentFlow === FLOW_STATES.CONNECTING) {
-      simulateConnection();
-    }
-  }, [currentFlow, toggleCall]);
 
   const renderFlowContent = () => {
     switch (currentFlow) {
@@ -98,9 +163,7 @@ const Candle = () => {
                 <div
                   id="loading"
                   className="bg-[#FF9C25] w-70 lg:w-90 h-90 lg:95 rounded-xl flex flex-row items-center justify-center gap-x-2"
-                  onClick={() => {
-                    setCurrentFlow(FLOW_STATES.CONNECTING);
-                  }}
+                  onClick={handleMicrophonePermission}
                 >
                   <p className="text-white text-lg font-semibold px-5 text-center leading-[33px]">
                     To chat with {selectedCaller}, please allow us to use your
@@ -113,9 +176,7 @@ const Candle = () => {
                 <div
                   id="loading"
                   className="bg-[#FFD098] w-70 lg:w-90 h-90 lg:95 rounded-xl flex flex-row items-center justify-center gap-x-2"
-                  onClick={() => {
-                    setCurrentFlow(FLOW_STATES.CONNECTING);
-                  }}
+                  onClick={handleMicrophonePermission}
                 >
                   <p className="text-white text-lg font-semibold px-5 text-center leading-[33px]">
                     To chat with {selectedCaller}, please allow us to use your
@@ -125,36 +186,19 @@ const Candle = () => {
               </div>)}
           </>
         );
-      case FLOW_STATES.CONNECTING:
-        return (
-          <>
-            {selectedCaller === "Olivia" && (
-              <div id="2" className="py-10 lg:py-40 flex flex-col items-center scale-95 lg:scale-100">
-                <div
-                  id="loading"
-                  className="bg-[#FF9C25] w-70 lg:w-90 h-90 lg:95 rounded-xl flex flex-row items-center justify-center gap-x-2"
-                >
-                  <p className="text-white text-lg font-semibold">
-                    Connecting to {selectedCaller}
-                  </p>
-                  <img src={ConnectingLogo} alt="Phone icon" />
-                </div>
-              </div>)}
-            {selectedCaller === "Noah" && (
-              <div id="2" className="py-10 lg:py-40 flex flex-col items-center scale-95 lg:scale-100">
-                <div
-                  id="loading"
-                  className="bg-[#FFD098] w-70 lg:w-90 h-90 lg:95 rounded-xl flex flex-row items-center justify-center gap-x-2"
-                >
-                  <p className="text-white text-lg font-semibold">
-                    Connecting to {selectedCaller}
-                  </p>
-                  <img src={ConnectingLogo} alt="Phone icon" />
-                </div>
-              </div>)}
-          </>
-        );
+
       case FLOW_STATES.IN_CALL:
+        if (!isConnected) return <div id="2" className="py-10 lg:py-40 flex flex-col items-center scale-95 lg:scale-100">
+          <div
+            id="loading"
+            className="bg-[#FFD098] w-70 lg:w-90 h-90 lg:95 rounded-xl flex flex-row items-center justify-center gap-x-2"
+          >
+            <p className="text-white text-lg font-semibold">
+              Connecting to {selectedCaller}
+            </p>
+            <img src={ConnectingLogo} alt="Phone icon" />
+          </div>
+        </div>
         return (
           <div id="3" className="py-10 lg:py-40 flex flex-col items-center scale-95 lg:scale-100">
             <div className="flex flex-col items-center">
@@ -203,12 +247,9 @@ const Candle = () => {
               <p className="text-white text-sm font-light text-center text-[12px] px-12 lg:px-18 py-4 mb-6">
                 Includes long-term memory, and access to longer sessions.
               </p>
-              <button className="text-[14px] flex justify-center gap-3 items-center bg-white w-[80%] rounded-md py-[10px] mb-4 lg:mb-2" onClick={() => {
-                alert('to add feature')
-              }}>
-                <img src={GoogleLogo} alt="Sign up with Google" />
-                <p>Continue with Google</p>
-              </button>
+              <div className="w-[80%] flex justify-center mb-4">
+                <div ref={googleSignInRef} className="w-full"></div>
+              </div>
               <button
                 className="text-[14px] flex justify-center gap-3 items-center border-1 border-white text-white w-[80%] rounded-md py-[10px]"
                 onClick={() => {
@@ -249,12 +290,10 @@ const Candle = () => {
         <p className="text-center px-17 text-[#A9A9A9] absolute bottom-10 text-xs lg:text-md leading-5">
           By using our services, you agree to Candle’s
           <a href="#" onClick={() => alert("To be added!")}>
-            {" "}
             <u>Privacy Policy</u>
           </a>
           <span> and</span>
           <a href="#" onClick={() => alert("To be added!")}>
-            {" "}
             <u>Terms of Use</u>
           </a>
         </p>
