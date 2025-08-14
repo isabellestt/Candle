@@ -10,7 +10,6 @@ import ConnectingLogo from "../assets/connecting-icon.svg";
 import GoogleLogo from "../assets/google-logo.svg";
 import PlayButton from "../assets/play-button.png";
 import StopButton from "../assets/stop-button.png";
-// import RightArrow from "../assets/right-arrow-icon.svg";
 import { useState } from "react";
 
 const FLOW_STATES = {
@@ -19,7 +18,6 @@ const FLOW_STATES = {
   CONNECTING: "connecting",
   IN_CALL: "in_call",
   END_CALL: "end_call",
-  // CONTINUE_SIGN_UP: "continue_sign_up",
 };
 
 type Caller = "Olivia" | "Noah";
@@ -384,38 +382,6 @@ const Candle = () => {
             </div>
           </div>
         );
-//       case FLOW_STATES.CONTINUE_SIGN_UP:
-//         return (
-//           <div className="py-10 lg:py-40 flex min-h-[60vh] flex-col items-center justify-center">
-//             <p className="text-black text-sm font-semibold text-center text-[20px] lg:text-[24px] tracking-[-0.8px] px-8 lg:px-8">
-//               Welcome
-//             </p>
-//             <form
-//               className="flex flex-col gap-2 mt-[-6px]"
-//               action={getFormData}
-//             >
-//               <input
-//                 className="focus:outline-none border-b-2 pb-4 pl-4 w-80 text-xl"
-//                 type="text"
-//                 id="username"
-//                 name="username"
-//                 placeholder="What should we call you?"
-//                 required
-//               />
-//               <button
-//                 className="inline-flex items-center gap-0 bg-[#FF9C25] border-4 rounded-xl px-[14px] py-[11px] hover:cursor-pointer w-fit
-// "
-//                 onClick={() => {
-//                   {
-//                     setCurrentFlow(FLOW_STATES.CONTINUE_SIGN_UP);
-//                   }
-//                 }}
-//               >
-//                 <img src={RightArrow} alt="" />
-//               </button>
-//             </form>
-//           </div>
-//         );
       default:
         return null;
     }
