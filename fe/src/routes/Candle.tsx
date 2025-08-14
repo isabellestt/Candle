@@ -333,7 +333,7 @@ const Candle = () => {
                 card required.
               </p>
               <div className="flex flex-col items-center gap-3 w-[100%]">
-                <button type="button"
+                <button onClick={() => {alert('to add sso')}}
                   className="w-full h-12 inline-flex items-center justify-center gap-3 rounded-2xl border border-gray-200 bg-white shadow-[0_1px_0_rgba(0,0,0,0.03)] hover:shadow-[0_6px_16px_rgba(0,0,0,0.08)] active:shadow-[0_2px_6px_rgba(0,0,0,0.10)] active:translate-y-px focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/10 transition
 "
                 >
@@ -351,6 +351,7 @@ const Candle = () => {
                   e.preventDefault();
                   const formData = new FormData(e.currentTarget);
                   getFormData(formData)
+                  alert('to add signup flow')
                 }}
                   className="flex flex-col gap-2 mt-[-6px] w-[100%]"
                 >
