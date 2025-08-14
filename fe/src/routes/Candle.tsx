@@ -10,6 +10,7 @@ import ConnectingLogo from "../assets/connecting-icon.svg";
 import GoogleLogo from "../assets/google-logo.svg";
 import PlayButton from "../assets/play-button.png";
 import StopButton from "../assets/stop-button.png";
+import { MultiStepProfileForm } from "../components/candle-landing/alt-components/SignUp";
 import { useState } from "react";
 
 const FLOW_STATES = {
@@ -18,6 +19,7 @@ const FLOW_STATES = {
   CONNECTING: "connecting",
   IN_CALL: "in_call",
   END_CALL: "end_call",
+  SIGN_UP: "sign_up",
 };
 
 type Caller = "Olivia" | "Noah";
@@ -31,12 +33,39 @@ const Candle = () => {
     Olivia: false,
     Noah: false,
   });
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [email, setEmail] = useState("");
+  const [emailError, setEmailError] = useState("");
+
+  const handleProfileComplete = (profile: {
+    name: string;
+    dob: string;
+    gender: string;
+  }) => {
+    console.log("Collected profile:", profile);
+    // TODO: send to your backend here
+    setLoggedIn(true);
+    setCurrentFlow(FLOW_STATES.INITIAL);
+  };
 
   const getFormData = (formData: FormData): void => {
     const submitted = Object.fromEntries(formData);
     console.log(submitted);
   };
 
+  const getSGTimeOfDay = (date = new Date()) => {
+    const hour = Number(
+      new Intl.DateTimeFormat("en-SG", {
+        hour: "numeric",
+        hour12: false,
+        timeZone: "Asia/Singapore",
+      }).format(date),
+    );
+
+    if (hour >= 5 && hour < 12) return "Morning";
+    if (hour >= 12 && hour < 18) return "Afternoon";
+    return "Evening";
+  };
 
   const simulateConnection = () => {
     setTimeout(() => {
@@ -70,6 +99,13 @@ const Candle = () => {
             id="1"
             className="py-10 lg:py-40 flex flex-col items-center scale-95 lg:scale-100"
           >
+            {loggedIn && (
+              <>
+                <p className="text-black text-sm font-semibold text-center text-[20px] lg:text-[24px] tracking-[-0.8px] px-8 lg:px-8 mb-2">
+                  {getSGTimeOfDay()}, (SSO username)
+                </p>
+              </>
+            )}
             <div
               id="olivia"
               className="bg-[#14B8A6] w-[280px] h-[180px] lg:w-[360px] lg:h-[190px] rounded-t-xl flex items-center justify-center px-4"
@@ -264,6 +300,11 @@ const Candle = () => {
                   <div
                     className="flex items-center gap-[6px] cursor-pointer"
                     onClick={() => {
+                      if (loggedIn) {
+                        setCurrentFlow(FLOW_STATES.INITIAL);
+                        // maybe add a call review flow here
+                        return;
+                      }
                       setCurrentFlow(FLOW_STATES.END_CALL);
                     }}
                   >
@@ -302,6 +343,11 @@ const Candle = () => {
                   <div
                     className="flex items-center gap-[6px] cursor-pointer"
                     onClick={() => {
+                      if (loggedIn) {
+                        setCurrentFlow(FLOW_STATES.INITIAL);
+                        // maybe add a call review flow here
+                        return;
+                      }
                       setCurrentFlow(FLOW_STATES.END_CALL);
                     }}
                   >
@@ -331,7 +377,12 @@ const Candle = () => {
                 card required.
               </p>
               <div className="flex flex-col items-center gap-3 w-[100%]">
-                <button onClick={() => {alert('to add sso')}}
+                <button
+                  onClick={() => {
+                    alert("to add sso");
+                    setLoggedIn(!loggedIn);
+                    setCurrentFlow(FLOW_STATES.INITIAL);
+                  }}
                   className="w-full h-12 inline-flex items-center justify-center gap-3 rounded-2xl border border-gray-200 bg-white shadow-[0_1px_0_rgba(0,0,0,0.03)] hover:shadow-[0_6px_16px_rgba(0,0,0,0.08)] active:shadow-[0_2px_6px_rgba(0,0,0,0.10)] active:translate-y-px focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/10 transition
 "
                 >
@@ -345,12 +396,18 @@ const Candle = () => {
                   </div>
                   <div className="h-0.5 w-30 lg:w-40 bg-gray-200"></div>
                 </div>
-                <form onSubmit={e => {
-                  e.preventDefault();
-                  const formData = new FormData(e.currentTarget);
-                  getFormData(formData)
-                  alert('to add signup flow')
-                }}
+                <form
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    if (!email.trim()) {
+                      setEmailError("Email is required");
+                      return;
+                    }
+                    setEmailError("");
+                    const formData = new FormData(e.currentTarget);
+                    getFormData(formData);
+                    setCurrentFlow(FLOW_STATES.SIGN_UP);
+                  }}
                   className="flex flex-col gap-2 mt-[-6px] w-[100%]"
                 >
                   <fieldset>
@@ -359,14 +416,21 @@ const Candle = () => {
                       type="email"
                       name="email"
                       id="email"
+                      value={email}
+                      onChange={(e) => {
+                        setEmail(e.target.value);
+                        setEmailError("");
+                      }}
                       placeholder="you@example.com"
                       className="border border-gray-200 rounded-2xl py-3 px-4 text-[#A9A9A9] text-sm w-[100%]"
                     />
+                    {emailError && (
+                      <p className="text-red-500 font-medium text-sm mt-1">
+                        {emailError}
+                      </p>
+                    )}
                   </fieldset>
-                  <button
-                    className="bg-[#FF9C25] text-white text-sm py-2 px-4 w-[100%]w-full h-12 inline-flex items-center justify-center gap-3 rounded-2xl border border-gray-20 shadow-[0_1px_0_rgba(0,0,0,0.03)] hover:shadow-[0_6px_16px_rgba(0,0,0,0.08)] active:shadow-[0_2px_6px_rgba(0,0,0,0.10)] active:translate-y-px focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/10 transition"
-
-                  >
+                  <button className="bg-[#FF9C25] text-white text-sm py-2 px-4 w-[100%]w-full h-12 inline-flex items-center justify-center gap-3 rounded-2xl border border-gray-20 shadow-[0_1px_0_rgba(0,0,0,0.03)] hover:shadow-[0_6px_16px_rgba(0,0,0,0.08)] active:shadow-[0_2px_6px_rgba(0,0,0,0.10)] active:translate-y-px focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/10 transition">
                     Continue with email
                   </button>
                 </form>
@@ -382,6 +446,17 @@ const Candle = () => {
             </div>
           </div>
         );
+      case FLOW_STATES.SIGN_UP:
+        return (
+          <div className="py-10 lg:py-20 flex flex-col items-center">
+            <div className="w-full max-w-lg">
+              <MultiStepProfileForm
+                onComplete={handleProfileComplete}
+                onCancel={() => setCurrentFlow(FLOW_STATES.END_CALL)}
+              />
+            </div>
+          </div>
+        );
       default:
         return null;
     }
@@ -393,13 +468,28 @@ const Candle = () => {
         <NavLink to="/">
           <img src={CandleLogo} alt="Logo for Candle" />
         </NavLink>
-        <Button text="Login"></Button>
+        {currentFlow !== FLOW_STATES.SIGN_UP && (
+          <Button
+            text={loggedIn ? "Logout" : "Login"}
+            onClick={() => {
+              setLoggedIn(!loggedIn)
+              if(!loggedIn) {
+                setCurrentFlow(FLOW_STATES.INITIAL)
+              }
+            }}
+          />
+        )}
       </section>
       <section className="flex flex-col items-center">
         {renderFlowContent()}
       </section>
       <div className="flex justify-center">
-        <p className="text-center px-6 text-[#A9A9A9] absolute bottom-10 text-[10px] lg:text-md leading-5">
+        <p
+          className="
+    text-center px-6 text-[#A9A9A9] text-[10px] lg:text-md leading-5
+    absolute bottom-10 [@media(max-height:650px)]:static [@media(max-height:650px)]:pb-10 [@media(max-height:650px)]:mt-6
+  "
+        >
           Not for emergencies. If you’re in immediate danger in Singapore, call
           999 or 995. By using our services, you agree to Candle’s
           <a href="#" onClick={() => alert("To be added!")}>
