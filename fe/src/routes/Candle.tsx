@@ -8,9 +8,9 @@ import MuteNoah from "../assets/microphone-icon-noah.svg";
 import EndNoah from "../assets/end-call-icon-noah.svg";
 import ConnectingLogo from "../assets/connecting-icon.svg";
 import GoogleLogo from "../assets/google-logo.svg";
-import Arrow from "../assets/chevron.svg";
 import PlayButton from "../assets/play-button.png";
 import StopButton from "../assets/stop-button.png";
+// import RightArrow from "../assets/right-arrow-icon.svg";
 import { useState } from "react";
 
 const FLOW_STATES = {
@@ -19,6 +19,7 @@ const FLOW_STATES = {
   CONNECTING: "connecting",
   IN_CALL: "in_call",
   END_CALL: "end_call",
+  // CONTINUE_SIGN_UP: "continue_sign_up",
 };
 
 type Caller = "Olivia" | "Noah";
@@ -26,7 +27,18 @@ type Caller = "Olivia" | "Noah";
 const Candle = () => {
   const [currentFlow, setCurrentFlow] = useState(FLOW_STATES.INITIAL);
   const [selectedCaller, setSelectedCaller] = useState("Olivia");
-  const [previewStatus, setPreviewStatus] = useState(false);
+  const [previewStatus, setPreviewStatus] = useState<{
+    [key in Caller]: boolean;
+  }>({
+    Olivia: false,
+    Noah: false,
+  });
+
+  const getFormData = (formData: FormData): void => {
+    const submitted = Object.fromEntries(formData);
+    console.log(submitted);
+  };
+
 
   const simulateConnection = () => {
     setTimeout(() => {
@@ -45,7 +57,10 @@ const Candle = () => {
 
   const handlePreviewClick = (e: React.MouseEvent, caller: Caller) => {
     e.stopPropagation();
-    setPreviewStatus(!previewStatus);
+    setPreviewStatus((prev) => ({
+      ...prev,
+      [caller]: !prev[caller],
+    }));
     playPreview(caller);
   };
 
@@ -79,14 +94,14 @@ const Candle = () => {
                   className="flex items-center"
                   onClick={(e) => handlePreviewClick(e, "Olivia")}
                 >
-                  {previewStatus === false && (
+                  {!previewStatus.Olivia && (
                     <img
                       src={PlayButton}
                       alt="Play audio preview for Olivia"
                       className="pointer-events-none"
                     />
                   )}
-                  {previewStatus === true && (
+                  {previewStatus.Olivia && (
                     <img
                       src={StopButton}
                       alt="Pause audio preview for Olivia"
@@ -119,14 +134,14 @@ const Candle = () => {
                   className="flex items-center"
                   onClick={(e) => handlePreviewClick(e, "Noah")}
                 >
-                  {previewStatus === false && (
+                  {!previewStatus.Noah && (
                     <img
                       src={PlayButton}
                       alt="Play audio preview for Noah"
                       className="pointer-events-none"
                     />
                   )}
-                  {previewStatus === true && (
+                  {previewStatus.Noah && (
                     <img
                       src={StopButton}
                       alt="Pause audio preview for Noah"
@@ -306,78 +321,100 @@ const Candle = () => {
             id="4"
             className="py-10 lg:py-40 flex flex-col items-center scale-95 lg:scale-100"
           >
-            {selectedCaller === "Olivia" && (
-              <div
-                id="login"
-                className="bg-[#14B8A6] w-70 lg:w-90 h-90 lg:95 rounded-xl flex flex-col items-center justify-center gap-x-2"
-              >
-                <p className="text-white text-sm font-semibold text-center text-[18px] lg:text-[16px] tracking-[-0.8px] px-8 lg:px-0">
-                  Login for a better personalised experience
-                </p>
-                <p className="text-white text-sm font-light text-center text-[12px] px-12 lg:px-18 py-4 mb-6">
-                  Includes long-term memory, and access to longer sessions.
-                </p>
-                <button
-                  className="text-[14px] flex justify-center gap-3 items-center bg-white w-[80%] rounded-md py-[10px] mb-4 lg:mb-2"
-                  onClick={() => {
-                    alert("to add feature");
-                  }}
-                >
-                  <img src={GoogleLogo} alt="Sign up with Google" />
-                  <p>Continue with Google</p>
-                </button>
-                <button
-                  className="text-[14px] flex justify-center gap-3 items-center border-1 border-white text-white w-[80%] rounded-md py-[10px]"
-                  onClick={() => {
-                    setCurrentFlow(FLOW_STATES.INITIAL);
-                  }}
-                >
-                  <p>Start a new conversation</p>
-                  <img src={Arrow} alt="Start a new conversation" />
-                </button>
-              </div>
-            )}
-            {selectedCaller === "Noah" && (
-              <div
-                id="login"
-                className="bg-[#6366F1] w-70 lg:w-90 h-90 lg:95 rounded-xl flex flex-col items-center justify-center gap-x-2"
-              >
-                <p className="text-white text-sm font-semibold text-center text-[18px] lg:text-[16px] tracking-[-0.8px] px-8 lg:px-0">
-                  Login for a better personalised experience
-                </p>
-                <p className="text-white text-sm font-light text-center text-[12px] px-12 lg:px-18 py-4 mb-6">
-                  Includes long-term memory, and access to longer sessions.
-                </p>
-                <button
-                  className="text-[14px] flex justify-center gap-3 items-center bg-white w-[80%] rounded-md py-[10px] mb-4 lg:mb-2"
-                  onClick={() => {
-                    alert("to add feature");
-                  }}
-                >
-                  <img src={GoogleLogo} alt="Sign up with Google" />
-                  <p>Continue with Google</p>
-                </button>
-                <button
-                  className="text-[14px] flex justify-center gap-3 items-center border-1 border-white text-white w-[80%] rounded-md py-[10px]"
-                  onClick={() => {
-                    setCurrentFlow(FLOW_STATES.INITIAL);
-                  }}
-                >
-                  <p>Start a new conversation</p>
-                  <img src={Arrow} alt="Start a new conversation" />
-                </button>
-              </div>
-            )}
-            <a
-              href="https://forms.gle/psLTVG3JgNCsw24X8"
-              className=" text-[#A9A9A9] text-[12px] text-center pt-8"
-              target="_blank"
-              rel="noopener noreferrer"
+            <div
+              id="login"
+              className="w-70 lg:w-90 h-90 lg:95 rounded-xl flex flex-col items-center justify-center gap-x-2"
             >
-              <u>Leave feedback here</u>
-            </a>
+              <p className="text-black text-sm font-semibold text-center text-[20px] lg:text-[24px] tracking-[-0.8px] px-8 lg:px-8">
+                Sign up for a personalised experience
+              </p>
+              <p className="text-gray-400 text-sm font-light text-center text-[14px] lg:text-[16px] px-10 lg:px-4 py-4 mb-6">
+                Long-term memory, access to longer sessions, and free, with no
+                card required.
+              </p>
+              <div className="flex flex-col items-center gap-3 w-[100%]">
+                <button type="button"
+                  className="w-full h-12 inline-flex items-center justify-center gap-3 rounded-2xl border border-gray-200 bg-white shadow-[0_1px_0_rgba(0,0,0,0.03)] hover:shadow-[0_6px_16px_rgba(0,0,0,0.08)] active:shadow-[0_2px_6px_rgba(0,0,0,0.10)] active:translate-y-px focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/10 transition
+"
+                >
+                  <img src={GoogleLogo} alt="Sign up with Google" />
+                  <p className="text-black">Continue with Google</p>
+                </button>
+                <div className="flex items-center gap-2">
+                  <div className="h-0.5 w-30 lg:w-40 bg-gray-200"></div>
+                  <div className="text-gray-400 font-medium text-xs py-4">
+                    OR
+                  </div>
+                  <div className="h-0.5 w-30 lg:w-40 bg-gray-200"></div>
+                </div>
+                <form onSubmit={e => {
+                  e.preventDefault();
+                  const formData = new FormData(e.currentTarget);
+                  getFormData(formData)
+                }}
+                  className="flex flex-col gap-2 mt-[-6px] w-[100%]"
+                >
+                  <fieldset>
+                    <legend className="text-sm mb-1">Email address</legend>
+                    <input
+                      type="email"
+                      name="email"
+                      id="email"
+                      placeholder="you@example.com"
+                      className="border border-gray-200 rounded-2xl py-3 px-4 text-[#A9A9A9] text-sm w-[100%]"
+                    />
+                  </fieldset>
+                  <button
+                    className="bg-[#FF9C25] text-white text-sm py-2 px-4 w-[100%]w-full h-12 inline-flex items-center justify-center gap-3 rounded-2xl border border-gray-20 shadow-[0_1px_0_rgba(0,0,0,0.03)] hover:shadow-[0_6px_16px_rgba(0,0,0,0.08)] active:shadow-[0_2px_6px_rgba(0,0,0,0.10)] active:translate-y-px focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/10 transition"
+
+                  >
+                    Continue with email
+                  </button>
+                </form>
+                <p
+                  className="text-[#A9A9A9] text-[12px] text-center underline mt-2"
+                  onClick={() => {
+                    setCurrentFlow(FLOW_STATES.INITIAL);
+                  }}
+                >
+                  Chat without an account
+                </p>
+              </div>
+            </div>
           </div>
         );
+//       case FLOW_STATES.CONTINUE_SIGN_UP:
+//         return (
+//           <div className="py-10 lg:py-40 flex min-h-[60vh] flex-col items-center justify-center">
+//             <p className="text-black text-sm font-semibold text-center text-[20px] lg:text-[24px] tracking-[-0.8px] px-8 lg:px-8">
+//               Welcome
+//             </p>
+//             <form
+//               className="flex flex-col gap-2 mt-[-6px]"
+//               action={getFormData}
+//             >
+//               <input
+//                 className="focus:outline-none border-b-2 pb-4 pl-4 w-80 text-xl"
+//                 type="text"
+//                 id="username"
+//                 name="username"
+//                 placeholder="What should we call you?"
+//                 required
+//               />
+//               <button
+//                 className="inline-flex items-center gap-0 bg-[#FF9C25] border-4 rounded-xl px-[14px] py-[11px] hover:cursor-pointer w-fit
+// "
+//                 onClick={() => {
+//                   {
+//                     setCurrentFlow(FLOW_STATES.CONTINUE_SIGN_UP);
+//                   }
+//                 }}
+//               >
+//                 <img src={RightArrow} alt="" />
+//               </button>
+//             </form>
+//           </div>
+//         );
       default:
         return null;
     }
@@ -394,9 +431,10 @@ const Candle = () => {
       <section className="flex flex-col items-center">
         {renderFlowContent()}
       </section>
-      <div>
-        <p className="text-center px-17 text-[#A9A9A9] absolute bottom-10 text-xs lg:text-md leading-5">
-          By using our services, you agree to Candle’s
+      <div className="flex justify-center">
+        <p className="text-center px-6 text-[#A9A9A9] absolute bottom-10 text-[10px] lg:text-md leading-5">
+          Not for emergencies. If you’re in immediate danger in Singapore, call
+          999 or 995. By using our services, you agree to Candle’s
           <a href="#" onClick={() => alert("To be added!")}>
             {" "}
             <u>Privacy Policy</u>
