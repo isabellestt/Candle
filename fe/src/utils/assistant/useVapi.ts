@@ -4,9 +4,10 @@ import { vapi } from "./vapi.sdk";
 import type { CallRecord } from "./../../types/conversation.type";
 import { helplineAssistant } from "./helpline.assistant";
 import { squad } from "../squad/squad";
-import { callData as defaultCallData } from "../../../public/callData";
+import { callData as demoCallData } from "../../../public/callData";
 import formatDateForDisplay from "../formatDate";
 import formatTime from "../formatTime";
+import { teenageAssistantNoah, teenageAssistantOlivia } from "./teenage.assistant";
 
 export const CALL_STATUS = {
   INACTIVE: "inactive",
@@ -18,7 +19,8 @@ export const CALL_STATUS = {
 export type CALL_STATUS_TYPE = (typeof CALL_STATUS)[keyof typeof CALL_STATUS];
 
 export function useVapi() {
-  const [callData, setCallData] = useState<CallRecord[]>(defaultCallData);
+  // loading demo dummy data here
+  const [callData, setCallData] = useState<CallRecord[]>(demoCallData);
 
   const [isSpeechActive, setIsSpeechActive] = useState(false);
   const [callStatus, setCallStatus] = useState<CALL_STATUS_TYPE>(
@@ -26,12 +28,28 @@ export function useVapi() {
   );
   const [audioLevel, setAudioLevel] = useState(0);
 
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const [callDuration, setCallDuration] = useState(0);
 
+  // Only used for old triage demo
   useEffect(() => {
     localStorage.setItem("callRecords", JSON.stringify(callData));
   }, [callData]);
 
+  useEffect(() => {
+    if (callStatus === CALL_STATUS.ACTIVE) {
+      const interval = setInterval(() => {
+        setCallDuration((prev) => prev + 1);
+      }, 1000);
+
+      return () => clearInterval(interval);
+    }
+    if (callStatus === CALL_STATUS.INACTIVE) {
+      setCallDuration(0);
+    }
+  }, [callStatus, isSpeechActive]);
+
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+    
   useEffect(() => {
     const onSpeechStart = () => setIsSpeechActive(true);
     const onSpeechEnd = () => {
@@ -58,73 +76,69 @@ export function useVapi() {
         const mostRecentRecordId = mostRecentRecord
           ? mostRecentRecord.callId
           : null;
-        setTimeout(() => {
-          console.log("Fetching call data after delay...");
-          fetch(`${apiUrl}/api/getCallInfo`)
-            .then((response) => {
-              if (!response.ok) {
-                return response.text().then((text) => {
-                  throw new Error(
-                    `Server responded with status: ${response.status}, body: ${text}`,
-                  );
-                });
-              }
-              return response.json();
-            })
-            .then((data) => {
-              setCallData((prevData) => {
-                return prevData.map((existingRecord) => {
-                  if (existingRecord.callId === data.callId) {
-                    return {
-                      ...existingRecord,
-                      createdDate:
-                        formatDateForDisplay(data.startedAt) ||
-                        existingRecord.createdDate,
-                      duration: data.durationSeconds
-                        ? formatTime(data.durationSeconds)
-                        : "N/A",
-                      details: {
-                        summary: data.summary || "No summary provided",
-                        summaryTitle:
-                          data.summaryTitle || "No summary provided",
-                        structuredData: {
-                          urgentStatus: data.structuredData?.urgent || false,
-                          transferTo: data.structuredData?.transfer_to || null,
-                          transferred:
-                            data.structuredData?.transferred || false,
-                          abuseType:
-                            data.structuredData?.abuse_type || "Not specified",
-                          callerName: data.structuredData?.name || "Unknown",
-                          callerLocation:
-                            data.structuredData?.location || "Unknown",
-                          latestIncident:
-                            data.structuredData?.latest_incident_date || "N/A",
-                          follow_up:
-                            data.structuredData?.follow_up ||
-                            "No follow-up required",
-                        },
-                        messages: data.messages || [],
-                      },
-                    };
-                  }
-                  return existingRecord;
-                });
-              });
-            })
-            .catch((error) => {
-              console.error("Error fetching call info:", error);
 
-              if (mostRecentRecordId) {
-                setCallData((prevData) => {
-                  return prevData.filter(
-                    (record) => record.callId !== mostRecentRecordId,
-                  );
-                });
-              }
+        fetch(`${apiUrl}/api/getCallInfo`)
+          .then((response) => {
+            if (!response.ok) {
+              return response.text().then((text) => {
+                throw new Error(
+                  `Server responded with status: ${response.status}, body: ${text}`,
+                );
+              });
+            }
+            return response.json();
+          })
+          .then((data) => {
+            setCallData((prevData) => {
+              return prevData.map((existingRecord) => {
+                if (existingRecord.callId === data.callId) {
+                  return {
+                    ...existingRecord,
+                    createdDate:
+                      formatDateForDisplay(data.startedAt) ||
+                      existingRecord.createdDate,
+                    duration: data.durationSeconds
+                      ? formatTime(data.durationSeconds)
+                      : "N/A",
+                    details: {
+                      summary: data.summary || "No summary provided",
+                      summaryTitle:
+                        data.summaryTitle || "No summary provided",
+                      structuredData: {
+                        urgentStatus: data.structuredData?.urgent || false,
+                        transferTo: data.structuredData?.transfer_to || null,
+                        transferred:
+                          data.structuredData?.transferred || false,
+                        abuseType:
+                          data.structuredData?.abuse_type || "Not specified",
+                        callerName: data.structuredData?.name || "Unknown",
+                        callerLocation:
+                          data.structuredData?.location || "Unknown",
+                        latestIncident:
+                          data.structuredData?.latest_incident_date || "N/A",
+                        follow_up:
+                          data.structuredData?.follow_up ||
+                          "No follow-up required",
+                      },
+                      messages: data.messages || [],
+                    },
+                  };
+                }
+                return existingRecord;
+              });
             });
-        }, 10000);
-      } else {
-        console.warn("API URL not defined, skipping call info fetch");
+          })
+          .catch((error) => {
+            console.error("Error fetching call info:", error);
+
+            if (mostRecentRecordId) {
+              setCallData((prevData) => {
+                return prevData.filter(
+                  (record) => record.callId !== mostRecentRecordId,
+                );
+              });
+            }
+          });
       }
     };
 
@@ -137,26 +151,42 @@ export function useVapi() {
       console.error(e);
     };
 
+    const onMessageUpdate = (message: unknown) => {
+      console.log("Message update: ", message);
+    };
+
+    // Add all event listeners
     vapi.on("speech-start", onSpeechStart);
     vapi.on("speech-end", onSpeechEnd);
     vapi.on("call-start", onCallStartHandler);
     vapi.on("call-end", onCallEnd);
     vapi.on("volume-level", onVolumeLevel);
-    // vapi.on("message", onMessageUpdate);
+    vapi.on("message", onMessageUpdate);
     vapi.on("error", onError);
 
+    // Cleanup function - remove all listeners when component unmounts
     return () => {
       vapi.off("speech-start", onSpeechStart);
       vapi.off("speech-end", onSpeechEnd);
       vapi.off("call-start", onCallStartHandler);
       vapi.off("call-end", onCallEnd);
       vapi.off("volume-level", onVolumeLevel);
-      // vapi.off("message", onMessageUpdate);
+      vapi.off("message", onMessageUpdate);
       vapi.off("error", onError);
     };
-  }, [callData]);
+  }, []); // Empty dependency array - only run once on mount
 
-  const start = async () => {
+  const triggerPeanuts = () => {
+    vapi.send({
+      type: 'add-message',
+      message: {
+        role: 'system',
+        content: 'The user has pressed the button, say peanuts',
+      },
+    });
+  }
+
+  const start = async (agent: "noah" | "olivia" | string) => {
     setCallStatus(CALL_STATUS.LOADING);
     try {
       const assistantOverrides: AssistantOverrides = {
@@ -164,8 +194,9 @@ export function useVapi() {
           agency: "",
         },
       };
+
       const res = await vapi.start(
-        helplineAssistant,
+        agent == "noah" ? teenageAssistantNoah : agent == "olivia" ? teenageAssistantOlivia : helplineAssistant,
         assistantOverrides,
         squad,
       );
@@ -213,21 +244,23 @@ export function useVapi() {
     vapi.stop();
   };
 
-  const toggleCall = () => {
+  const toggleCall = (agent: "noah" | "olivia" | string) => {
     if (callStatus == CALL_STATUS.ACTIVE) {
       stop();
     } else {
-      start();
+      start(agent);
     }
   };
 
   return {
     isSpeechActive,
     callStatus,
+    callDuration,
     audioLevel,
     start,
     stop,
     toggleCall,
     callData,
+    triggerPeanuts,
   };
 }
