@@ -83,11 +83,11 @@ const Candle = () => {
   }, [currentFlow]);
 
 
-  const handleCredentialResponse = (response: { credential: string }) => {
-    console.log("Google Sign-In response:", response);
-    // Handle the credential response here
-    // You can send this to your backend for verification
-  };
+  // const handleCredentialResponse = (response: { credential: string }) => {
+  //   console.log("Google Sign-In response:", response);
+  //   // Handle the credential response here
+  //   // You can send this to your backend for verification
+  // };
 
   const { toggleCall, callDuration, callStatus } =
     useVapi();
