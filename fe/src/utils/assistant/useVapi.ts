@@ -176,15 +176,6 @@ export function useVapi() {
     };
   }, []); // Empty dependency array - only run once on mount
 
-  const triggerPeanuts = () => {
-    vapi.send({
-      type: 'add-message',
-      message: {
-        role: 'system',
-        content: 'The user has pressed the button, say peanuts',
-      },
-    });
-  }
 
   const start = async (agent: "noah" | "olivia" | string) => {
     setCallStatus(CALL_STATUS.LOADING);
@@ -261,6 +252,5 @@ export function useVapi() {
     stop,
     toggleCall,
     callData,
-    triggerPeanuts,
   };
 }

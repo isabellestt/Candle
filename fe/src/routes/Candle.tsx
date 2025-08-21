@@ -89,7 +89,7 @@ const Candle = () => {
     // You can send this to your backend for verification
   };
 
-  const { toggleCall, callDuration, callStatus, triggerPeanuts } =
+  const { toggleCall, callDuration, callStatus } =
     useVapi();
 
   useEffect(() => {
@@ -331,7 +331,6 @@ const Candle = () => {
                 bg-gradient-to-br from-[#14B8A6] to-[rgba(20,184,166,0.25)]"
             />
             <div className="flex items-center bg-[#14B8A640] px-[36px] py-[15px] w-75 place-content-around rounded-md text-[#14B8A6] font-bold tracking-[-1px]">
-              <button className="flex items-center gap-[6px] cursor-pointer" onClick={triggerPeanuts}>Peanuts</button>
               <div
                 className="flex items-center gap-[6px] cursor-pointer"
                 onClick={() => {
