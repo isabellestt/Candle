@@ -2,7 +2,7 @@ import type { AssistantOverrides } from "./../../../node_modules/@vapi-ai/web/di
 import { useEffect, useState, useRef } from "react";
 import { vapi } from "./vapi.sdk";
 import type { CallRecord } from "./../../types/conversation.type";
-import { helplineAssistant } from "./helpline.assistant";
+// import { helplineAssistant } from "./helpline.assistant";
 import { squad } from "../squad/squad";
 import { callData as defaultCallData } from "../../../public/callData";
 import formatDateForDisplay from "../formatDate";
@@ -164,6 +164,7 @@ export function useVapi() {
           agency: "",
         },
       };
+      const helplineAssistant = import.meta.env.VITE_PUBLIC_VAPI_AUTHORITY_ASSISTANT_ID
       const res = await vapi.start(
         helplineAssistant,
         assistantOverrides,
