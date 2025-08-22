@@ -5,14 +5,14 @@ import { BrowserRouter, Routes, Route } from "react-router";
 import App from "./App.tsx";
 import Dashboard from "./routes/Demo.tsx";
 import Candle from "./routes/Candle.tsx";
-import DemoLanding from "./routes/DemoLanding.tsx"
+// import DemoLanding from "./routes/DemoLanding.tsx"
 
 createRoot(document.getElementById("root")!).render(
   <BrowserRouter>
     <StrictMode>
       <Routes>
         <Route path="/" element={<App />} />
-        <Route path="/DemoLanding" element={<DemoLanding />} />
+        {/* <Route path="/DemoLanding" element={<DemoLanding />} /> */}
         <Route path="/DemoLanding/Demo" element={<Dashboard />} />
         <Route path="/Candle" element={<Candle />} />
       </Routes>
