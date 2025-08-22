@@ -22,7 +22,7 @@ export function Hero() {
           can focus on urgent care.
         </div>
         {/* landing-cta-button */}
-        <Link to="/demo">
+        <Link to="/DemoLanding/Demo">
           <button className="landing-cta-button">
             {/* landing-cta-button-text */}
             <img
