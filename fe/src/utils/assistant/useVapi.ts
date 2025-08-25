@@ -21,6 +21,8 @@ export type CALL_STATUS_TYPE = (typeof CALL_STATUS)[keyof typeof CALL_STATUS];
 export function useVapi() {
   // loading demo dummy data here
   const [callData, setCallData] = useState<CallRecord[]>(demoCallData);
+  const currentCallIdRef = useRef<string | null>(null);
+
 
   const [isSpeechActive, setIsSpeechActive] = useState(false);
   const [callStatus, setCallStatus] = useState<CALL_STATUS_TYPE>(
@@ -49,7 +51,7 @@ export function useVapi() {
   }, [callStatus, isSpeechActive]);
 
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
-    
+
   useEffect(() => {
     const onSpeechStart = () => setIsSpeechActive(true);
     const onSpeechEnd = () => {
@@ -72,73 +74,74 @@ export function useVapi() {
       }
 
       if (apiUrl) {
-        const mostRecentRecord = callData.length > 0 ? callData[0] : null;
-        const mostRecentRecordId = mostRecentRecord
-          ? mostRecentRecord.callId
-          : null;
-
-        fetch(`${apiUrl}/api/getCallInfo`)
-          .then((response) => {
-            if (!response.ok) {
-              return response.text().then((text) => {
-                throw new Error(
-                  `Server responded with status: ${response.status}, body: ${text}`,
-                );
-              });
-            }
-            return response.json();
-          })
-          .then((data) => {
-            setCallData((prevData) => {
-              return prevData.map((existingRecord) => {
-                if (existingRecord.callId === data.callId) {
-                  return {
-                    ...existingRecord,
-                    createdDate:
-                      formatDateForDisplay(data.startedAt) ||
-                      existingRecord.createdDate,
-                    duration: data.durationSeconds
-                      ? formatTime(data.durationSeconds)
-                      : "N/A",
-                    details: {
-                      summary: data.summary || "No summary provided",
-                      summaryTitle:
-                        data.summaryTitle || "No summary provided",
-                      structuredData: {
-                        urgentStatus: data.structuredData?.urgent || false,
-                        transferTo: data.structuredData?.transfer_to || null,
-                        transferred:
-                          data.structuredData?.transferred || false,
-                        abuseType:
-                          data.structuredData?.abuse_type || "Not specified",
-                        callerName: data.structuredData?.name || "Unknown",
-                        callerLocation:
-                          data.structuredData?.location || "Unknown",
-                        latestIncident:
-                          data.structuredData?.latest_incident_date || "N/A",
-                        follow_up:
-                          data.structuredData?.follow_up ||
-                          "No follow-up required",
-                      },
-                      messages: data.messages || [],
-                    },
-                  };
+        const fetchCallInfo = (retryCount = 0, maxRetries = 10) => {
+          const delay = Math.min(1000 * Math.pow(2, retryCount), 5000); // Exponential backoff, max 5 seconds
+          console.log("currentCallIdRef.current: ", currentCallIdRef.current);
+          setTimeout(() => {
+            fetch(`${apiUrl}/api/getCallInfo/${currentCallIdRef.current}`)
+              .then((response) => {
+                if (!response.ok) {
+                  return response.text().then((text) => {
+                    throw new Error(
+                      `Server responded with status: ${response.status}, body: ${text}`,
+                    );
+                  });
                 }
-                return existingRecord;
+                return response.json();
+              })
+              .then((data) => {
+                setCallData((prevData) => {
+                  return prevData.map((existingRecord) => {
+                    if (existingRecord.callId === data.callId) {
+                      return {
+                        ...existingRecord,
+                        createdDate:
+                          formatDateForDisplay(data.startedAt) ||
+                          existingRecord.createdDate,
+                        duration: data.durationSeconds
+                          ? formatTime(data.durationSeconds)
+                          : "N/A",
+                        details: {
+                          summary: data.summary || "No summary provided",
+                          summaryTitle:
+                            data.summaryTitle || "No summary provided",
+                          structuredData: {
+                            urgentStatus: data.structuredData?.urgent || false,
+                            transferTo: data.structuredData?.transfer_to || null,
+                            transferred:
+                              data.structuredData?.transferred || false,
+                            abuseType:
+                              data.structuredData?.abuse_type || "Not specified",
+                            callerName: data.structuredData?.name || "Unknown",
+                            callerLocation:
+                              data.structuredData?.location || "Unknown",
+                            latestIncident:
+                              data.structuredData?.latest_incident_date || "N/A",
+                            follow_up:
+                              data.structuredData?.follow_up ||
+                              "No follow-up required",
+                          },
+                          messages: data.messages || [],
+                        },
+                      };
+                    }
+                    return existingRecord;
+                  });
+                });
+                currentCallIdRef.current = null;
+              })
+              .catch((error) => {
+                console.error("Error fetching call info:", error);
+                if (retryCount < maxRetries) {
+                  setTimeout(() => fetchCallInfo(retryCount + 1, maxRetries), 1000);
+                } else {
+                  console.error("Max retries reached. Unable to fetch call info.");
+                }
               });
-            });
-          })
-          .catch((error) => {
-            console.error("Error fetching call info:", error);
-
-            if (mostRecentRecordId) {
-              setCallData((prevData) => {
-                return prevData.filter(
-                  (record) => record.callId !== mostRecentRecordId,
-                );
-              });
-            }
-          });
+          }, delay);
+        };
+        console.log("Fetching call info for callId: ", currentCallIdRef.current);
+        fetchCallInfo();
       }
     };
 
@@ -195,6 +198,9 @@ export function useVapi() {
         setCallStatus(CALL_STATUS.ERROR);
         throw new Error("Failed to start call");
       }
+
+      currentCallIdRef.current = res.id;
+      console.log("response id: ", JSON.stringify(res));
 
       const highestId =
         callData.length > 0
