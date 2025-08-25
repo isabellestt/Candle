@@ -9,9 +9,14 @@ export const EndOfCallReportHandler = (payload: EndOfCallReportPayload) => {
   const endedReason = payload.message.endedReason;
   const messages = payload.message.artifact?.messages || [];
   const summaryWithTitle = payload.message.analysis.summary;
-  console.log("summary: ", summaryWithTitle);
-  const [summaryTitle, ...bodyLines] = summaryWithTitle.trim().split(/\r?\n/);
-  const summary = bodyLines.join("\n\n");
+  // console.log("summary: ", summaryWithTitle);
+  let summary = "";
+  let summaryTitle = "";
+  if (summaryWithTitle) {
+    const [title, ...bodyLines] = summaryWithTitle.trim().split(/\r?\n/);
+    const summary = bodyLines.join("\n\n");
+  }
+
   // const summary = summaryWithTitle ? summaryWithTitle.split("\n")[2] : "No summary provided";
   // const summaryTitle = summaryWithTitle
   // ? summaryWithTitle.split("\n")[0].replace(/[#*]/g, '').trim()
@@ -20,7 +25,7 @@ export const EndOfCallReportHandler = (payload: EndOfCallReportPayload) => {
   const startedAt = convertToISODate(payload.message.startedAt);
   const durationSeconds = payload.message.durationSeconds;
   const structuredData = payload.message.analysis.structuredData;
-  console.log("follow up: ", structuredData.follow_up);
+  // console.log("structuredData: ", structuredData);
 
   const res: EndOfCallReportMessageResponse = {
     callId,

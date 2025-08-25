@@ -44,14 +44,16 @@ router.get("/assistant", async (req, res) => {
 
 router.post("/webhook", WebhookHandler);
 
-router.get("/getCallInfo", (req, res) => {
-  const latest_call = Object.values(memoryStore).pop();
-  console.log("Latest call info:", latest_call);
-  if (!latest_call) {
+router.get("/getCallInfo/:callId", (req, res) => {
+  const callId = req.params.callId;
+  // console.log("callId: is", callId);
+  // console.log("memoryStore: ", memoryStore);
+  const call = memoryStore[callId];
+  if (!call) {
     res.status(404).json({ error: "No call info found" });
     return;
   }
-  res.json(latest_call);
+  res.json(call);
 });
 
 export default router;

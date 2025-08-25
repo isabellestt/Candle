@@ -114,59 +114,59 @@ export const teenageAssistantNoah: CreateAssistantDTO = {
       | "transfer-destination-request"
       | "user-interrupted",
     endCallPhrases: ["goodbye", "talk to you soon"],
-    analysisPlan: {
-      summaryPlan: {
-        messages: [
-          {
-            content:
-              "You are an expert note-taker. Given a call transcript, output the entire transcript in detail with appropriate spacing and punctuation. Do not add any additional text or commentary.",
-            role: "system",
-          },
-          {
-            content:
-              "Here is the transcript:\n\n{{transcript}}\n\n. Here is the ended reason of the call:\n\n{{endedReason}}\n\n",
-            role: "user",
-          },
-        ],
-      },
-      structuredDataPlan: {
-        schema: {
-          type: "object",
-          properties: {
-            name: {
-              type: "string",
-            },
-            urgent: {
-              type: "boolean",
-            },
-            location: {
-              type: "string",
-            },
-            follow_up: {
-              type: "string",
-            },
-          },
-          required: [
-            "name",
-            "urgent",
-            "location",
-            "follow_up",
-          ],
+     analysisPlan: {
+    summaryPlan: {
+      messages: [
+        {
+          content:
+            "You are an expert note-taker. Given a call transcript, output the entire transcript in detail with appropriate spacing and punctuation. Do not add any additional text or commentary.",
+          role: "system",
         },
-        messages: [
-          {
-            content:
-              "You will be given a transcript of a call that occurred between a voice agent and a caller that needs a listening ear. Can you extract the following data:\n\nJson Schema:\n{{schema}}\n\nOnly respond with the JSON.",
-            role: "system",
+        {
+          content:
+            "Here is the transcript:\n\n{{transcript}}\n\n. Here is the ended reason of the call:\n\n{{endedReason}}\n\n",
+          role: "user",
+        },
+      ],
+    },
+    structuredDataPlan: {
+      schema: {
+        type: "object",
+        properties: {
+          name: {
+            type: "string",
           },
-          {
-            content:
-              "Here is the transcript:\n\n{{transcript}}\n\n. Here is the ended reason of the call:\n\n{{endedReason}}\n\n",
-            role: "user",
+          urgent: {
+            type: "boolean",
           },
+          location: {
+            type: "string",
+          },
+          follow_up: {
+            type: "string",
+          },
+        },
+        required: [
+          "name",
+          "urgent",
+          "location",
+          "follow_up",
         ],
       },
+      messages: [
+        {
+          content:
+            "You will be given a transcript of a call that occurred between a voice agent and a caller that needs a listening ear. Can you extract the following data:\n\nJson Schema:\n{{schema}}\n\nOnly respond with the JSON.",
+          role: "system",
+        },
+        {
+          content:
+            "Here is the transcript:\n\n{{transcript}}\n\n. Here is the ended reason of the call:\n\n{{endedReason}}\n\n",
+          role: "user",
+        },
+      ],
     },
+  },
     backgroundDenoisingEnabled: false,
     startSpeakingPlan: {
       waitSeconds: 3,
