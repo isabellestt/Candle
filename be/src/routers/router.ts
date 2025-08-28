@@ -1,6 +1,9 @@
 import { Router } from "express";
 import { WebhookHandler } from "../webhook";
 import { memoryStore } from "../db/memoryStore";
+import { Profile } from "../db/schemas/profile";
+import { eq } from "drizzle-orm";
+import { db } from "../db";
 
 const router = Router();
 
@@ -54,6 +57,18 @@ router.get("/getCallInfo/:callId", (req, res) => {
     return;
   }
   res.json(call);
+});
+
+router.post("/checkUser", async (req, res) => {
+  const { authId } = req.body;
+  const user = await db.select().from(Profile).where(eq(Profile.authId, authId));
+  res.json(user);
+});
+
+router.post("/createUser", async (req, res) => {
+  const { authId, firstName, lastName, username, dob, gender } = req.body;
+  const user = await db.insert(Profile).values({ authId, firstName, lastName, username, dob, gender });
+  res.json(user);
 });
 
 export default router;

@@ -7,12 +7,14 @@ import EndOlivia from "../assets/end-call-icon-olivia.svg";
 import MuteNoah from "../assets/microphone-icon-noah.svg";
 import EndNoah from "../assets/end-call-icon-noah.svg";
 import ConnectingLogo from "../assets/connecting-icon.svg";
-import GoogleLogo from "../assets/google-logo.svg";
 import PlayButton from "../assets/play-button.png";
 import StopButton from "../assets/stop-button.png";
 import { MultiStepProfileForm } from "../components/candle-landing/alt-components/SignUp";
 import { useEffect, useState } from "react";
 import { useVapi } from "../utils/assistant/useVapi";
+import Login from "../components/auth/login";
+import { supabase, useAuth } from "../utils/auth/useAuth";
+import type { EndOfCallReportMessageResponse } from "../types/conversation.type";
 
 declare global {
   interface Window {
@@ -39,6 +41,8 @@ const FLOW_STATES = {
 type Caller = "Olivia" | "Noah";
 
 const Candle = () => {
+  const { session } = useAuth();
+
   const [currentFlow, setCurrentFlow] = useState(FLOW_STATES.INITIAL);
   const [selectedCaller, setSelectedCaller] = useState("Olivia");
   const [previewStatus, setPreviewStatus] = useState<{
@@ -49,9 +53,8 @@ const Candle = () => {
   });
   const [isConnected, setIsConnected] = useState(false);
 
-  const [loggedIn, setLoggedIn] = useState(false);
-  const [email, setEmail] = useState("");
-  const [emailError, setEmailError] = useState("");
+  // const [email, setEmail] = useState("");
+  // const [emailError, setEmailError] = useState("");
 
   const handleProfileComplete = (profile: {
     name: string;
@@ -60,37 +63,20 @@ const Candle = () => {
   }) => {
     console.log("Collected profile:", profile);
     // TODO: send to your backend here
-    setLoggedIn(true);
     setCurrentFlow(FLOW_STATES.INITIAL);
   };
 
-  useEffect(() => {
-    const initializeGoogleSignIn = () => {
-    };
-
-    // Check if Google script is loaded
-    if (window.google) {
-      initializeGoogleSignIn();
-    } else {
-      // Wait for Google script to load
-      const checkGoogle = setInterval(() => {
-        if (window.google) {
-          clearInterval(checkGoogle);
-          initializeGoogleSignIn();
-        }
-      }, 100);
-    }
-  }, [currentFlow]);
-
-
-  // const handleCredentialResponse = (response: { credential: string }) => {
-  //   console.log("Google Sign-In response:", response);
-  //   // Handle the credential response here
-  //   // You can send this to your backend for verification
-  // };
-
-  const { toggleCall, callDuration, callStatus } =
+  const { toggleCall, callDuration, callStatus, lastCall } =
     useVapi();
+
+  const [callRecord, setCallRecord] = useState<EndOfCallReportMessageResponse | null>(null);
+
+  useEffect(() => {
+    console.log("lastCall: ", lastCall);
+    if (lastCall) {
+      setCallRecord(lastCall);
+    }
+  }, [lastCall]);
 
   useEffect(() => {
     if (callStatus === "inactive") {
@@ -124,10 +110,10 @@ const Candle = () => {
     }
   };
 
-  const getFormData = (formData: FormData): void => {
-    const submitted = Object.fromEntries(formData);
-    console.log(submitted);
-  };
+  // const getFormData = (formData: FormData): void => {
+  //   const submitted = Object.fromEntries(formData);
+  //   console.log(submitted);
+  // };
 
   const getSGTimeOfDay = (date = new Date()) => {
     const hour = Number(
@@ -169,10 +155,10 @@ const Candle = () => {
             id="1"
             className="py-10 lg:py-40 flex flex-col items-center scale-95 lg:scale-100"
           >
-            {loggedIn && (
+            {session && (
               <>
                 <p className="text-black text-sm font-semibold text-center text-[20px] lg:text-[24px] tracking-[-0.8px] px-8 lg:px-8 mb-2">
-                  {getSGTimeOfDay()}, (SSO username)
+                  {getSGTimeOfDay()}, {session.user.user_metadata.name}
                 </p>
               </>
             )}
@@ -348,11 +334,6 @@ const Candle = () => {
               <div
                 className="flex items-center gap-[6px] cursor-pointer"
                 onClick={() => {
-                  if (loggedIn) {
-                    setCurrentFlow(FLOW_STATES.INITIAL);
-                    // maybe add a call review flow here
-                    return;
-                  }
                   if (callStatus === "active") {
                     // end call
                     toggleCall(selectedCaller.toLowerCase());
@@ -379,7 +360,7 @@ const Candle = () => {
           >
             <div
               id="login"
-              className="w-70 lg:w-90 h-90 lg:95 rounded-xl flex flex-col items-center justify-center gap-x-2"
+              className="rounded-xl flex flex-col items-center justify-center gap-x-2"
             >
               <p className="text-black text-sm font-semibold text-center text-[20px] lg:text-[24px] tracking-[-0.8px] px-8 lg:px-8">
                 Sign up for a personalised experience
@@ -388,7 +369,7 @@ const Candle = () => {
                 Long-term memory, access to longer sessions, and free, with no
                 card required.
               </p>
-              <div className="flex flex-col items-center gap-3 w-[100%]">
+              {/* <div className="flex flex-col items-center gap-3 w-[100%]">
                 <button
                   onClick={() => {
                     alert("to add sso");
@@ -442,7 +423,7 @@ const Candle = () => {
                       </p>
                     )}
                   </fieldset>
-                  <button className="bg-[#FF9C25] text-white text-sm py-2 px-4 w-[100%]w-full h-12 inline-flex items-center justify-center gap-3 rounded-2xl border border-gray-20 shadow-[0_1px_0_rgba(0,0,0,0.03)] hover:shadow-[0_6px_16px_rgba(0,0,0,0.08)] active:shadow-[0_2px_6px_rgba(0,0,0,0.10)] active:translate-y-px focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/10 transition">
+                  <button className="bg-[#FF9C25] text-white text-sm py-2 px-4 w-[100%]w-full h-12 inline-flex items-center justify-center gap-3 rounded-2xl border border-gray-20 shadow-[0_1px_0_rgba(0,0,0,0.03)] hover:shadow-[0_6px_16px_rgba(0,0,0,0.08)] active:shadow-[0_2px_6px_rgba(0,0,0,0.10)] active:translate-y-px focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/10 transition" onClick={() => setCurrentFlow(FLOW_STATES.SIGN_UP)}>
                     Continue with email
                   </button>
                 </form>
@@ -454,7 +435,19 @@ const Candle = () => {
                 >
                   Chat without an account
                 </p>
-              </div>
+              </div> */}
+              {
+                // If logged in, show summary of call
+                // If not logged in, show login form
+                session ? (
+                  <div>
+                    <p>Summary of call</p>
+                    {callRecord?.summary ? <>{callRecord.summary}</> : <p>No summary available</p>}
+                  </div>
+                ) : (
+                  <Login />
+                )
+              }
             </div>
           </div>
         );
@@ -482,10 +475,11 @@ const Candle = () => {
         </NavLink>
         {currentFlow !== FLOW_STATES.SIGN_UP && (
           <Button
-            text={loggedIn ? "Logout" : "Login"}
+            text={session ? "Logout" : "Login"}
             onClick={() => {
-              setLoggedIn(!loggedIn)
-              if (!loggedIn) {
+              if (session) {
+                supabase.auth.signOut();
+              } else {
                 setCurrentFlow(FLOW_STATES.INITIAL)
               }
             }}
@@ -498,9 +492,8 @@ const Candle = () => {
       <div className="flex justify-center">
         <p
           className="
-    text-center px-6 text-[#A9A9A9] text-[10px] lg:text-md leading-5
-    absolute bottom-10 [@media(max-height:650px)]:static [@media(max-height:650px)]:pb-10 [@media(max-height:650px)]:mt-6
-  "
+         text-center px-6 text-[#A9A9A9] text-[10px] lg:text-md leading-5
+       "
         >
           Not for emergencies. If you’re in immediate danger in Singapore, call
           999 or 995. By using our services, you agree to Candle’s

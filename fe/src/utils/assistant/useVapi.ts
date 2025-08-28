@@ -1,7 +1,7 @@
 import type { AssistantOverrides } from "./../../../node_modules/@vapi-ai/web/dist/api.d";
 import { useEffect, useState, useRef } from "react";
 import { vapi } from "./vapi.sdk";
-import type { CallRecord } from "./../../types/conversation.type";
+import type { CallRecord, EndOfCallReportMessageResponse } from "./../../types/conversation.type";
 // import { helplineAssistant } from "./helpline.assistant";
 import { squad } from "../squad/squad";
 import { callData as demoCallData } from "../../../public/callData";
@@ -22,7 +22,7 @@ export function useVapi() {
   // loading demo dummy data here
   const [callData, setCallData] = useState<CallRecord[]>(demoCallData);
   const currentCallIdRef = useRef<string | null>(null);
-
+  const lastCallRef = useRef<EndOfCallReportMessageResponse | null>(null);
 
   const [isSpeechActive, setIsSpeechActive] = useState(false);
   const [callStatus, setCallStatus] = useState<CALL_STATUS_TYPE>(
@@ -31,6 +31,7 @@ export function useVapi() {
   const [audioLevel, setAudioLevel] = useState(0);
 
   const [callDuration, setCallDuration] = useState(0);
+
 
   // Only used for old triage demo
   useEffect(() => {
@@ -129,6 +130,7 @@ export function useVapi() {
                   });
                 });
                 currentCallIdRef.current = null;
+                lastCallRef.current = data;
               })
               .catch((error) => {
                 console.error("Error fetching call info:", error);
@@ -258,5 +260,6 @@ export function useVapi() {
     stop,
     toggleCall,
     callData,
+    lastCall: lastCallRef.current,
   };
 }

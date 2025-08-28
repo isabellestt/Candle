@@ -15,6 +15,7 @@ createRoot(document.getElementById("root")!).render(
         {/* <Route path="/DemoLanding" element={<DemoLanding />} /> */}
         <Route path="/DemoLanding/Demo" element={<Dashboard />} />
         <Route path="/Candle" element={<Candle />} />
+        <Route path="/test" element={<div>Test route working!</div>} /> {/* Add this */}
       </Routes>
     </StrictMode>
   </BrowserRouter>,
