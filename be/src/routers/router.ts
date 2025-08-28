@@ -65,7 +65,7 @@ router.post("/checkUser", async (req, res) => {
   if (user.length > 0) {
     res.json(user[0]);
   } else {
-    console.log("No user profile found for id: " + authId);
+    // console.log("No user profile found for id: " + authId);
     res.status(404).json({ error: "No user profile found for id: " + authId });
     return;
   }

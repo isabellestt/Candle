@@ -214,18 +214,6 @@ export function NotesPanel({
             </div>
           </div>
 
-          <div className="transcript-summary-section">
-            <div className="transcript-summary-header">Transcript Summary</div>
-            <div className="transcript-summary-body">
-              <div className="transcript-summary-body-title">
-                {record.details.summaryTitle}
-              </div>
-              <div className="transcript-summary-body-content">
-                {record.details.summary || "No summary available."}
-              </div>
-            </div>
-          </div>
-
           <div className="recommended-follow-up-section">
             <div className="recommended-follow-up-header">
               Recommended Follow-up

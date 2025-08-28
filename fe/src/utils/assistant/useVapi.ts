@@ -202,7 +202,6 @@ export function useVapi() {
       }
 
       currentCallIdRef.current = res.id;
-      console.log("response id: ", JSON.stringify(res));
 
       const highestId =
         callData.length > 0

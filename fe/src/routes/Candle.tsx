@@ -15,6 +15,7 @@ import { useVapi } from "../utils/assistant/useVapi";
 import Login from "../components/auth/login";
 import { supabase, useAuth } from "../utils/auth/useAuth";
 import type { EndOfCallReportMessageResponse } from "../types/conversation.type";
+import { TranscriptSummary } from '../components/TranscriptSummary';
 
 declare global {
   interface Window {
@@ -68,7 +69,7 @@ const Candle = () => {
           "Content-Type": "application/json",
         },
       });
-      console.log("data: ", res);
+      // console.log("data: ", res);
       if (!res.ok) {
         setCurrentFlow(FLOW_STATES.SIGN_UP);
       }
@@ -81,7 +82,7 @@ const Candle = () => {
     dob: string;
     gender: string;
   }) => {
-    console.log("Collected profile:", profile);
+    // console.log("Collected profile:", profile);
 
     const res = await fetch(`${apiUrl}/api/createUser`, {
       method: "POST",
@@ -100,10 +101,10 @@ const Candle = () => {
   const { toggleCall, callDuration, callStatus, lastCall } =
     useVapi();
 
-  const [callRecord, setCallRecord] = useState<EndOfCallReportMessageResponse | null>(null);
+  const [CallRecord, setCallRecord] = useState<EndOfCallReportMessageResponse | null>(null);
 
   useEffect(() => {
-    console.log("lastCall: ", lastCall);
+    // console.log("lastCall: ", lastCall);
     if (lastCall) {
       setCallRecord(lastCall);
     }
@@ -384,7 +385,7 @@ const Candle = () => {
           </div>
         );
       case FLOW_STATES.END_CALL:
-        return (
+        if (!session) {
           <div
             id="4"
             className="py-10 lg:py-40 flex flex-col items-center scale-95 lg:scale-100"
@@ -393,6 +394,7 @@ const Candle = () => {
               id="login"
               className="rounded-xl flex flex-col items-center justify-center gap-x-2"
             >
+
               <p className="text-black text-sm font-semibold text-center text-[20px] lg:text-[24px] tracking-[-0.8px] px-8 lg:px-8">
                 Sign up for a personalised experience
               </p>
@@ -400,87 +402,35 @@ const Candle = () => {
                 Long-term memory, access to longer sessions, and free, with no
                 card required.
               </p>
-              {/* <div className="flex flex-col items-center gap-3 w-[100%]">
-                <button
-                  onClick={() => {
-                    alert("to add sso");
-                    setLoggedIn(!loggedIn);
-                    setCurrentFlow(FLOW_STATES.INITIAL);
-                  }}
-                  className="w-full h-12 inline-flex items-center justify-center gap-3 rounded-2xl border border-gray-200 bg-white shadow-[0_1px_0_rgba(0,0,0,0.03)] hover:shadow-[0_6px_16px_rgba(0,0,0,0.08)] active:shadow-[0_2px_6px_rgba(0,0,0,0.10)] active:translate-y-px focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/10 transition
-"
-                >
-                  <img src={GoogleLogo} alt="Sign up with Google" />
-                  <p className="text-black">Continue with Google</p>
-                </button>
-                <div className="flex items-center gap-2">
-                  <div className="h-0.5 w-30 lg:w-40 bg-gray-200"></div>
-                  <div className="text-gray-400 font-medium text-xs py-4">
-                    OR
-                  </div>
-                  <div className="h-0.5 w-30 lg:w-40 bg-gray-200"></div>
-                </div>
-                <form
-                  onSubmit={(e) => {
-                    e.preventDefault();
-                    if (!email.trim()) {
-                      setEmailError("Email is required");
-                      return;
-                    }
-                    setEmailError("");
-                    const formData = new FormData(e.currentTarget);
-                    getFormData(formData);
-                    setCurrentFlow(FLOW_STATES.SIGN_UP);
-                  }}
-                  className="flex flex-col gap-2 mt-[-6px] w-[100%]"
-                >
-                  <fieldset>
-                    <legend className="text-sm mb-1">Email address</legend>
-                    <input
-                      type="email"
-                      name="email"
-                      id="email"
-                      value={email}
-                      onChange={(e) => {
-                        setEmail(e.target.value);
-                        setEmailError("");
-                      }}
-                      placeholder="you@example.com"
-                      className="border border-gray-200 rounded-2xl py-3 px-4 text-[#A9A9A9] text-sm w-[100%]"
-                    />
-                    {emailError && (
-                      <p className="text-red-500 font-medium text-sm mt-1">
-                        {emailError}
-                      </p>
-                    )}
-                  </fieldset>
-                  <button className="bg-[#FF9C25] text-white text-sm py-2 px-4 w-[100%]w-full h-12 inline-flex items-center justify-center gap-3 rounded-2xl border border-gray-20 shadow-[0_1px_0_rgba(0,0,0,0.03)] hover:shadow-[0_6px_16px_rgba(0,0,0,0.08)] active:shadow-[0_2px_6px_rgba(0,0,0,0.10)] active:translate-y-px focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/10 transition" onClick={() => setCurrentFlow(FLOW_STATES.SIGN_UP)}>
-                    Continue with email
-                  </button>
-                </form>
-                <p
-                  className="text-[#A9A9A9] text-[12px] text-center underline mt-2"
-                  onClick={() => {
-                    setCurrentFlow(FLOW_STATES.INITIAL);
-                  }}
-                >
-                  Chat without an account
-                </p>
-              </div> */}
-              {
-                // If logged in, show summary of call
-                // If not logged in, show login form
-                session ? (
-                  <div>
-                    <p>Summary of call</p>
-                    {callRecord ? callRecord.summary ? <>{callRecord.summary}</> : <p>No summary available</p> : <p>Loading Summary...</p>}
-                  </div>
-                ) : (
-                  <Login />
-                )
-              }
+              <Login />
             </div>
           </div>
+        }
+        return (
+          <div
+            id="4"
+            className="py-10 lg:py-40 flex flex-col items-center scale-95 lg:scale-100"
+          >
+            <div
+              id="transcript-summary"
+              className="rounded-xl flex flex-col items-center justify-center gap-x-2"
+            >
+              <div className="transcript-summary-section">
+                <div className="">
+                  {session ? (
+                    <TranscriptSummary
+                      agentName={selectedCaller}
+                      callData={CallRecord}
+                      isLoading={callStatus === "inactive" && !lastCall}
+                      onStartNewCall={() => setCurrentFlow(FLOW_STATES.INITIAL)}
+                    />
+                  ) : (
+                    <Login />
+                  )}
+                </div>
+              </div>
+            </div >
+          </div >
         );
       case FLOW_STATES.SIGN_UP:
         return (
@@ -517,7 +467,7 @@ const Candle = () => {
           />
         )}
       </section>
-      <section className="flex flex-col items-center">
+      <section className="flex min-h-[calc(100vh-200px)] flex-col items-center">
         {renderFlowContent()}
       </section>
       <div className="flex justify-center">
