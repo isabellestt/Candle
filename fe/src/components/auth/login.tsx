@@ -6,7 +6,8 @@ export default function Login() {
     const { session } = useAuth()
 
     if (!session) {
-        return (<Auth supabaseClient={supabase} appearance={{ theme: ThemeSupa }} />)
+        return (<Auth supabaseClient={supabase} appearance={{ theme: ThemeSupa }} providers={['google']}
+        />)
     }
     else {
         return (<div>Logged in!</div>)

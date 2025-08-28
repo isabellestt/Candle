@@ -77,13 +77,20 @@ const Candle = () => {
     checkUser();
   }, [apiUrl, session]);
 
+  // Add this useEffect to watch for profile changes
+  useEffect(() => {
+    if (session && profile && currentFlow === FLOW_STATES.SIGN_UP) {
+      // User is logged in and has a profile, redirect to initial
+      setCurrentFlow(FLOW_STATES.INITIAL);
+    }
+  }, [session, profile, currentFlow]);
+
   const handleProfileComplete = async (profile: {
     name: string;
     dob: string;
     gender: string;
   }) => {
     // console.log("Collected profile:", profile);
-
     const res = await fetch(`${apiUrl}/api/createUser`, {
       method: "POST",
       body: JSON.stringify({ authId: session?.user.id, username: profile.name, dob: profile.dob, gender: profile.gender }),
@@ -388,7 +395,7 @@ const Candle = () => {
         if (!session) {
           <div
             id="4"
-            className="py-10 lg:py-40 flex flex-col items-center scale-95 lg:scale-100"
+            className="py-10 flex flex-col items-center scale-95 lg:scale-100"
           >
             <div
               id="login"
@@ -433,6 +440,29 @@ const Candle = () => {
           </div >
         );
       case FLOW_STATES.SIGN_UP:
+        if (!session) {
+          return (
+            <div
+              id="4"
+              className="py-10 flex flex-col items-center scale-95 lg:scale-100"
+            >
+              <div
+                id="login"
+                className="rounded-xl flex flex-col items-center justify-center gap-x-2"
+              >
+                <p className="text-black text-sm font-semibold text-center text-[20px] lg:text-[24px] tracking-[-0.8px] px-8 lg:px-8">
+                  Sign up for a personalised experience
+                </p>
+                <p className="text-gray-400 text-sm font-light text-center text-[14px] lg:text-[16px] px-10 lg:px-4 py-4 mb-6">
+                  Long-term memory, access to longer sessions, and free, with no
+                  card required.
+                </p>
+                <Login />
+              </div>
+            </div>
+          );
+        }
+
         return (
           <div className="py-10 lg:py-20 flex flex-col items-center">
             <div className="w-full max-w-lg">
@@ -461,7 +491,7 @@ const Candle = () => {
               if (session) {
                 supabase.auth.signOut();
               } else {
-                setCurrentFlow(FLOW_STATES.INITIAL)
+                setCurrentFlow(FLOW_STATES.SIGN_UP)
               }
             }}
           />
