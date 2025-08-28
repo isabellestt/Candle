@@ -44,6 +44,8 @@ type Caller = "Olivia" | "Noah";
 const Candle = () => {
   const { session, profile } = useAuth();
 
+  const [username, setUsername] = useState("");
+
   const [currentFlow, setCurrentFlow] = useState(FLOW_STATES.INITIAL);
   const [selectedCaller, setSelectedCaller] = useState("Olivia");
   const [previewStatus, setPreviewStatus] = useState<{
@@ -81,6 +83,7 @@ const Candle = () => {
   useEffect(() => {
     if (session && profile && currentFlow === FLOW_STATES.SIGN_UP) {
       // User is logged in and has a profile, redirect to initial
+      setUsername(profile.username);
       setCurrentFlow(FLOW_STATES.INITIAL);
     }
   }, [session, profile, currentFlow]);
@@ -197,7 +200,7 @@ const Candle = () => {
             {session && (
               <>
                 <p className="text-black text-sm font-semibold text-center text-[20px] lg:text-[24px] tracking-[-0.8px] px-8 lg:px-8 mb-2">
-                  {getSGTimeOfDay()}, {profile ? profile.username : ""}
+                  {getSGTimeOfDay()}, {username ? username : ""}
                 </p>
               </>
             )}
