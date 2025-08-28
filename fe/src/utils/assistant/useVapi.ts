@@ -156,9 +156,9 @@ export function useVapi() {
       console.error(e);
     };
 
-    const onMessageUpdate = (message: unknown) => {
-      console.log("Message update: ", message);
-    };
+    // const onMessageUpdate = (message: unknown) => {
+    //   console.log("Message update: ", message);
+    // };
 
     // Add all event listeners
     vapi.on("speech-start", onSpeechStart);
@@ -166,7 +166,7 @@ export function useVapi() {
     vapi.on("call-start", onCallStartHandler);
     vapi.on("call-end", onCallEnd);
     vapi.on("volume-level", onVolumeLevel);
-    vapi.on("message", onMessageUpdate);
+    // vapi.on("message", onMessageUpdate);
     vapi.on("error", onError);
 
     // Cleanup function - remove all listeners when component unmounts
@@ -176,7 +176,7 @@ export function useVapi() {
       vapi.off("call-start", onCallStartHandler);
       vapi.off("call-end", onCallEnd);
       vapi.off("volume-level", onVolumeLevel);
-      vapi.off("message", onMessageUpdate);
+      // vapi.off("message", onMessageUpdate);
       vapi.off("error", onError);
     };
   }, []); // Empty dependency array - only run once on mount

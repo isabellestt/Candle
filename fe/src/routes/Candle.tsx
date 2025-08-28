@@ -41,7 +41,7 @@ const FLOW_STATES = {
 type Caller = "Olivia" | "Noah";
 
 const Candle = () => {
-  const { session } = useAuth();
+  const { session, profile } = useAuth();
 
   const [currentFlow, setCurrentFlow] = useState(FLOW_STATES.INITIAL);
   const [selectedCaller, setSelectedCaller] = useState("Olivia");
@@ -55,14 +55,45 @@ const Candle = () => {
 
   // const [email, setEmail] = useState("");
   // const [emailError, setEmailError] = useState("");
+  const apiUrl = import.meta.env.VITE_PUBLIC_API_URL;
 
-  const handleProfileComplete = (profile: {
+  // check if user exists in db
+  useEffect(() => {
+    if (!session) return;
+    const checkUser = async () => {
+      const res = await fetch(`${apiUrl}/api/checkUser`, {
+        method: "POST",
+        body: JSON.stringify({ authId: session?.user.id }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      console.log("data: ", res);
+      if (!res.ok) {
+        setCurrentFlow(FLOW_STATES.SIGN_UP);
+      }
+    };
+    checkUser();
+  }, [apiUrl, session]);
+
+  const handleProfileComplete = async (profile: {
     name: string;
     dob: string;
     gender: string;
   }) => {
     console.log("Collected profile:", profile);
-    // TODO: send to your backend here
+
+    const res = await fetch(`${apiUrl}/api/createUser`, {
+      method: "POST",
+      body: JSON.stringify({ authId: session?.user.id, username: profile.name, dob: profile.dob, gender: profile.gender }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    if (!res.ok) {
+      // TODO: handle error
+      console.log("Error creating user");
+    }
     setCurrentFlow(FLOW_STATES.INITIAL);
   };
 
@@ -158,7 +189,7 @@ const Candle = () => {
             {session && (
               <>
                 <p className="text-black text-sm font-semibold text-center text-[20px] lg:text-[24px] tracking-[-0.8px] px-8 lg:px-8 mb-2">
-                  {getSGTimeOfDay()}, {session.user.user_metadata.name}
+                  {getSGTimeOfDay()}, {profile ? profile.username : ""}
                 </p>
               </>
             )}
@@ -442,7 +473,7 @@ const Candle = () => {
                 session ? (
                   <div>
                     <p>Summary of call</p>
-                    {callRecord?.summary ? <>{callRecord.summary}</> : <p>No summary available</p>}
+                    {callRecord ? callRecord.summary ? <>{callRecord.summary}</> : <p>No summary available</p> : <p>Loading Summary...</p>}
                   </div>
                 ) : (
                   <Login />

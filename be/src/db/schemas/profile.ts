@@ -4,8 +4,6 @@ import { InferInsertModel, InferSelectModel } from "drizzle-orm";
 export const Profile = pgTable("profiles", {
   id: uuid("id").defaultRandom().primaryKey(),
   authId: text().notNull(),
-  firstName: text("first_name").notNull(),
-  lastName: text("last_name").notNull(),
   username: text("username").notNull(),
   dob: date("dob").notNull(),
   gender: text("gender").notNull(),
