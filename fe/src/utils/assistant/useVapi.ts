@@ -1,7 +1,7 @@
 import type { AssistantOverrides } from "./../../../node_modules/@vapi-ai/web/dist/api.d";
 import { useEffect, useState, useRef } from "react";
 import { vapi } from "./vapi.sdk";
-import type { CallRecord } from "./../../types/conversation.type";
+import type { CallRecord, EndOfCallReportMessageResponse } from "./../../types/conversation.type";
 // import { helplineAssistant } from "./helpline.assistant";
 import { squad } from "../squad/squad";
 import { callData as demoCallData } from "../../../public/callData";
@@ -22,7 +22,7 @@ export function useVapi() {
   // loading demo dummy data here
   const [callData, setCallData] = useState<CallRecord[]>(demoCallData);
   const currentCallIdRef = useRef<string | null>(null);
-
+  const lastCallRef = useRef<EndOfCallReportMessageResponse | null>(null);
 
   const [isSpeechActive, setIsSpeechActive] = useState(false);
   const [callStatus, setCallStatus] = useState<CALL_STATUS_TYPE>(
@@ -31,6 +31,7 @@ export function useVapi() {
   const [audioLevel, setAudioLevel] = useState(0);
 
   const [callDuration, setCallDuration] = useState(0);
+
 
   // Only used for old triage demo
   useEffect(() => {
@@ -129,6 +130,7 @@ export function useVapi() {
                   });
                 });
                 currentCallIdRef.current = null;
+                lastCallRef.current = data;
               })
               .catch((error) => {
                 console.error("Error fetching call info:", error);
@@ -154,9 +156,9 @@ export function useVapi() {
       console.error(e);
     };
 
-    const onMessageUpdate = (message: unknown) => {
-      console.log("Message update: ", message);
-    };
+    // const onMessageUpdate = (message: unknown) => {
+    //   console.log("Message update: ", message);
+    // };
 
     // Add all event listeners
     vapi.on("speech-start", onSpeechStart);
@@ -164,7 +166,7 @@ export function useVapi() {
     vapi.on("call-start", onCallStartHandler);
     vapi.on("call-end", onCallEnd);
     vapi.on("volume-level", onVolumeLevel);
-    vapi.on("message", onMessageUpdate);
+    // vapi.on("message", onMessageUpdate);
     vapi.on("error", onError);
 
     // Cleanup function - remove all listeners when component unmounts
@@ -174,7 +176,7 @@ export function useVapi() {
       vapi.off("call-start", onCallStartHandler);
       vapi.off("call-end", onCallEnd);
       vapi.off("volume-level", onVolumeLevel);
-      vapi.off("message", onMessageUpdate);
+      // vapi.off("message", onMessageUpdate);
       vapi.off("error", onError);
     };
   }, []); // Empty dependency array - only run once on mount
@@ -200,7 +202,6 @@ export function useVapi() {
       }
 
       currentCallIdRef.current = res.id;
-      console.log("response id: ", JSON.stringify(res));
 
       const highestId =
         callData.length > 0
@@ -258,5 +259,6 @@ export function useVapi() {
     stop,
     toggleCall,
     callData,
+    lastCall: lastCallRef.current,
   };
 }

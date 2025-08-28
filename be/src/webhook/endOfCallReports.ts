@@ -14,7 +14,8 @@ export const EndOfCallReportHandler = (payload: EndOfCallReportPayload) => {
   let summaryTitle = "";
   if (summaryWithTitle) {
     const [title, ...bodyLines] = summaryWithTitle.trim().split(/\r?\n/);
-    const summary = bodyLines.join("\n\n");
+    summaryTitle = title; // Assign to the outer variable
+    summary = bodyLines.join("\n\n"); // Assign to the outer variable
   }
 
   // const summary = summaryWithTitle ? summaryWithTitle.split("\n")[2] : "No summary provided";
