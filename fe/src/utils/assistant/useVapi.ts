@@ -7,7 +7,10 @@ import { squad } from "../squad/squad";
 import { callData as demoCallData } from "../../../public/callData";
 import formatDateForDisplay from "../formatDate";
 import formatTime from "../formatTime";
-import { teenageAssistantNoah, teenageAssistantOlivia } from "./teenage.assistant";
+import {
+  teenageAssistantNoah,
+  teenageAssistantOlivia,
+} from "./teenage.assistant";
 
 export const CALL_STATUS = {
   INACTIVE: "inactive",
@@ -22,7 +25,6 @@ export function useVapi() {
   // loading demo dummy data here
   const [callData, setCallData] = useState<CallRecord[]>(demoCallData);
   const currentCallIdRef = useRef<string | null>(null);
-
 
   const [isSpeechActive, setIsSpeechActive] = useState(false);
   const [callStatus, setCallStatus] = useState<CALL_STATUS_TYPE>(
@@ -107,16 +109,19 @@ export function useVapi() {
                             data.summaryTitle || "No summary provided",
                           structuredData: {
                             urgentStatus: data.structuredData?.urgent || false,
-                            transferTo: data.structuredData?.transfer_to || null,
+                            transferTo:
+                              data.structuredData?.transfer_to || null,
                             transferred:
                               data.structuredData?.transferred || false,
                             abuseType:
-                              data.structuredData?.abuse_type || "Not specified",
+                              data.structuredData?.abuse_type ||
+                              "Not specified",
                             callerName: data.structuredData?.name || "Unknown",
                             callerLocation:
                               data.structuredData?.location || "Unknown",
                             latestIncident:
-                              data.structuredData?.latest_incident_date || "N/A",
+                              data.structuredData?.latest_incident_date ||
+                              "N/A",
                             follow_up:
                               data.structuredData?.follow_up ||
                               "No follow-up required",
@@ -133,14 +138,22 @@ export function useVapi() {
               .catch((error) => {
                 console.error("Error fetching call info:", error);
                 if (retryCount < maxRetries) {
-                  setTimeout(() => fetchCallInfo(retryCount + 1, maxRetries), 1000);
+                  setTimeout(
+                    () => fetchCallInfo(retryCount + 1, maxRetries),
+                    1000,
+                  );
                 } else {
-                  console.error("Max retries reached. Unable to fetch call info.");
+                  console.error(
+                    "Max retries reached. Unable to fetch call info.",
+                  );
                 }
               });
           }, delay);
         };
-        console.log("Fetching call info for callId: ", currentCallIdRef.current);
+        console.log(
+          "Fetching call info for callId: ",
+          currentCallIdRef.current,
+        );
         fetchCallInfo();
       }
     };
@@ -179,7 +192,6 @@ export function useVapi() {
     };
   }, []); // Empty dependency array - only run once on mount
 
-
   const start = async (agent: "noah" | "olivia" | string) => {
     setCallStatus(CALL_STATUS.LOADING);
     try {
@@ -188,9 +200,14 @@ export function useVapi() {
           agency: "",
         },
       };
-      const helplineAssistant = import.meta.env.VITE_PUBLIC_VAPI_AUTHORITY_ASSISTANT_ID
+      const helplineAssistant = import.meta.env
+        .VITE_PUBLIC_VAPI_AUTHORITY_ASSISTANT_ID;
       const res = await vapi.start(
-        agent == "noah" ? teenageAssistantNoah : agent == "olivia" ? teenageAssistantOlivia : helplineAssistant,
+        agent == "noah"
+          ? teenageAssistantNoah
+          : agent == "olivia"
+            ? teenageAssistantOlivia
+            : helplineAssistant,
         assistantOverrides,
         squad,
       );

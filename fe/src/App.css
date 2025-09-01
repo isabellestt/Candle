@@ -1,29 +1,5 @@
 @import "tailwindcss";
 
-.main-app {
-  margin: 0;
-  background-color: #0a1835;
-  color: #f6ddad;
-  font-family: "Inter";
-  overflow-x: hidden;
-}
-
-.main-app button {
-  cursor: pointer;
-  background: transparent;
-  border: none;
-  color: #f6ddad;
-  background-color: #0a327c;
-  border: 3.88px solid #0a1835;
-}
-
-.main-app button.segment-button {
-  cursor: pointer;
-  background: transparent;
-  border: none;
-  color: #f6ddad;
-}
-
 #wave {
   background-image: url(../src/assets/wave-haikei.svg);
 }

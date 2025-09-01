@@ -1,6 +1,6 @@
 // import { NavLink } from 'react-router'
 
-import { LandingPage } from "./routes/landing-page";
+import { LandingPage } from "./routes/LandingPage";
 
 function App() {
   return (

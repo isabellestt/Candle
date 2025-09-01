@@ -107,7 +107,7 @@ export function LandingPage() {
         className="bg-[#6366F1] py-6 px-8 flex place-content-between"
       >
         <img src={candleLogo} alt="Logo for Candle" />
-        <Link to="/candle">
+        <Link to="/demo">
           <Button text={buttons[0].text}></Button>
         </Link>
       </section>
@@ -157,7 +157,7 @@ export function LandingPage() {
             endlessly patient, so you can truly be yourself while feeling heard
             and understood.
           </p>
-          <Link to="/candle">
+          <Link to="/demo">
             <Button text={buttons[1].text}></Button>
           </Link>
         </section>
@@ -203,14 +203,16 @@ export function LandingPage() {
         </section>
       </main>
       <section className="bg-white py-16 flex flex-col gap-4 items-center  text-sm">
-        <img
-          className="scale-200 mb-2"
-          src={candleLogo}
-          alt="Logo for Candle"
-        />
+        <Link to="/deprecateddemo">
+          <img
+            className="scale-200 mb-2"
+            src={candleLogo}
+            alt="Logo for Candle"
+          />
+        </Link>
         <span>© Candle, Inc.</span>
         <nav className="flex gap-4">
-          <Link to="/candle">
+          <Link to="/demo">
             <div>Try Candle</div>
           </Link>
           <a href="#altLanding" onClick={() => alert("To be added!")}>
