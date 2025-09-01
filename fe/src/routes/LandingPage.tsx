@@ -82,7 +82,7 @@ export function LandingPage() {
     textCol,
   }: CardProps) {
     return (
-      <div className="flex items-center flex-col gap-[20px] border-3 rounded-[36px] px-[42px] py-[30px] w-[90%]">
+      <div className="flex items-center flex-col gap-[20px] border-3 rounded-[36px] px-[42px] py-[30px] w-[90%] xl:mt-4 xl:h-[450px]">
         <h2
           className={`text-2xl font-bold text-center border-3 border-black rounded-[5px] px-[12px] py-[3px] bg-[${background}] ${textCol}`}
         >
@@ -102,7 +102,7 @@ export function LandingPage() {
 
   return (
     <>
-      <section
+      <nav
         id="altLanding"
         className="bg-[#6366F1] py-6 px-8 flex place-content-between"
       >
@@ -110,42 +110,40 @@ export function LandingPage() {
         <Link to="/demo">
           <Button text={buttons[0].text}></Button>
         </Link>
-      </section>
+      </nav>
       <main>
-        <section className="bg-[#6366F1] text-white text-center p-8">
-          <h1 className="text-4xl font-bold mb-4">
+        <header className="bg-[#6366F1] text-white text-center pt-8">
+          <h1 className="text-4xl font-bold mb-4 px-8">
             Your 24/7 AI Friend for Life's Ups and Downs
           </h1>
-          <p className="text-1xl">
+          <p className="text-1xl px-8">
             Feeling stressed from exams, fighting with friends, or just bored at
             2 AM? Candle is an AI companion who’s always here to listen and
             chat. No judgements and no pressure, just a friendly voice whenever
             you need it.
           </p>
-        </section>
-        <section className="flex items-center">
           <div
             id="wave"
-            className="aspect-[960/300] w-full bg-no-repeat bg-center bg-cover flex items-center justify-center"
+            className="aspect-[960/150] w-full bg-no-repeat bg-center bg-cover flex items-center justify-center"
           >
             <img
-              className="rotate-4 scale-85"
+              className="rotate-4 scale-85 max-w-full h-auto"
               src={phone}
               alt="A smartphone mockup displaying a voice agent app interface with a logo in the top left and 'Login' button in the top right. The main screen features two large action buttons for initiating voice conversations with the two AI agents. Small terms and conditions text appears at the bottom of the interface."
             />
           </div>
-        </section>
+        </header>
         <section>
-          <h2 className="text-3xl font-bold mb-4 text-center">
+          <h2 className="text-3xl font-bold my-4 text-center">
             Why Use Candle?
           </h2>
-          <section className="flex flex-col items-center gap-8">
+          <section className="flex flex-col items-center gap-8 xl:flex-row xl:px-8">
             {cardList}
           </section>
         </section>
         <div
           id="wave-flipped"
-          className="aspect-[960/300] w-full bg-no-repeat bg-center bg-cover flex items-center justify-center"
+          className="aspect-[960/150] w-full bg-no-repeat bg-center bg-cover flex items-center justify-center"
         ></div>
         <section className="bg-[#6366F1] flex flex-col items-center pt-4 pb-16">
           <h2 className="text-3xl font-bold text-center mb-4 text-white px-24">
@@ -165,7 +163,7 @@ export function LandingPage() {
           <h2 className="text-3xl font-bold mb-4 text-center pt-16">
             Stay in the loop
           </h2>
-          <p className="text-1xl text-center p-8">
+          <p className="text-1xl text-center px-8 pb-8">
             We add new features all the time. Find out more and grow together
             with Candle.
           </p>
@@ -202,7 +200,7 @@ export function LandingPage() {
           )}
         </section>
       </main>
-      <section className="bg-white py-16 flex flex-col gap-4 items-center  text-sm">
+      <footer className="bg-white py-16 flex flex-col gap-4 items-center  text-sm">
         <Link to="/deprecateddemo">
           <img
             className="scale-200 mb-2"
@@ -222,7 +220,7 @@ export function LandingPage() {
             Terms of Use
           </a>
         </nav>
-      </section>
+      </footer>
     </>
   );
 }
