@@ -1,9 +1,9 @@
-import CloseIcon from "../../assets/plus-icon.svg";
-import FlagIcon from "../../assets/flag-icon.svg";
-import DeleteCaseButton from "../../assets/trash-icon.svg";
-import type { CallRecord } from "../../types/conversation.type";
+import CloseIcon from "../assets/plus-icon.svg";
+import FlagIcon from "../assets/flag-icon.svg";
+import DeleteCaseButton from "../assets/trash-icon.svg";
+import type { CallRecord } from "../types/conversation.type";
 import { useState } from "react";
-import "../../routes/Demo.css";
+import "../routes/Demo.css";
 
 interface NotesPanelProps {
   record: CallRecord;

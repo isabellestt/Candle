@@ -1,7 +1,7 @@
-import type { CallRecord } from "../../types/conversation.type";
-import Chevron from "../../assets/chevron.svg";
+import type { CallRecord } from "../types/conversation.type";
+import Chevron from "../assets/chevron-right-black.svg";
 import React from "react";
-import "../../routes/Demo.css";
+import "../routes/Demo.css";
 
 // added truncate tool
 const truncate = (str: string, max: number) =>

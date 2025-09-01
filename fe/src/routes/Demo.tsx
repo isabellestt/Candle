@@ -6,8 +6,8 @@ import "../App.css";
 import "./Demo.css";
 import { useVapi } from "../utils/assistant/useVapi";
 import { useEffect, useState } from "react";
-import { Table } from "../components/dashboard/Table";
-import { NotesPanel } from "../components/dashboard/NotesPanel";
+import { Table } from "../components/Table";
+import { NotesPanel } from "../components/NotesPanel";
 import type { CallRecord } from "../types/conversation.type";
 import { NavLink } from "react-router";
 

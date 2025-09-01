@@ -1,11 +1,11 @@
 // import { NavLink } from 'react-router'
 
-import { CandleHeader } from "./components/candle-landing/Candle-Header";
+import { LandingPage } from "./routes/landing-page";
 
 function App() {
   return (
     <>
-      <CandleHeader />
+      <LandingPage />
     </>
     // <div className="flex flex-col items-center justify-center">
     //   cooking

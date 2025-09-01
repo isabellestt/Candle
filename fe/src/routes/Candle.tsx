@@ -1,5 +1,5 @@
 import { NavLink } from "react-router";
-import Button from "../../src/components/candle-landing/alt-components/Button";
+import Button from "../components/Button";
 import CandleLogo from "../assets/candle-logo.svg";
 import PhoneIcon from "../../src/assets/phone-icon.svg";
 import MuteOlivia from "../assets/microphone-icon-olivia.svg";
@@ -10,7 +10,7 @@ import ConnectingLogo from "../assets/connecting-icon.svg";
 import GoogleLogo from "../assets/google-logo.svg";
 import PlayButton from "../assets/play-button.png";
 import StopButton from "../assets/stop-button.png";
-import { MultiStepProfileForm } from "../components/candle-landing/alt-components/SignUp";
+import { MultiStepProfileForm } from "../components/SignUp";
 import { useEffect, useState } from "react";
 import { useVapi } from "../utils/assistant/useVapi";
 

@@ -1,4 +1,4 @@
-import chevron from "../../../../src/assets/chevron-right-black.svg";
+import Chevron from "../assets/chevron-right-black.svg";
 
 type ButtonProps = {
   text: string;
@@ -14,7 +14,7 @@ function Button({ text, onClick }: ButtonProps) {
       <div className="font-extrabold text-[16px] tracking-[-0.5px] text-black whitespace-nowrap">
         {text}
       </div>
-      <img src={chevron} alt="Button to demo page" />
+      <img src={Chevron} alt="Button to demo page" />
     </button>
   );
 }

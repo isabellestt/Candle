@@ -1,13 +1,13 @@
-import candleLogo from "../../assets/candle-logo.svg";
-import phone from "../../assets/landing-phone-mockup.svg";
-import cardImg1 from "../../assets/card-img-1.png";
-import cardImg2 from "../../assets/card-img-2.png";
-import cardImg3 from "../../assets/card-img-3.png";
+import candleLogo from "../assets/candle-logo.svg";
+import phone from "../assets/landing-phone-mockup.svg";
+import cardImg1 from "../assets/card-img-1.png";
+import cardImg2 from "../assets/card-img-2.png";
+import cardImg3 from "../assets/card-img-3.png";
 import { useState } from "react";
 import { Link } from "react-router";
-import Button from "./alt-components/Button";
+import Button from "../components/Button";
 
-export function CandleHeader() {
+export function LandingPage() {
   const [isSubmitted, setIsSubmitted] = useState(false);
 
   let nextCardID = 1;
