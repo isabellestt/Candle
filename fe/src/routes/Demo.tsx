@@ -1,15 +1,15 @@
 import { NavLink } from "react-router";
 import Button from "../components/Button";
-import CandleLogo from "../assets/candle-logo.svg";
-import PhoneIcon from "../../src/assets/phone-icon.svg";
-import MuteOlivia from "../assets/microphone-icon-olivia.svg";
-import EndOlivia from "../assets/end-call-icon-olivia.svg";
-import MuteNoah from "../assets/microphone-icon-noah.svg";
-import EndNoah from "../assets/end-call-icon-noah.svg";
-import ConnectingLogo from "../assets/connecting-icon.svg";
-import GoogleLogo from "../assets/google-logo.svg";
-import PlayButton from "../assets/play-button.png";
-import StopButton from "../assets/stop-button.png";
+import logoCandle from "../assets/logo-candle.svg";
+import iconPhone from "../../src/assets/icon-phone.svg";
+import iconMicrophoneOlivia from "../assets/icon-microphone-olivia.svg";
+import iconEndCallOlivia from "../assets/icon-end-call-olivia.svg";
+import iconMicrophoneNoah from "../assets/icon-microphone-noah.svg";
+import iconEndCallNoah from "../assets/icon-end-call-noah.svg";
+import iconConnecting from "../assets/icon-connecting.svg";
+import iconGoogle from "../assets/logo-google.svg";
+import iconPlayButtonRounded from "../assets/icon-play-button-rounded.webp";
+import iconStopButtonRounded from "../assets/icon-stop-button-rounded.webp";
 import { MultiStepProfileForm } from "../components/SignUp";
 import { useEffect, useState } from "react";
 import { useVapi } from "../utils/assistant/useVapi";
@@ -199,7 +199,7 @@ const Candle = () => {
               <div className="flex w-[80%] h-full items-center justify-between">
                 <div className="flex flex-col items-start justify-center text-left gap-1 w-[95%]">
                   <div className="flex items-center gap-2 mb-2">
-                    <img src={PhoneIcon} alt="Phone icon" />
+                    <img src={iconPhone} alt="Phone icon" />
                     <p className="text-white text-lg font-semibold">Olivia</p>
                   </div>
                   <p className="text-white opacity-80 text-sm font-medium w-[90%] lg:w-[85%]">
@@ -213,14 +213,14 @@ const Candle = () => {
                 >
                   {!previewStatus.Olivia && (
                     <img
-                      src={PlayButton}
+                      src={iconPlayButtonRounded}
                       alt="Play audio preview for Olivia"
                       className="pointer-events-none"
                     />
                   )}
                   {previewStatus.Olivia && (
                     <img
-                      src={StopButton}
+                      src={iconStopButtonRounded}
                       alt="Pause audio preview for Olivia"
                       className="pointer-events-none"
                     />
@@ -239,7 +239,7 @@ const Candle = () => {
               <div className="flex w-[80%] h-full items-center justify-between">
                 <div className="flex flex-col items-start justify-center text-left gap-1 w-[95%]">
                   <div className="flex items-center gap-2 mb-2">
-                    <img src={PhoneIcon} alt="Phone icon" />
+                    <img src={iconPhone} alt="Phone icon" />
                     <p className="text-white text-lg font-semibold">Noah</p>
                   </div>
                   <p className="text-white opacity-80 text-sm font-medium w-[90%] lg:w-[85%]">
@@ -253,14 +253,14 @@ const Candle = () => {
                 >
                   {!previewStatus.Noah && (
                     <img
-                      src={PlayButton}
+                      src={iconPlayButtonRounded}
                       alt="Play audio preview for Noah"
                       className="pointer-events-none"
                     />
                   )}
                   {previewStatus.Noah && (
                     <img
-                      src={StopButton}
+                      src={iconStopButtonRounded}
                       alt="Pause audio preview for Noah"
                       className="pointer-events-none"
                     />
@@ -323,7 +323,7 @@ const Candle = () => {
                 <p className="text-white text-lg font-semibold">
                   Connecting to {selectedCaller}
                 </p>
-                <img src={ConnectingLogo} alt="Phone icon" />
+                <img src={iconConnecting} alt="Phone icon" />
               </div>
             </div>
           );
@@ -358,10 +358,10 @@ const Candle = () => {
                 }}
               >
                 {selectedCaller === "Olivia" && (
-                  <img src={MuteOlivia} alt="Mute call button" />
+                  <img src={iconMicrophoneOlivia} alt="Mute call button" />
                 )}
                 {selectedCaller === "Noah" && (
-                  <img src={MuteNoah} alt="Mute call button" />
+                  <img src={iconMicrophoneNoah} alt="Mute call button" />
                 )}
                 <p>Mute</p>
               </div>
@@ -381,10 +381,10 @@ const Candle = () => {
                 }}
               >
                 {selectedCaller === "Olivia" && (
-                  <img src={EndOlivia} alt="End call button" />
+                  <img src={iconEndCallOlivia} alt="End call button" />
                 )}
                 {selectedCaller === "Noah" && (
-                  <img src={EndNoah} alt="End call button" />
+                  <img src={iconEndCallNoah} alt="End call button" />
                 )}
                 <p>End Call</p>
               </div>
@@ -418,7 +418,7 @@ const Candle = () => {
                   className="w-full h-12 inline-flex items-center justify-center gap-3 rounded-2xl border border-gray-200 bg-white shadow-[0_1px_0_rgba(0,0,0,0.03)] hover:shadow-[0_6px_16px_rgba(0,0,0,0.08)] active:shadow-[0_2px_6px_rgba(0,0,0,0.10)] active:translate-y-px focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/10 transition
 "
                 >
-                  <img src={GoogleLogo} alt="Sign up with Google" />
+                  <img src={iconGoogle} alt="Sign up with Google" />
                   <p className="text-black">Continue with Google</p>
                 </button>
                 <div className="flex items-center gap-2">
@@ -498,7 +498,7 @@ const Candle = () => {
     <>
       <section className="py-6 px-8 flex place-content-between">
         <NavLink to="/">
-          <img src={CandleLogo} alt="Logo for Candle" />
+          <img src={logoCandle} alt="Logo for Candle" />
         </NavLink>
         {currentFlow !== FLOW_STATES.SIGN_UP && (
           <Button

@@ -1,6 +1,6 @@
-import CloseIcon from "../assets/plus-icon.svg";
-import FlagIcon from "../assets/flag-icon.svg";
-import DeleteCaseButton from "../assets/trash-icon.svg";
+import CloseIcon from "../assets/icon-plus.svg";
+import FlagIcon from "../assets/icon-flag.svg";
+import DeleteCaseButton from "../assets/icon-trash.svg";
 import type { CallRecord } from "../types/conversation.type";
 import { useState } from "react";
 import "../routes/DeprecatedDemo.css";

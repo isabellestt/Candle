@@ -1,5 +1,5 @@
 import type { CallRecord } from "../types/conversation.type";
-import Chevron from "../assets/chevron.svg";
+import Chevron from "../assets/icon-chevron-white.svg";
 import React from "react";
 import "../routes/DeprecatedDemo.css";
 

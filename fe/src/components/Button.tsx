@@ -1,4 +1,4 @@
-import Chevron from "../assets/chevron-right-black.svg";
+import Chevron from "../assets/icon-chevron-right.svg";
 
 type ButtonProps = {
   text: string;

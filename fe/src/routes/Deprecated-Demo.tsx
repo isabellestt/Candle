@@ -1,7 +1,7 @@
-import CandlingLogo from "../assets/candling-logo.png";
-import CtaButtonLogo from "../assets/cta-button-logo.png";
-import VapiDemoLogo from "../assets/vapi-demo-logo.svg";
-import MidCallIcon from "../assets/mid-call-icon.svg";
+import logoCandling from "../assets/logo-candling.png";
+import iconCandlingCallBadge from "../assets/icon-candling-call-badge.webp";
+import logoVapiDemo from "../assets/logo-vapi-demo.svg";
+import iconMidCall from "../assets/icon-mid-call.svg";
 import "../App.css";
 import "./DeprecatedDemo.css";
 import { useVapi } from "../utils/assistant/useVapi";
@@ -87,7 +87,7 @@ const Dashboard = () => {
             <NavLink to="/">
               <img
                 className="demo-logo"
-                src={CandlingLogo}
+                src={logoCandling}
                 alt="Candling's logo"
               />
             </NavLink>
@@ -144,11 +144,14 @@ const Dashboard = () => {
                       <div className="mid-call demo-cta-button-text">
                         End Call
                       </div>
-                      <img src={MidCallIcon} alt="call to action button" />
+                      <img src={iconMidCall} alt="call to action button" />
                     </>
                   ) : (
                     <>
-                      <img src={CtaButtonLogo} alt="call to action button" />
+                      <img
+                        src={iconCandlingCallBadge}
+                        alt="call to action button"
+                      />
                       <div className="demo-cta-button-text">
                         Talk to Candling
                       </div>
@@ -191,7 +194,7 @@ const Dashboard = () => {
             <div className="callout-text">Built with</div>
             <img
               className="vapi-demo-logo"
-              src={VapiDemoLogo}
+              src={logoVapiDemo}
               alt="Vapi Logo"
             />
           </div>

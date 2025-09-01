@@ -1,9 +1,9 @@
 @import "tailwindcss";
 
 #wave {
-  background-image: url(../src/assets/wave-haikei.svg);
+  background-image: url(../src/assets/overlay-wave.svg);
 }
 
 #wave-flipped {
-  background-image: url(../src/assets/wave-haikei-flipped.svg);
+  background-image: url(../src/assets/overlay-wave-flipped.svg);
 }

@@ -1,8 +1,8 @@
-import candleLogo from "../assets/candle-logo.svg";
-import phone from "../assets/landing-phone-mockup.svg";
-import cardImg1 from "../assets/card-img-1.png";
-import cardImg2 from "../assets/card-img-2.png";
-import cardImg3 from "../assets/card-img-3.png";
+import logoCandle from "../assets/logo-candle.svg";
+import overlayMockupPhoneDemo from "../assets/overlay-mockup-phone-demo.svg";
+import overlayTeenHeadphonesSmartphone from "../assets/overlay-teen-headphones-smartphone.webp";
+import overlaySecurityChatBubbles from "../assets/overlay-security-chat-bubbles.webp";
+import overlayChoosingVoiceAgent from "../assets/overlay-choosing-voice-agent.webp";
 import { useState } from "react";
 import { Link } from "react-router";
 import Button from "../components/Button";
@@ -18,7 +18,7 @@ export function LandingPage() {
       id: nextCardID++,
       header: "Always By Your Side.",
       body: "Think of Candle as your non-judgmental best friend who’s available 24/7, even when everyone else is asleep.",
-      image: cardImg1,
+      image: overlayTeenHeadphonesSmartphone,
       imageAlt:
         "A young man wearing glasses and headphones looks at his smartphone while a green speech bubble with message lines appears nearby, indicating he is engaged in text messaging or chat communication.",
       background: "#6366F1",
@@ -28,7 +28,7 @@ export function LandingPage() {
       id: nextCardID++,
       header: "Safe & Private.",
       body: `We know trust is a big deal. Your personal chats with Candle are private. We don’t show them to others, and you stay anonymous.`,
-      image: cardImg2,
+      image: overlaySecurityChatBubbles,
       imageAlt:
         "Two encrypted message bubbles, one blue and one green. Each secured with a padlock icon, connected by a dotted line to illustrate secure, end-to-end encrypted messaging between users.",
       background: "#14B8A6",
@@ -38,7 +38,7 @@ export function LandingPage() {
       id: nextCardID++,
       header: "Support For No Cost.",
       body: "Take our demo for a spin and sign up for longer conversations and greater personalisation, its all free.",
-      image: cardImg3,
+      image: overlayChoosingVoiceAgent,
       imageAlt:
         "A blue hand icon pointing at and touching an orange phone interface on a mobile device screen, demonstrating user interaction with our instant calling feature.",
       background: "#6366F1",
@@ -106,7 +106,7 @@ export function LandingPage() {
         id="altLanding"
         className="bg-[#6366F1] py-6 px-8 flex place-content-between"
       >
-        <img src={candleLogo} alt="Logo for Candle" />
+        <img src={logoCandle} alt="Logo for Candle" />
         <Link to="/demo">
           <Button text={buttons[0].text}></Button>
         </Link>
@@ -128,7 +128,7 @@ export function LandingPage() {
           >
             <img
               className="rotate-4 scale-85 max-w-full h-auto"
-              src={phone}
+              src={overlayMockupPhoneDemo}
               alt="A smartphone mockup displaying a voice agent app interface with a logo in the top left and 'Login' button in the top right. The main screen features two large action buttons for initiating voice conversations with the two AI agents. Small terms and conditions text appears at the bottom of the interface."
             />
           </div>
@@ -204,7 +204,7 @@ export function LandingPage() {
         <Link to="/deprecateddemo">
           <img
             className="scale-200 mb-2"
-            src={candleLogo}
+            src={logoCandle}
             alt="Logo for Candle"
           />
         </Link>
