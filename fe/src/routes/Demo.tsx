@@ -10,6 +10,8 @@ import iconConnecting from "../assets/icon-connecting.svg";
 import iconGoogle from "../assets/logo-google.svg";
 import iconPlayButtonRounded from "../assets/icon-play-button-rounded.webp";
 import iconStopButtonRounded from "../assets/icon-stop-button-rounded.webp";
+import iconPlayButtonRoundedPreviewOlivia from "../assets/icon-play-button-rounded-preview-olivia.mp3"
+import iconPlayButtonRoundedPreviewNoah from "../assets/icon-play-button-rounded-preview-noah.mp3"
 import { MultiStepProfileForm } from "../components/SignUp";
 import { useEffect, useState } from "react";
 import { useVapi } from "../utils/assistant/useVapi";
@@ -53,6 +55,7 @@ const FLOW_STATES = {
 type Caller = "Olivia" | "Noah";
 
 const Candle = () => {
+  const [audioObjects, setAudioObjects] = useState<{ [key in Caller]?: HTMLAudioElement }>({});
   const [currentFlow, setCurrentFlow] = useState(FLOW_STATES.INITIAL);
   const [selectedCaller, setSelectedCaller] = useState("Olivia");
   const [previewStatus, setPreviewStatus] = useState<{
@@ -156,9 +159,37 @@ const Candle = () => {
     return "Evening";
   };
 
-  const playPreview = (caller: string) => {
-    alert(`insert preview for ${caller}`);
+  const playPreview = (caller: Caller) => {
+  let audioSrc = "";
+  if (caller === "Olivia") {
+    audioSrc = iconPlayButtonRoundedPreviewOlivia;
+  } else {
+    audioSrc = iconPlayButtonRoundedPreviewNoah;
+  }
+
+  Object.values(audioObjects).forEach((audio) => {
+  if (audio) {
+    audio.pause();
+    audio.currentTime = 0;
+  }
+});
+
+  if (previewStatus[caller]) {
+    setAudioObjects({});
+    setPreviewStatus({ Olivia: false, Noah: false });
+    return;
+  }
+
+  const audio = new Audio(audioSrc);
+  audio.play();
+  setAudioObjects({ [caller]: audio });
+  setPreviewStatus({ Olivia: caller === "Olivia", Noah: caller === "Noah" });
+
+  audio.onended = () => {
+    setAudioObjects({});
+    setPreviewStatus({ Olivia: false, Noah: false });
   };
+};
 
   const handleCardClick = (caller: string) => {
     setSelectedCaller(caller);
@@ -166,13 +197,9 @@ const Candle = () => {
   };
 
   const handlePreviewClick = (e: React.MouseEvent, caller: Caller) => {
-    e.stopPropagation();
-    setPreviewStatus((prev) => ({
-      ...prev,
-      [caller]: !prev[caller],
-    }));
-    playPreview(caller);
-  };
+  e.stopPropagation();
+  playPreview(caller);
+};
 
   const renderFlowContent = () => {
     switch (currentFlow) {
