@@ -189,7 +189,7 @@ const Dashboard = () => {
       </div>
 
       <div className="page-bottom">
-        <a href="https://vapi.ai/">
+        <a rel="nofollow" href="https://vapi.ai/">
           <div className="callout">
             <div className="callout-text">Built with</div>
             <img
