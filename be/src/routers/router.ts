@@ -1,6 +1,9 @@
 import { Router } from "express";
 import { WebhookHandler } from "../webhook";
 import { memoryStore } from "../db/memoryStore";
+import { Profile } from "../db/schemas/profile";
+import { eq } from "drizzle-orm";
+import { db } from "../db";
 
 const router = Router();
 
@@ -34,7 +37,7 @@ router.get("/assistant", async (req, res) => {
       ...filteredData
     } = body;
 
-    // console.log(filteredData);
+    console.log(filteredData);
     res.json(filteredData);
   } catch (error) {
     console.error("Error fetching assistant data:", error);
@@ -55,5 +58,35 @@ router.get("/getCallInfo/:callId", (req, res) => {
   }
   res.json(call);
 });
+
+router.post("/checkUser", async (req, res) => {
+  const { authId } = req.body;
+  const user = await db.select().from(Profile).where(eq(Profile.authId, authId));
+  if (user.length > 0) {
+    res.json(user[0]);
+  } else {
+    // console.log("No user profile found for id: " + authId);
+    res.status(404).json({ error: "No user profile found for id: " + authId });
+    return;
+  }
+});
+
+router.get("/getProfile/:authId", async (req, res) => {
+  const { authId } = req.params;
+  const user = await db.select().from(Profile).where(eq(Profile.authId, authId));
+  if (user.length > 0) {
+    res.json(user[0]);
+  } else {
+    res.status(404).json({ error: "No user profile found for id: " + authId });
+    return;
+  }
+});
+
+router.post("/createUser", async (req, res) => {
+  const { authId, username, dob, gender } = req.body;
+  const user = await db.insert(Profile).values({ authId, username, dob, gender });
+  res.json(user);
+});
+
 
 export default router;
