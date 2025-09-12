@@ -1,6 +1,9 @@
 import { Router } from "express";
 import { WebhookHandler } from "../webhook";
 import { memoryStore } from "../db/memoryStore";
+import { Profile } from "../db/schemas/profile";
+import { eq } from "drizzle-orm";
+import { db } from "../db";
 
 const router = Router();
 
@@ -34,7 +37,7 @@ router.get("/assistant", async (req, res) => {
       ...filteredData
     } = body;
 
-    // console.log(filteredData);
+    console.log(filteredData);
     res.json(filteredData);
   } catch (error) {
     console.error("Error fetching assistant data:", error);

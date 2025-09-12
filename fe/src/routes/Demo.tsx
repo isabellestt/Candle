@@ -102,6 +102,9 @@ const Candle = () => {
       setUsername(profile.username);
       setCurrentFlow(FLOW_STATES.INITIAL);
     }
+    if (profile) {
+      setUsername(profile.username);
+    }
   }, [session, profile, currentFlow]);
 
   const handleProfileComplete = async (profile: {
@@ -129,7 +132,7 @@ const Candle = () => {
   const [CallRecord, setCallRecord] = useState<EndOfCallReportMessageResponse | null>(null);
 
   useEffect(() => {
-    // console.log("lastCall: ", lastCall);
+    console.log("lastCall: ", lastCall);
     if (lastCall) {
       setCallRecord(lastCall);
     }
@@ -469,7 +472,30 @@ const Candle = () => {
                       onStartNewCall={() => setCurrentFlow(FLOW_STATES.INITIAL)}
                     />
                   ) : (
-                    <Login />
+                    <>
+                      <div
+                        id="4"
+                        className="py-10 flex flex-col items-center scale-95 lg:scale-100"
+                      >
+                        <div
+                          id="login"
+                          className="rounded-xl flex flex-col items-center justify-center gap-x-2"
+                        >
+                          <p className="text-black text-sm font-semibold text-center text-[20px] lg:text-[24px] tracking-[-0.8px] px-8 lg:px-8">
+                            Sign up for a personalised experience
+                          </p>
+                          <p className="text-gray-400 text-sm font-light text-center text-[14px] lg:text-[16px] px-10 lg:px-4 py-4 mb-6">
+                            Long-term memory, access to longer sessions, and free, with no
+                            card required.
+                          </p>
+                          <Login />
+                          <button className="text-black-400 text-sm font-light text-[14px] lg:text-[16px] px-10 lg:px-4 py-4 mb-6"
+                            onClick={() => setCurrentFlow(FLOW_STATES.INITIAL)}>
+                            Chat without an account
+                          </button>
+                        </div>
+                      </div>
+                    </>
                   )}
                 </div>
               </div>
