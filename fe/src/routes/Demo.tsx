@@ -7,7 +7,6 @@ import iconEndCallOlivia from "../assets/icon-end-call-olivia.svg";
 import iconMicrophoneNoah from "../assets/icon-microphone-noah.svg";
 import iconEndCallNoah from "../assets/icon-end-call-noah.svg";
 import iconConnecting from "../assets/icon-connecting.svg";
-import iconGoogle from "../assets/logo-google.svg";
 import iconPlayButtonRounded from "../assets/icon-play-button-rounded.webp";
 import iconStopButtonRounded from "../assets/icon-stop-button-rounded.webp";
 import iconPlayButtonRoundedPreviewOlivia from "../assets/icon-play-button-rounded-preview-olivia.mp3"
@@ -15,6 +14,11 @@ import iconPlayButtonRoundedPreviewNoah from "../assets/icon-play-button-rounded
 import { MultiStepProfileForm } from "../components/SignUp";
 import { useEffect, useState } from "react";
 import { useVapi } from "../utils/assistant/useVapi";
+import { TranscriptSummary } from "../components/TranscriptSummary";
+import type { EndOfCallReportMessageResponse } from "../types/conversation.type";
+
+import { supabase, useAuth } from "../utils/auth/useAuth";
+import Login from "../components/Login";
 
 declare global {
   interface Window {
@@ -55,6 +59,10 @@ const FLOW_STATES = {
 type Caller = "Olivia" | "Noah";
 
 const Candle = () => {
+  const { session, profile } = useAuth();
+
+  const [username, setUsername] = useState("");
+
   const [audioObjects, setAudioObjects] = useState<{ [key in Caller]?: HTMLAudioElement }>({});
   const [currentFlow, setCurrentFlow] = useState(FLOW_STATES.INITIAL);
   const [selectedCaller, setSelectedCaller] = useState("Olivia");
@@ -66,45 +74,66 @@ const Candle = () => {
   });
   const [isConnected, setIsConnected] = useState(false);
 
-  const [loggedIn, setLoggedIn] = useState(false);
-  const [email, setEmail] = useState("");
-  const [emailError, setEmailError] = useState("");
+  const apiUrl = import.meta.env.VITE_PUBLIC_API_URL;
 
-  const handleProfileComplete = (profile: {
+  // check if user exists in db
+  useEffect(() => {
+    if (!session) return;
+    const checkUser = async () => {
+      const res = await fetch(`${apiUrl}/api/checkUser`, {
+        method: "POST",
+        body: JSON.stringify({ authId: session?.user.id }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      // console.log("data: ", res);
+      if (!res.ok) {
+        setCurrentFlow(FLOW_STATES.SIGN_UP);
+      }
+    };
+    checkUser();
+  }, [apiUrl, session]);
+
+  // Add this useEffect to watch for profile changes
+  useEffect(() => {
+    if (session && profile && currentFlow === FLOW_STATES.SIGN_UP) {
+      // User is logged in and has a profile, redirect to initial
+      setUsername(profile.username);
+      setCurrentFlow(FLOW_STATES.INITIAL);
+    }
+  }, [session, profile, currentFlow]);
+
+  const handleProfileComplete = async (profile: {
     name: string;
     dob: string;
     gender: string;
   }) => {
-    console.log("Collected profile:", profile);
-    // TODO: send to your backend here
-    setLoggedIn(true);
+    // console.log("Collected profile:", profile);
+    const res = await fetch(`${apiUrl}/api/createUser`, {
+      method: "POST",
+      body: JSON.stringify({ authId: session?.user.id, username: profile.name, dob: profile.dob, gender: profile.gender }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    if (!res.ok) {
+      // TODO: handle error
+      console.log("Error creating user");
+    }
     setCurrentFlow(FLOW_STATES.INITIAL);
   };
 
+  const { toggleCall, callDuration, callStatus, lastCall } = useVapi();
+
+  const [CallRecord, setCallRecord] = useState<EndOfCallReportMessageResponse | null>(null);
+
   useEffect(() => {
-    const initializeGoogleSignIn = () => {};
-
-    // Check if Google script is loaded
-    if (window.google) {
-      initializeGoogleSignIn();
-    } else {
-      // Wait for Google script to load
-      const checkGoogle = setInterval(() => {
-        if (window.google) {
-          clearInterval(checkGoogle);
-          initializeGoogleSignIn();
-        }
-      }, 100);
+    // console.log("lastCall: ", lastCall);
+    if (lastCall) {
+      setCallRecord(lastCall);
     }
-  }, [currentFlow]);
-
-  // const handleCredentialResponse = (response: { credential: string }) => {
-  //   console.log("Google Sign-In response:", response);
-  //   // Handle the credential response here
-  //   // You can send this to your backend for verification
-  // };
-
-  const { toggleCall, callDuration, callStatus } = useVapi();
+  }, [lastCall]);
 
   useEffect(() => {
     if (callStatus === "inactive") {
@@ -127,22 +156,15 @@ const Candle = () => {
       // Request microphone permission
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       // If permission is granted, stop the stream and proceed to connecting state
-      stream.getTracks().forEach((track) => track.stop());
+      stream.getTracks().forEach(track => track.stop());
       toggleCall(selectedCaller.toLowerCase());
       setCurrentFlow(FLOW_STATES.IN_CALL);
     } catch (error) {
-      console.error("Microphone permission denied:", error);
+      console.error('Microphone permission denied:', error);
       // Stay in REQUEST_MICROPHONE state if permission is denied
       // You could also show an error message to the user here
-      alert(
-        "Microphone permission is required to use this feature. Please allow microphone access and try again.",
-      );
+      alert('Microphone permission is required to use this feature. Please allow microphone access and try again.');
     }
-  };
-
-  const getFormData = (formData: FormData): void => {
-    const submitted = Object.fromEntries(formData);
-    console.log(submitted);
   };
 
   const getSGTimeOfDay = (date = new Date()) => {
@@ -160,36 +182,36 @@ const Candle = () => {
   };
 
   const playPreview = (caller: Caller) => {
-  let audioSrc = "";
-  if (caller === "Olivia") {
-    audioSrc = iconPlayButtonRoundedPreviewOlivia;
-  } else {
-    audioSrc = iconPlayButtonRoundedPreviewNoah;
-  }
+    let audioSrc = "";
+    if (caller === "Olivia") {
+      audioSrc = iconPlayButtonRoundedPreviewOlivia;
+    } else {
+      audioSrc = iconPlayButtonRoundedPreviewNoah;
+    }
 
-  Object.values(audioObjects).forEach((audio) => {
-  if (audio) {
-    audio.pause();
-    audio.currentTime = 0;
-  }
-});
+    Object.values(audioObjects).forEach((audio) => {
+      if (audio) {
+        audio.pause();
+        audio.currentTime = 0;
+      }
+    });
 
-  if (previewStatus[caller]) {
-    setAudioObjects({});
-    setPreviewStatus({ Olivia: false, Noah: false });
-    return;
-  }
+    if (previewStatus[caller]) {
+      setAudioObjects({});
+      setPreviewStatus({ Olivia: false, Noah: false });
+      return;
+    }
 
-  const audio = new Audio(audioSrc);
-  audio.play();
-  setAudioObjects({ [caller]: audio });
-  setPreviewStatus({ Olivia: caller === "Olivia", Noah: caller === "Noah" });
+    const audio = new Audio(audioSrc);
+    audio.play();
+    setAudioObjects({ [caller]: audio });
+    setPreviewStatus({ Olivia: caller === "Olivia", Noah: caller === "Noah" });
 
-  audio.onended = () => {
-    setAudioObjects({});
-    setPreviewStatus({ Olivia: false, Noah: false });
+    audio.onended = () => {
+      setAudioObjects({});
+      setPreviewStatus({ Olivia: false, Noah: false });
+    };
   };
-};
 
   const handleCardClick = (caller: string) => {
     setSelectedCaller(caller);
@@ -197,9 +219,9 @@ const Candle = () => {
   };
 
   const handlePreviewClick = (e: React.MouseEvent, caller: Caller) => {
-  e.stopPropagation();
-  playPreview(caller);
-};
+    e.stopPropagation();
+    playPreview(caller);
+  };
 
   const renderFlowContent = () => {
     switch (currentFlow) {
@@ -209,10 +231,10 @@ const Candle = () => {
             id="1"
             className="py-10 lg:py-40 flex flex-col items-center scale-95 lg:scale-100"
           >
-            {loggedIn && (
+            {session && (
               <>
                 <p className="text-black text-sm font-semibold text-center text-[20px] lg:text-[24px] tracking-[-0.8px] px-8 lg:px-8 mb-2">
-                  {getSGTimeOfDay()}, (SSO username)
+                  {getSGTimeOfDay()}, {username ? username : ""}
                 </p>
               </>
             )}
@@ -337,23 +359,17 @@ const Candle = () => {
           </>
         );
       case FLOW_STATES.IN_CALL:
-        if (!isConnected)
-          return (
-            <div
-              id="2"
-              className="py-10 lg:py-40 flex flex-col items-center scale-95 lg:scale-100"
-            >
-              <div
-                id="loading"
-                className={`${selectedCaller === "Olivia" ? "bg-[#14B8A6]" : "bg-[#6366F1]"} w-70 lg:w-90 h-90 lg:95 rounded-xl flex flex-row items-center justify-center gap-x-2`}
-              >
-                <p className="text-white text-lg font-semibold">
-                  Connecting to {selectedCaller}
-                </p>
-                <img src={iconConnecting} alt="Phone icon" />
-              </div>
-            </div>
-          );
+        if (!isConnected) return <div id="2" className="py-10 lg:py-40 flex flex-col items-center scale-95 lg:scale-100">
+          <div
+            id="loading"
+            className={`${selectedCaller === "Olivia" ? "bg-[#14B8A6]" : "bg-[#6366F1]"} w-70 lg:w-90 h-90 lg:95 rounded-xl flex flex-row items-center justify-center gap-x-2`}
+          >
+            <p className="text-white text-lg font-semibold">
+              Connecting to {selectedCaller}
+            </p>
+            <img src={iconConnecting} alt="Phone icon" />
+          </div>
+        </div>
         return (
           <div
             id="3"
@@ -362,14 +378,13 @@ const Candle = () => {
             <div className="flex flex-col items-center">
               <h2 className="text-[#14B8A6] font-bold text-[28px] tracking-[-1px]">
                 {isConnected ? (
-                  <p>
-                    {selectedCaller}{" "}
-                    {String(Math.floor(callDuration / 60)).padStart(2, "0")}:
-                    {String(callDuration % 60).padStart(2, "0")}
-                  </p>
+                  <p>{selectedCaller}{" "}
+                    {String(Math.floor(callDuration / 60)).padStart(2, '0')}:
+                    {String(callDuration % 60).padStart(2, '0')}</p>
                 ) : (
                   <p>Connecting to {selectedCaller}</p>
-                )}
+                )
+                }
               </h2>
               <p className="text-[#A9A9A9]">by Candle</p>
             </div>
@@ -395,11 +410,6 @@ const Candle = () => {
               <div
                 className="flex items-center gap-[6px] cursor-pointer"
                 onClick={() => {
-                  if (loggedIn) {
-                    setCurrentFlow(FLOW_STATES.INITIAL);
-                    // maybe add a call review flow here
-                    return;
-                  }
                   if (callStatus === "active") {
                     // end call
                     toggleCall(selectedCaller.toLowerCase());
@@ -419,15 +429,16 @@ const Candle = () => {
           </div>
         );
       case FLOW_STATES.END_CALL:
-        return (
+        if (!session) {
           <div
             id="4"
-            className="py-10 lg:py-40 flex flex-col items-center scale-95 lg:scale-100"
+            className="py-10 flex flex-col items-center scale-95 lg:scale-100"
           >
             <div
               id="login"
-              className="w-70 lg:w-90 h-90 lg:95 rounded-xl flex flex-col items-center justify-center gap-x-2"
+              className="rounded-xl flex flex-col items-center justify-center gap-x-2"
             >
+
               <p className="text-black text-sm font-semibold text-center text-[20px] lg:text-[24px] tracking-[-0.8px] px-8 lg:px-8">
                 Sign up for a personalised experience
               </p>
@@ -435,77 +446,60 @@ const Candle = () => {
                 Long-term memory, access to longer sessions, and free, with no
                 card required.
               </p>
-              <div className="flex flex-col items-center gap-3 w-[100%]">
-                <button
-                  onClick={() => {
-                    alert("to add sso");
-                    setLoggedIn(!loggedIn);
-                    setCurrentFlow(FLOW_STATES.INITIAL);
-                  }}
-                  className="w-full h-12 inline-flex items-center justify-center gap-3 rounded-2xl border border-gray-200 bg-white shadow-[0_1px_0_rgba(0,0,0,0.03)] hover:shadow-[0_6px_16px_rgba(0,0,0,0.08)] active:shadow-[0_2px_6px_rgba(0,0,0,0.10)] active:translate-y-px focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/10 transition
-"
-                >
-                  <img src={iconGoogle} alt="Sign up with Google" />
-                  <p className="text-black">Continue with Google</p>
-                </button>
-                <div className="flex items-center gap-2">
-                  <div className="h-0.5 w-30 lg:w-40 bg-gray-200"></div>
-                  <div className="text-gray-400 font-medium text-xs py-4">
-                    OR
-                  </div>
-                  <div className="h-0.5 w-30 lg:w-40 bg-gray-200"></div>
-                </div>
-                <form
-                  onSubmit={(e) => {
-                    e.preventDefault();
-                    if (!email.trim()) {
-                      setEmailError("Email is required");
-                      return;
-                    }
-                    setEmailError("");
-                    const formData = new FormData(e.currentTarget);
-                    getFormData(formData);
-                    setCurrentFlow(FLOW_STATES.SIGN_UP);
-                  }}
-                  className="flex flex-col gap-2 mt-[-6px] w-[100%]"
-                >
-                  <fieldset>
-                    <legend className="text-sm mb-1">Email address</legend>
-                    <input
-                      type="email"
-                      name="email"
-                      id="email"
-                      value={email}
-                      onChange={(e) => {
-                        setEmail(e.target.value);
-                        setEmailError("");
-                      }}
-                      placeholder="you@example.com"
-                      className="border border-gray-200 rounded-2xl py-3 px-4 text-[#A9A9A9] text-sm w-[100%]"
-                    />
-                    {emailError && (
-                      <p className="text-red-500 font-medium text-sm mt-1">
-                        {emailError}
-                      </p>
-                    )}
-                  </fieldset>
-                  <button className="bg-[#FF9C25] text-white text-sm py-2 px-4 w-[100%]w-full h-12 inline-flex items-center justify-center gap-3 rounded-2xl border border-gray-20 shadow-[0_1px_0_rgba(0,0,0,0.03)] hover:shadow-[0_6px_16px_rgba(0,0,0,0.08)] active:shadow-[0_2px_6px_rgba(0,0,0,0.10)] active:translate-y-px focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black/10 transition">
-                    Continue with email
-                  </button>
-                </form>
-                <p
-                  className="text-[#A9A9A9] text-[12px] text-center underline mt-2"
-                  onClick={() => {
-                    setCurrentFlow(FLOW_STATES.INITIAL);
-                  }}
-                >
-                  Chat without an account
-                </p>
-              </div>
+              <Login />
             </div>
           </div>
+        }
+        return (
+          <div
+            id="4"
+            className="py-10 lg:py-40 flex flex-col items-center scale-95 lg:scale-100"
+          >
+            <div
+              id="transcript-summary"
+              className="rounded-xl flex flex-col items-center justify-center gap-x-2"
+            >
+              <div className="transcript-summary-section">
+                <div className="">
+                  {session ? (
+                    <TranscriptSummary
+                      agentName={selectedCaller}
+                      callData={CallRecord}
+                      isLoading={callStatus === "inactive" && !lastCall}
+                      onStartNewCall={() => setCurrentFlow(FLOW_STATES.INITIAL)}
+                    />
+                  ) : (
+                    <Login />
+                  )}
+                </div>
+              </div>
+            </div >
+          </div >
         );
       case FLOW_STATES.SIGN_UP:
+        if (!session) {
+          return (
+            <div
+              id="4"
+              className="py-10 flex flex-col items-center scale-95 lg:scale-100"
+            >
+              <div
+                id="login"
+                className="rounded-xl flex flex-col items-center justify-center gap-x-2"
+              >
+                <p className="text-black text-sm font-semibold text-center text-[20px] lg:text-[24px] tracking-[-0.8px] px-8 lg:px-8">
+                  Sign up for a personalised experience
+                </p>
+                <p className="text-gray-400 text-sm font-light text-center text-[14px] lg:text-[16px] px-10 lg:px-4 py-4 mb-6">
+                  Long-term memory, access to longer sessions, and free, with no
+                  card required.
+                </p>
+                <Login />
+              </div>
+            </div>
+          );
+        }
+
         return (
           <div className="py-10 lg:py-20 flex flex-col items-center">
             <div className="w-full max-w-lg">
@@ -529,33 +523,32 @@ const Candle = () => {
         </NavLink>
         {currentFlow !== FLOW_STATES.SIGN_UP && (
           <Button
-            text={loggedIn ? "Logout" : "Login"}
+            text={session ? "Logout" : "Login"}
             onClick={() => {
-              setLoggedIn(!loggedIn);
-              if (!loggedIn) {
-                setCurrentFlow(FLOW_STATES.INITIAL);
+              if (session) {
+                supabase.auth.signOut();
+              } else {
+                setCurrentFlow(FLOW_STATES.SIGN_UP)
               }
             }}
           />
         )}
       </section>
-      <section className="flex flex-col items-center">
+      <section className="flex min-h-[calc(100vh-200px)] flex-col items-center">
         {renderFlowContent()}
       </section>
       <div className="flex justify-center">
         <p
           className="
-    text-center px-6 text-[#A9A9A9] text-[10px] lg:text-md leading-5
-    absolute bottom-10 [@media(max-height:650px)]:static [@media(max-height:650px)]:pb-10 [@media(max-height:650px)]:mt-6
-  "
+         text-center px-6 text-[#A9A9A9] text-[10px] lg:text-md leading-5
+       "
         >
           Not for emergencies. If you’re in immediate danger in Singapore, call
           999 or 995. By using our services, you agree to Candle’s
           <a href="#" onClick={() => alert("To be added!")}>
-            <span> </span>
             <u>Privacy Policy</u>
           </a>
-          <span> and </span>
+          <span> and</span>
           <a href="#" onClick={() => alert("To be added!")}>
             <u>Terms of Use</u>
           </a>
