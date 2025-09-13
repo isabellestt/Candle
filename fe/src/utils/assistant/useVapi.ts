@@ -7,7 +7,7 @@ import { squad } from "../squad/squad";
 import { callData as demoCallData } from "../../../public/callData";
 import formatDateForDisplay from "../formatDate";
 import formatTime from "../formatTime";
-import { teenageAssistantNoah, teenageAssistantOlivia } from "./teenage.assistant";
+// import { teenageAssistantNoah, teenageAssistantOlivia } from "./teenage.assistant";
 
 export const CALL_STATUS = {
   INACTIVE: "inactive",
@@ -191,6 +191,8 @@ export function useVapi() {
         },
       };
       const helplineAssistant = import.meta.env.VITE_PUBLIC_VAPI_AUTHORITY_ASSISTANT_ID
+      const teenageAssistantOlivia = import.meta.env.VITE_PUBLIC_VAPI_OLIVIA_ASSISTANT_ID
+      const teenageAssistantNoah = import.meta.env.VITE_PUBLIC_VAPI_NOAH_ASSISTANT_ID
       const res = await vapi.start(
         agent == "noah" ? teenageAssistantNoah : agent == "olivia" ? teenageAssistantOlivia : helplineAssistant,
         assistantOverrides,
